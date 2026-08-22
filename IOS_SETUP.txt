@@ -1,0 +1,18 @@
+ANAN CAM & ENGINE PRO — iPhone/iOS
+======================================
+ออกแบบให้ใช้งานผ่าน Safari บน iPhone โดยตรง
+
+แนะนำการใช้งานจริง:
+1. อัปโหลดโฟลเดอร์นี้ขึ้น HTTPS web hosting
+2. เปิด URL ด้วย Safari บน iPhone
+3. แตะ Share
+4. เลือก Add to Home Screen
+5. เปิดจากไอคอน CAM PRO จะทำงานแบบ Standalone คล้ายแอป
+
+จอ:
+- Mobile First
+- รองรับ Safe Area / Dynamic Island
+- ปุ่มสัมผัสขนาดใหญ่
+- Input 16px ป้องกัน Safari ซูมหน้าอัตโนมัติ
+- Portrait optimized
+- PWA cache สำหรับเปิดซ้ำแบบออฟไลน์หลังโหลดครั้งแรก

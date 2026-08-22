@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+    <meta name="theme-color" content="#0a0d12">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="CAM PRO">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="color-scheme" content="dark">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <title>ANAN CAM & ENGINE PRO</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <style>
+    :root{
+      --bg:#07090d;--panel:#0d1219;--panel2:#111824;--line:#263243;
+      --text:#f5f7fb;--muted:#94a3b8;--accent:#ff8a00;--blue:#37b7ff;
+      --good:#35d07f;--warn:#ffca3a;--danger:#ff5b67;--radius:18px;
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{margin:0;background:linear-gradient(180deg,#05070a,#0a0f16 45%,#06080b);color:var(--text);
+      font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,sans-serif}
+    body{min-height:100vh;padding-bottom:96px}
+    .app{max-width:920px;margin:auto;padding:env(safe-area-inset-top) 14px 24px}
+    header{position:sticky;top:0;z-index:10;padding:14px 0 10px;
+      background:linear-gradient(180deg,rgba(7,9,13,.98),rgba(7,9,13,.84),transparent);backdrop-filter:blur(10px)}
+    .brand{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .logo{font-weight:900;letter-spacing:.8px;font-size:18px}
+    .logo span{color:var(--accent)}
+    .badge{font-size:11px;border:1px solid #314154;border-radius:999px;padding:5px 9px;color:#cbd5e1;background:#101722}
+    .hero{margin:8px 0 14px;padding:18px;border:1px solid #202b39;border-radius:22px;
+      background:radial-gradient(circle at 80% 0%,rgba(55,183,255,.16),transparent 38%),
+                 radial-gradient(circle at 5% 0%,rgba(255,138,0,.14),transparent 36%),#0c1118}
+    .hero h1{margin:0 0 6px;font-size:23px}.hero p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
+    .tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0 14px}
+    .tab{border:1px solid #243145;background:#0c121a;color:#b9c5d4;border-radius:14px;padding:11px 8px;font-weight:750}
+    .tab.active{background:linear-gradient(180deg,#1d2734,#121923);color:#fff;border-color:#53677e;box-shadow:0 0 0 1px #1a2632 inset}
+    .page{display:none}.page.active{display:block}
+    .card{background:linear-gradient(180deg,#0f151e,#0b1017);border:1px solid #202b38;border-radius:var(--radius);padding:15px;margin:10px 0}
+    .card h2{font-size:15px;margin:0 0 4px}.sub{font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.55}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+    label{display:block;font-size:11px;color:#a9b6c6;margin:0 0 5px}
+    .field{background:#090e14;border:1px solid #263344;border-radius:13px;padding:9px 10px}
+    input,select{width:100%;border:0;outline:0;background:transparent;color:#fff;font-size:16px;font-weight:800}
+    select{font-size:14px}.unit{font-size:10px;color:#708095;margin-top:3px}
+    .row{display:flex;gap:8px;align-items:center}.row>*{flex:1}
+    button.primary,.ghost,.danger{width:100%;border-radius:14px;padding:13px;border:1px solid #34465b;font-weight:850}
+    button.primary{background:linear-gradient(180deg,#ff9d2b,#ff7a00);color:#15100a;border-color:#ff9d2b}
+    button.ghost{background:#121a24;color:#dce5ef}.danger{background:#231218;color:#ff9aa2;border-color:#51242b}
+    .results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+    .metric{padding:13px;border:1px solid #253243;border-radius:15px;background:#0b1119;min-height:78px}
+    .metric .k{font-size:10px;color:#8fa0b4}.metric .v{font-size:22px;font-weight:900;margin-top:5px;letter-spacing:-.5px}
+    .metric .u{font-size:10px;color:#708095;margin-left:4px}
+    .metric.accent .v{color:var(--accent)}.metric.blue .v{color:var(--blue)}.metric.good .v{color:var(--good)}
+    .metric.wide{grid-column:1/-1}
+    .analysis{padding:14px;border-radius:16px;border:1px solid #263649;background:linear-gradient(135deg,#0d1520,#111820);line-height:1.65;font-size:13px}
+    .analysis strong{color:#fff}.pill{display:inline-block;margin:2px 3px 2px 0;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:800;background:#172231;border:1px solid #2b3c50}
+    canvas{width:100%;height:180px;border-radius:14px;background:#080d13;border:1px solid #223041}
+    .note{font-size:11px;line-height:1.6;color:#7f8ea2;margin-top:8px}
+    .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .footerbar{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px max(12px,env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));
+      background:rgba(7,9,13,.90);backdrop-filter:blur(16px);border-top:1px solid #1c2734}
+    .footerbar>div{max-width:920px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:9px}
+    .tiny{font-size:10px;color:#64748b;text-align:center;margin:16px 0}
+    @media(max-width:620px){.grid3{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr 1fr}.hero h1{font-size:20px}}
+    @media(max-width:390px){.grid,.grid3{grid-template-columns:1fr}.results{grid-template-columns:1fr}.metric.wide{grid-column:auto}}
+  
+    /* iOS / iPhone mobile-first tuning */
+    html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+    body{overscroll-behavior-y:contain;touch-action:manipulation}
+    button,input,select{font-family:inherit}
+    button{min-height:46px;cursor:pointer}
+    input,select{font-size:16px!important;min-height:30px}
+    .app{width:100%;max-width:760px;padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right))}
+    header{padding-top:max(10px,env(safe-area-inset-top))}
+    .tabs{position:sticky;top:54px;z-index:9;padding:7px 0;background:rgba(7,9,13,.92);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px)}
+    .tab{min-height:46px;font-size:12px}
+    .field{min-width:0}
+    .metric .v{word-break:break-word}
+    .footerbar{-webkit-backdrop-filter:blur(16px)}
+    @media(max-width:600px){
+      body{padding-bottom:104px}
+      .app{padding-bottom:22px}
+      .brand{align-items:flex-start}
+      .logo{font-size:15px;line-height:1.25}
+      .badge{font-size:9px;padding:4px 7px}
+      .hero{padding:14px;border-radius:18px;margin-top:5px}
+      .hero h1{font-size:18px;line-height:1.25}
+      .hero p{font-size:12px;line-height:1.5}
+      .tabs{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+      .card{padding:13px;border-radius:16px}
+      .grid,.grid3{grid-template-columns:1fr 1fr;gap:8px}
+      .field{padding:9px}
+      label{font-size:10px;line-height:1.2}
+      .results{grid-template-columns:1fr 1fr;gap:8px}
+      .metric{padding:11px;min-height:72px}
+      .metric .v{font-size:20px}
+      .actions{grid-template-columns:1fr 1fr}
+      canvas{height:150px}
+    }
+    @media(max-width:360px){
+      .grid,.grid3{grid-template-columns:1fr}
+      .results{grid-template-columns:1fr}
+      .metric.wide{grid-column:auto}
+      .actions{grid-template-columns:1fr}
+      .tabs{top:50px}
+    }
+
+  </style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand"><div class="logo">ANAN <span>CAM & ENGINE</span> PRO</div><div class="badge">ENGINEERING CALCULATOR</div></div>
+</header>
+
+<section class="hero">
+  <h1>Camshaft • Head CC • Compression</h1>
+  <p>คำนวณเครื่องยนต์และแคมชาฟต์แบบสัมพันธ์กัน: ปริมาตรกระบอกสูบ, CC ห้องเผาไหม้, Static/Dynamic Compression, Valve Timing และแนวรอบใช้งาน</p>
+</section>
+
+<div class="tabs">
+  <button class="tab active" data-page="engine">ENGINE</button>
+  <button class="tab" data-page="cam">CAMSHAFT</button>
+  <button class="tab" data-page="result">RESULT</button>
+</div>
+
+<section id="engine" class="page active">
+  <div class="card">
+    <h2>ENGINE GEOMETRY</h2>
+    <div class="sub">ค่าพื้นฐานเครื่องยนต์</div>
+    <div class="grid3">
+      <div class="field"><label>Bore</label><input id="bore" type="number" inputmode="decimal" step="0.01" value="67"><div class="unit">mm</div></div>
+      <div class="field"><label>Stroke</label><input id="stroke" type="number" inputmode="decimal" step="0.01" value="55.1"><div class="unit">mm</div></div>
+      <div class="field"><label>Cylinders</label><input id="cyl" type="number" inputmode="numeric" step="1" value="1"><div class="unit">สูบ</div></div>
+      <div class="field"><label>Rod Length</label><input id="rod" type="number" inputmode="decimal" step="0.1" value="105"><div class="unit">mm</div></div>
+      <div class="field"><label>Target Static CR</label><input id="targetCR" type="number" inputmode="decimal" step="0.1" value="12.0"><div class="unit">: 1</div></div>
+      <div class="field"><label>Target Dynamic CR</label><input id="targetDCR" type="number" inputmode="decimal" step="0.1" value="8.0"><div class="unit">: 1</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>CLEARANCE VOLUME</h2>
+    <div class="sub">ใช้คำนวณย้อนกลับหา CC ฝาสูบที่ควรใช้</div>
+    <div class="grid">
+      <div class="field"><label>Gasket Bore</label><input id="gasketBore" type="number" inputmode="decimal" step="0.01" value="68"><div class="unit">mm</div></div>
+      <div class="field"><label>Gasket Thickness</label><input id="gasketThk" type="number" inputmode="decimal" step="0.01" value="0.5"><div class="unit">mm</div></div>
+      <div class="field"><label>Deck Clearance</label><input id="deck" type="number" inputmode="decimal" step="0.01" value="0"><div class="unit">mm (+ ต่ำกว่า deck / - โผล่)</div></div>
+      <div class="field"><label>Piston Volume</label><input id="pistonVol" type="number" inputmode="decimal" step="0.1" value="0"><div class="unit">cc (+ หลุม / - โดม)</div></div>
+      <div class="field"><label>Actual Head Chamber</label><input id="headCC" type="number" inputmode="decimal" step="0.1" value="16"><div class="unit">cc (ใส่เพื่อเช็ก CR จริง)</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="cam" class="page">
+  <div class="card">
+    <h2>VALVE EVENTS</h2>
+    <div class="sub">ใส่องศาตาม Cam Card จุดวัดเดียวกันทั้งหมด เช่น @1 mm หรือ @0.050"</div>
+    <div class="grid">
+      <div class="field"><label>Intake Opens — BTDC</label><input id="io" type="number" inputmode="decimal" step="0.1" value="20"><div class="unit">°</div></div>
+      <div class="field"><label>Intake Closes — ABDC</label><input id="ic" type="number" inputmode="decimal" step="0.1" value="50"><div class="unit">°</div></div>
+      <div class="field"><label>Exhaust Opens — BBDC</label><input id="eo" type="number" inputmode="decimal" step="0.1" value="50"><div class="unit">°</div></div>
+      <div class="field"><label>Exhaust Closes — ATDC</label><input id="ec" type="number" inputmode="decimal" step="0.1" value="20"><div class="unit">°</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>CAM PROFILE</h2>
+    <div class="sub">ค่าประกอบการวิเคราะห์บุคลิกแคม</div>
+    <div class="grid">
+      <div class="field"><label>Intake Lift</label><input id="inLift" type="number" inputmode="decimal" step="0.01" value="9.0"><div class="unit">mm</div></div>
+      <div class="field"><label>Exhaust Lift</label><input id="exLift" type="number" inputmode="decimal" step="0.01" value="8.5"><div class="unit">mm</div></div>
+      <div class="field"><label>Timing Reference</label><select id="timingRef"><option value="050">@0.050 inch</option><option value="1mm">@1.00 mm</option><option value="adv">Advertised / Seat</option></select><div class="unit">จุดวัด Cam Card</div></div>
+      <div class="field"><label>Intake Valve Diameter</label><input id="valveDia" type="number" inputmode="decimal" step="0.1" value="28"><div class="unit">mm (สำหรับ Lift/D)</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>VALVE TIMING VISUAL</h2>
+    <canvas id="camCanvas" width="820" height="360"></canvas>
+    <div class="note">ภาพนี้ใช้สำหรับมองลำดับเหตุการณ์วาล์วและ Overlap ไม่ใช่กราฟ Lift จริงของ lobe</div>
+  </div>
+</section>
+
+<section id="result" class="page">
+  <div class="card">
+    <h2>ENGINE RESULT</h2>
+    <div class="results">
+      <div class="metric accent"><div class="k">DISPLACEMENT</div><div class="v" id="rDisp">–</div></div>
+      <div class="metric blue"><div class="k">RECOMMENDED HEAD CHAMBER</div><div class="v" id="rHead">–</div></div>
+      <div class="metric"><div class="k">ACTUAL STATIC CR</div><div class="v" id="rCR">–</div></div>
+      <div class="metric good"><div class="k">DYNAMIC CR</div><div class="v" id="rDCR">–</div></div>
+      <div class="metric wide"><div class="k">STATIC CR NEEDED FOR TARGET DCR</div><div class="v" id="rNeedCR">–</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>CAMSHAFT RESULT</h2>
+    <div class="results">
+      <div class="metric"><div class="k">INTAKE DURATION</div><div class="v" id="rInDur">–</div></div>
+      <div class="metric"><div class="k">EXHAUST DURATION</div><div class="v" id="rExDur">–</div></div>
+      <div class="metric blue"><div class="k">INTAKE CENTERLINE</div><div class="v" id="rICL">–</div></div>
+      <div class="metric blue"><div class="k">EXHAUST CENTERLINE</div><div class="v" id="rECL">–</div></div>
+      <div class="metric accent"><div class="k">LSA</div><div class="v" id="rLSA">–</div></div>
+      <div class="metric accent"><div class="k">OVERLAP</div><div class="v" id="rOverlap">–</div></div>
+      <div class="metric wide"><div class="k">CAM ADVANCE (+ = ADVANCED)</div><div class="v" id="rAdvance">–</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>CAM CHARACTER ANALYSIS</h2>
+    <div id="analysis" class="analysis">–</div>
+  </div>
+
+  <div class="card">
+    <h2>PROJECT</h2>
+    <div class="actions">
+      <button class="ghost" id="saveBtn">SAVE PROJECT</button>
+      <button class="ghost" id="loadBtn">LOAD SAVED</button>
+      <button class="ghost" id="exportBtn">EXPORT JSON</button>
+      <button class="danger" id="resetBtn">RESET</button>
+    </div>
+  </div>
+
+  <div class="note">
+    หมายเหตุ: ผล Dynamic Compression และช่วงรอบเป็นแบบจำลองทางเรขาคณิต/การประมาณเพื่อช่วยเลือกชุดเครื่องยนต์ ไม่ทดแทนการวัด cc จริง, piston-to-valve clearance, squish, การไหลฝาสูบ, ignition/fuel calibration หรือ Dyno
+  </div>
+</section>
+
+<div class="tiny">ANAN CAM & ENGINE PRO • iPhone / iOS Optimized • Add to Home Screen Ready</div>
+</div>
+
+<div class="footerbar"><div>
+  <button class="ghost" id="prevBtn">◀ BACK</button>
+  <button class="primary" id="calcBtn">CALCULATE</button>
+</div></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const ids=["bore","stroke","cyl","rod","targetCR","targetDCR","gasketBore","gasketThk","deck","pistonVol","headCC","io","ic","eo","ec","inLift","exLift","timingRef","valveDia"];
+const n=id=>parseFloat($(id).value)||0;
+const fmt=(x,d=2)=>Number.isFinite(x)?x.toFixed(d):"–";
+
+function volumeCylinder(bore, stroke){ return Math.PI/4*bore*bore*stroke/1000; }
+function pistonPosFromTDC(stroke, rod, degFromTDC){
+  const r=stroke/2, th=degFromTDC*Math.PI/180;
+  const under=rod*rod-Math.pow(r*Math.sin(th),2);
+  if(under<0 || rod<=r) return NaN;
+  return r*(1-Math.cos(th)) + rod-Math.sqrt(under);
+}
+function gasketVol(){ return volumeCylinder(n("gasketBore"),n("gasketThk")); }
+function deckVol(){ return volumeCylinder(n("bore"),n("deck")); }
+function totalClearanceFromHead(head){ return head + gasketVol()+deckVol()+n("pistonVol"); }
+
+function camClass(dur, ref){
+  let d=dur;
+  if(ref==="adv"){
+    if(d<250) return ["แรงบิด/ใช้งานถนน","เน้นต้น–กลาง เดินเบาง่าย เหมาะใช้งานทั่วไป","ประมาณ 1,000–5,500 rpm"];
+    if(d<270) return ["Street Performance","สมดุลแรงบิดกับรอบ เริ่มต้องการระบบไอดี/ไอเสียดีขึ้น","ประมาณ 1,800–6,500 rpm"];
+    if(d<290) return ["Sport / High RPM","เน้นกลาง–ปลาย เดินเบาเริ่มหยาบ กำลังอัดและฝาสูบมีผลมาก","ประมาณ 2,800–7,500 rpm"];
+    return ["Race / High RPM","เน้นรอบสูง ต้องจับคู่ฝาสูบ สปริงวาล์ว กำลังอัด และท่ออย่างจริงจัง","ประมาณ 4,000–9,000+ rpm"];
+  } else {
+    if(d<205) return ["Torque / Mild","เน้นแรงบิดต้น การตอบสนองและสุญญากาศดี","ประมาณ 1,000–4,800 rpm"];
+    if(d<216) return ["Street Torque","แรงบิดดี ใช้ถนนง่าย","ประมาณ 1,500–5,800 rpm"];
+    if(d<226) return ["Street Performance","ต้นยังใช้ได้ กลาง–ปลายเด่นขึ้น","ประมาณ 2,000–6,500 rpm"];
+    if(d<236) return ["Sport","เน้นกำลังช่วงกลาง–ปลาย","ประมาณ 2,800–7,200 rpm"];
+    if(d<246) return ["Race / High RPM","เน้นรอบสูง ต้องการฝาสูบและระบบวาล์วที่รองรับ","ประมาณ 3,500–8,200 rpm"];
+    return ["Full Race","รอบสูงมาก ช่วงกำลังแคบขึ้น ต้องเซ็ตทั้งระบบ","ประมาณ 4,500–9,500+ rpm"];
+  }
+}
+
+function calculate(){
+  const bore=n("bore"), stroke=n("stroke"), cyl=Math.max(1,n("cyl")), rod=n("rod");
+  const vd1=volumeCylinder(bore,stroke), total=vd1*cyl, targetCR=Math.max(1.01,n("targetCR"));
+  const desiredClear=vd1/(targetCR-1);
+  const recHead=desiredClear-gasketVol()-deckVol()-n("pistonVol");
+  const actualClear=totalClearanceFromHead(n("headCC"));
+  const actualCR=actualClear>0?(vd1+actualClear)/actualClear:NaN;
+
+  const ivc=n("ic");
+  const effStroke=pistonPosFromTDC(stroke,rod,180+ivc);
+  const effV=volumeCylinder(bore,effStroke);
+  const dcr=actualClear>0?(effV+actualClear)/actualClear:NaN;
+  const effFrac=vd1>0?effV/vd1:NaN;
+  const targetDCR=n("targetDCR");
+  const neededSCR=(effFrac>0)?1+(targetDCR-1)/effFrac:NaN;
+
+  const io=n("io"), ic=n("ic"), eo=n("eo"), ec=n("ec");
+  const inDur=180+io+ic, exDur=180+eo+ec;
+  const icl=inDur/2-io, ecl=exDur/2-ec, lsa=(icl+ecl)/2, overlap=io+ec, adv=lsa-icl;
+  const [character,desc,rpm]=camClass(inDur,$("timingRef").value);
+  const liftD=n("valveDia")>0?n("inLift")/n("valveDia"):NaN;
+
+  $("rDisp").textContent=fmt(total,1)+" cc";
+  $("rHead").textContent=fmt(recHead,2)+" cc";
+  $("rCR").textContent=fmt(actualCR,2)+":1";
+  $("rDCR").textContent=fmt(dcr,2)+":1";
+  $("rNeedCR").textContent=fmt(neededSCR,2)+":1";
+
+  $("rInDur").textContent=fmt(inDur,1)+"°";
+  $("rExDur").textContent=fmt(exDur,1)+"°";
+  $("rICL").textContent=fmt(icl,1)+"° ATDC";
+  $("rECL").textContent=fmt(ecl,1)+"° BTDC";
+  $("rLSA").textContent=fmt(lsa,1)+"°";
+  $("rOverlap").textContent=fmt(overlap,1)+"°";
+  $("rAdvance").textContent=(adv>=0?"+":"")+fmt(adv,1)+"°";
+
+  let crFlag="";
+  if(Number.isFinite(dcr)){
+    if(dcr<7.0) crFlag='<span class="pill">DCR ค่อนข้างต่ำ</span>';
+    else if(dcr<=8.5) crFlag='<span class="pill">DCR ช่วงใช้งานทั่วไป*</span>';
+    else crFlag='<span class="pill">DCR สูง — ต้องพิจารณาเชื้อเพลิง/น็อค*</span>';
+  }
+  $("analysis").innerHTML=
+    `<strong>${character}</strong><br>${desc}<br>
+     <span class="pill">${rpm}</span>
+     <span class="pill">IVC ${fmt(ivc,1)}° ABDC</span>
+     <span class="pill">Lift/D ${fmt(liftD,3)}</span>${crFlag}<br><br>
+     <strong>คำแนะนำการจับคู่:</strong> จาก IVC นี้ หากตั้งเป้า Dynamic CR ${fmt(targetDCR,2)}:1
+     โมเดลต้องการ Static CR ประมาณ <strong>${fmt(neededSCR,2)}:1</strong>.
+     ถ้าต้องการ Static CR ${fmt(targetCR,2)}:1 ห้องเผาไหม้ฝาสูบควรอยู่ประมาณ
+     <strong>${fmt(recHead,2)} cc/สูบ</strong> หลังหัก/บวกผลของปะเก็น, deck และรูปทรงหัวลูกสูบแล้ว.
+     <br><br><span style="color:#8291a4">*ไม่ใช่ค่า knock limit ตายตัว; เชื้อเพลิง, squish, อุณหภูมิ, รูปห้องเผาไหม้, ignition และ boost เปลี่ยนขีดจำกัดได้มาก</span>`;
+
+  drawCam();
+}
+function drawCam(){
+  const c=$("camCanvas"), ctx=c.getContext("2d"), W=c.width,H=c.height;
+  ctx.clearRect(0,0,W,H); ctx.fillStyle="#080d13";ctx.fillRect(0,0,W,H);
+  const pad=55, y1=115,y2=245, usable=W-pad*2;
+  const degToX=d=>pad+(d/720)*usable;
+  ctx.strokeStyle="#26384b";ctx.lineWidth=2;
+  [y1,y2].forEach(y=>{ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(W-pad,y);ctx.stroke()});
+  ctx.fillStyle="#8fa1b5";ctx.font="18px sans-serif";ctx.fillText("INTAKE",12,y1+6);ctx.fillText("EXHAUST",6,y2+6);
+  for(let d=0;d<=720;d+=90){
+    const x=degToX(d);ctx.strokeStyle=d%180===0?"#334a62":"#1a2837";ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(x,65);ctx.lineTo(x,300);ctx.stroke();
+    ctx.fillStyle="#708196";ctx.font="15px sans-serif";ctx.textAlign="center";ctx.fillText(d+"°",x,325)
+  }
+  // 0° = firing TDC. intake event straddles 720/0 for IO, then closes after BDC at 180+IC.
+  const io=n("io"),ic=n("ic"),eo=n("eo"),ec=n("ec");
+  function seg(a,b,y,color){
+    ctx.strokeStyle=color;ctx.lineWidth=18;ctx.lineCap="round";ctx.beginPath();ctx.moveTo(degToX(a),y);ctx.lineTo(degToX(b),y);ctx.stroke()
+  }
+  // Intake: IO before 0 is represented at 720-IO plus 0..180+IC
+  seg(0,180+ic,y1,"#37b7ff"); if(io>0) seg(720-io,720,y1,"#37b7ff");
+  // Exhaust: opens at 540-EO and closes after 720/0 by EC
+  seg(540-eo,720,y2,"#ff8a00"); if(ec>0) seg(0,ec,y2,"#ff8a00");
+  ctx.textAlign="left";ctx.fillStyle="#9fb0c2";ctx.font="14px sans-serif";
+  ctx.fillText(`IO ${fmt(io,1)} BTDC  •  IC ${fmt(ic,1)} ABDC`,pad,88);
+  ctx.fillText(`EO ${fmt(eo,1)} BBDC •  EC ${fmt(ec,1)} ATDC`,pad,218);
+}
+function showPage(id){
+  document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id===id));
+  document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.dataset.page===id));
+  if(id==="cam") drawCam();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>showPage(b.dataset.page));
+$("calcBtn").onclick=()=>{calculate();showPage("result")};
+$("prevBtn").onclick=()=>{
+  const cur=document.querySelector(".page.active").id;
+  showPage(cur==="result"?"cam":cur==="cam"?"engine":"engine");
+};
+ids.forEach(id=>$(id).addEventListener("input",()=>{calculate(); if(id==="io"||id==="ic"||id==="eo"||id==="ec") drawCam()}));
+$("saveBtn").onclick=()=>{localStorage.setItem("ananCamPro",JSON.stringify(Object.fromEntries(ids.map(id=>[id,$(id).value]))));alert("บันทึกโปรเจกต์ในเครื่องแล้ว")};
+$("loadBtn").onclick=()=>{const d=JSON.parse(localStorage.getItem("ananCamPro")||"null");if(!d)return alert("ยังไม่มีโปรเจกต์ที่บันทึก");ids.forEach(id=>{if(d[id]!==undefined)$(id).value=d[id]});calculate();alert("โหลดโปรเจกต์แล้ว")};
+$("exportBtn").onclick=()=>{
+ const d={app:"ANAN CAM & ENGINE PRO",savedAt:new Date().toISOString(),values:Object.fromEntries(ids.map(id=>[id,$(id).value]))};
+ const blob=new Blob([JSON.stringify(d,null,2)],{type:"application/json"});const a=document.createElement("a");
+ a.href=URL.createObjectURL(blob);a.download="ANAN_CAM_PROJECT.json";a.click();URL.revokeObjectURL(a.href)
+};
+$("resetBtn").onclick=()=>{if(confirm("ล้างค่ากลับค่าเริ่มต้น?"))location.reload()};
+calculate();
+if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}
+</script>
+</body></html>
