@@ -1,380 +1,418 @@
 <!doctype html>
 <html lang="th">
 <head>
-  <meta charset="utf-8">
-    <meta name="theme-color" content="#0a0d12">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="CAM PRO">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="format-detection" content="telephone=no">
-  <meta name="color-scheme" content="dark">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-  <title>ANAN CAM & ENGINE PRO</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="icon-192.png">
-  <style>
-    :root{
-      --bg:#07090d;--panel:#0d1219;--panel2:#111824;--line:#263243;
-      --text:#f5f7fb;--muted:#94a3b8;--accent:#ff8a00;--blue:#37b7ff;
-      --good:#35d07f;--warn:#ffca3a;--danger:#ff5b67;--radius:18px;
-    }
-    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-    html,body{margin:0;background:linear-gradient(180deg,#05070a,#0a0f16 45%,#06080b);color:var(--text);
-      font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,sans-serif}
-    body{min-height:100vh;padding-bottom:96px}
-    .app{max-width:920px;margin:auto;padding:env(safe-area-inset-top) 14px 24px}
-    header{position:sticky;top:0;z-index:10;padding:14px 0 10px;
-      background:linear-gradient(180deg,rgba(7,9,13,.98),rgba(7,9,13,.84),transparent);backdrop-filter:blur(10px)}
-    .brand{display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .logo{font-weight:900;letter-spacing:.8px;font-size:18px}
-    .logo span{color:var(--accent)}
-    .badge{font-size:11px;border:1px solid #314154;border-radius:999px;padding:5px 9px;color:#cbd5e1;background:#101722}
-    .hero{margin:8px 0 14px;padding:18px;border:1px solid #202b39;border-radius:22px;
-      background:radial-gradient(circle at 80% 0%,rgba(55,183,255,.16),transparent 38%),
-                 radial-gradient(circle at 5% 0%,rgba(255,138,0,.14),transparent 36%),#0c1118}
-    .hero h1{margin:0 0 6px;font-size:23px}.hero p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
-    .tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0 14px}
-    .tab{border:1px solid #243145;background:#0c121a;color:#b9c5d4;border-radius:14px;padding:11px 8px;font-weight:750}
-    .tab.active{background:linear-gradient(180deg,#1d2734,#121923);color:#fff;border-color:#53677e;box-shadow:0 0 0 1px #1a2632 inset}
-    .page{display:none}.page.active{display:block}
-    .card{background:linear-gradient(180deg,#0f151e,#0b1017);border:1px solid #202b38;border-radius:var(--radius);padding:15px;margin:10px 0}
-    .card h2{font-size:15px;margin:0 0 4px}.sub{font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.55}
-    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-    .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-    label{display:block;font-size:11px;color:#a9b6c6;margin:0 0 5px}
-    .field{background:#090e14;border:1px solid #263344;border-radius:13px;padding:9px 10px}
-    input,select{width:100%;border:0;outline:0;background:transparent;color:#fff;font-size:16px;font-weight:800}
-    select{font-size:14px}.unit{font-size:10px;color:#708095;margin-top:3px}
-    .row{display:flex;gap:8px;align-items:center}.row>*{flex:1}
-    button.primary,.ghost,.danger{width:100%;border-radius:14px;padding:13px;border:1px solid #34465b;font-weight:850}
-    button.primary{background:linear-gradient(180deg,#ff9d2b,#ff7a00);color:#15100a;border-color:#ff9d2b}
-    button.ghost{background:#121a24;color:#dce5ef}.danger{background:#231218;color:#ff9aa2;border-color:#51242b}
-    .results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-    .metric{padding:13px;border:1px solid #253243;border-radius:15px;background:#0b1119;min-height:78px}
-    .metric .k{font-size:10px;color:#8fa0b4}.metric .v{font-size:22px;font-weight:900;margin-top:5px;letter-spacing:-.5px}
-    .metric .u{font-size:10px;color:#708095;margin-left:4px}
-    .metric.accent .v{color:var(--accent)}.metric.blue .v{color:var(--blue)}.metric.good .v{color:var(--good)}
-    .metric.wide{grid-column:1/-1}
-    .analysis{padding:14px;border-radius:16px;border:1px solid #263649;background:linear-gradient(135deg,#0d1520,#111820);line-height:1.65;font-size:13px}
-    .analysis strong{color:#fff}.pill{display:inline-block;margin:2px 3px 2px 0;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:800;background:#172231;border:1px solid #2b3c50}
-    canvas{width:100%;height:180px;border-radius:14px;background:#080d13;border:1px solid #223041}
-    .note{font-size:11px;line-height:1.6;color:#7f8ea2;margin-top:8px}
-    .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-    .footerbar{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px max(12px,env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));
-      background:rgba(7,9,13,.90);backdrop-filter:blur(16px);border-top:1px solid #1c2734}
-    .footerbar>div{max-width:920px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:9px}
-    .tiny{font-size:10px;color:#64748b;text-align:center;margin:16px 0}
-    @media(max-width:620px){.grid3{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr 1fr}.hero h1{font-size:20px}}
-    @media(max-width:390px){.grid,.grid3{grid-template-columns:1fr}.results{grid-template-columns:1fr}.metric.wide{grid-column:auto}}
-  
-    /* iOS / iPhone mobile-first tuning */
-    html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
-    body{overscroll-behavior-y:contain;touch-action:manipulation}
-    button,input,select{font-family:inherit}
-    button{min-height:46px;cursor:pointer}
-    input,select{font-size:16px!important;min-height:30px}
-    .app{width:100%;max-width:760px;padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right))}
-    header{padding-top:max(10px,env(safe-area-inset-top))}
-    .tabs{position:sticky;top:54px;z-index:9;padding:7px 0;background:rgba(7,9,13,.92);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px)}
-    .tab{min-height:46px;font-size:12px}
-    .field{min-width:0}
-    .metric .v{word-break:break-word}
-    .footerbar{-webkit-backdrop-filter:blur(16px)}
-    @media(max-width:600px){
-      body{padding-bottom:104px}
-      .app{padding-bottom:22px}
-      .brand{align-items:flex-start}
-      .logo{font-size:15px;line-height:1.25}
-      .badge{font-size:9px;padding:4px 7px}
-      .hero{padding:14px;border-radius:18px;margin-top:5px}
-      .hero h1{font-size:18px;line-height:1.25}
-      .hero p{font-size:12px;line-height:1.5}
-      .tabs{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
-      .card{padding:13px;border-radius:16px}
-      .grid,.grid3{grid-template-columns:1fr 1fr;gap:8px}
-      .field{padding:9px}
-      label{font-size:10px;line-height:1.2}
-      .results{grid-template-columns:1fr 1fr;gap:8px}
-      .metric{padding:11px;min-height:72px}
-      .metric .v{font-size:20px}
-      .actions{grid-template-columns:1fr 1fr}
-      canvas{height:150px}
-    }
-    @media(max-width:360px){
-      .grid,.grid3{grid-template-columns:1fr}
-      .results{grid-template-columns:1fr}
-      .metric.wide{grid-column:auto}
-      .actions{grid-template-columns:1fr}
-      .tabs{top:50px}
-    }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#050505">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="K-LINE LIVE">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.json">
+<title>ANAN K-LINE DASH LIVE</title>
+<style>
+:root{
+  --bg:#050505;
+  --panel:#090909;
+  --line:#2e2e2e;
+  --line2:#555;
+  --text:#f4f4f4;
+  --muted:#8a8a8a;
+  --red:#ef2525;
+  --blue:#59c7ef;
+  --green:#36c75a;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;background:#000;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;overflow:hidden}
+body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+button,input{font:inherit}
+#app{position:relative;width:100%;height:100%;min-height:320px;background:
+  radial-gradient(circle at 50% 48%,rgba(255,255,255,.025),transparent 30%),
+  repeating-linear-gradient(0deg,rgba(255,255,255,.012) 0 1px,transparent 1px 4px),
+  #050505;display:flex;flex-direction:column;padding:2.4vh 2.5vw 2.2vh;gap:1.5vh}
+#app:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(255,0,0,.018) 30%,transparent 50%,rgba(0,160,255,.012) 75%,transparent)}
+.rotate{display:none;position:absolute;inset:0;z-index:99;background:#050505;align-items:center;justify-content:center;text-align:center;padding:30px}
+.rotate .box{border:1px solid #333;border-radius:20px;padding:28px;max-width:360px}
+.rotate h2{margin:0 0 8px;font-size:22px}.rotate p{margin:0;color:#aaa;line-height:1.5}
+.top{height:22%;display:grid;grid-template-columns:1fr 13.5vw;gap:1.8vw;min-height:70px}
+.rpmWrap{display:flex;flex-direction:column;min-width:0;padding:0 .6vw}
+.rpmTitle{font-size:1.15vw;color:#777;font-style:italic;letter-spacing:.05em;margin-bottom:.5vh}
+.rpmScale{position:relative;display:flex;gap:.24vw;height:48%;align-items:stretch;border-bottom:1px solid #333}
+.rpmSeg{flex:1;border:1px solid #333;background:linear-gradient(180deg,#222,#0d0d0d)}
+.rpmSeg.on{background:linear-gradient(180deg,#fff,#c7c7c7)}
+.rpmSeg.red{border-color:#5e1212;background:linear-gradient(180deg,#2b0808,#100)}
+.rpmSeg.red.on{background:linear-gradient(180deg,#e82525,#6a0000)}
+.rpmNums{display:grid;grid-template-columns:repeat(14,1fr);font-size:1.45vw;color:#8d8d8d;margin-top:.55vh;text-align:center;font-style:italic}
+.rpmNums span.red{color:var(--red)}
+.rpmBox{height:72%;align-self:start;border:1px solid #5f1111;border-radius:8px;background:linear-gradient(180deg,#310505,#100);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:inset 0 0 30px rgba(255,0,0,.12)}
+.rpmBox .value{font-size:3.3vw;line-height:.9;font-weight:300}.rpmBox .unit{font-size:1.2vw;color:var(--red);margin-top:.65vh;letter-spacing:.06em}
+.mid{height:53%;display:grid;grid-template-columns:23.5% 1fr 23.5%;gap:1.8vw;min-height:175px}
+.side{display:grid;grid-template-rows:repeat(3,1fr);gap:1.2vh}
+.card{position:relative;border:1px solid #303030;border-radius:9px;background:linear-gradient(145deg,rgba(13,13,13,.96),rgba(5,5,5,.98));padding:1.15vh 1.3vw;display:grid;grid-template-columns:26% 1fr;align-items:center;min-width:0;overflow:hidden}
+.card:before{content:"";position:absolute;left:0;top:14%;bottom:14%;width:3px;background:var(--red)}
+.icon{display:flex;justify-content:center;align-items:center;color:#ddd}
+.icon svg{width:4.1vw;height:4.1vw;max-height:7vh;stroke:currentColor;fill:none;stroke-width:1.8}
+.card .label{font-size:1.12vw;color:#bdbdbd;letter-spacing:.035em;margin-bottom:.5vh;white-space:nowrap}
+.card .read{font-size:2.75vw;font-weight:300;line-height:1;white-space:nowrap}
+.card .unit{font-size:1.03vw;color:#aaa;margin-left:.35vw}
+.bar{height:.55vh;min-height:3px;background:#202020;margin-top:1.05vh;display:flex;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#9b9b9b,#fff)}
+.bar.blue i{background:linear-gradient(90deg,#31758c,var(--blue))}
+.bar.red i{background:linear-gradient(90deg,#651010,var(--red))}
+.center{position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;min-width:0}
+.center:before{content:"";position:absolute;left:8%;right:8%;bottom:10%;height:28%;background:radial-gradient(ellipse at center,rgba(255,255,255,.07),transparent 66%);filter:blur(4px);pointer-events:none}
+.speedLabel{font-size:1.35vw;color:#636363;letter-spacing:.14em;margin-bottom:0}
+.speed{font-size:11vw;font-weight:200;line-height:.88;letter-spacing:-.06em;text-shadow:0 0 22px rgba(255,255,255,.04)}
+.speedUnit{font-size:1.45vw;color:#a7a7a7;font-style:italic;letter-spacing:.1em;margin-top:.5vh}
+.gearRow{display:flex;align-items:center;gap:1.2vw;margin-top:1.15vh;color:#464646;font-style:italic}
+.gearRow span{font-size:1.7vw}.gearRow .active{font-size:2.2vw;color:#fff;font-weight:700;border-bottom:2px solid #fff;padding:0 .2vw .1vh}
+.engineBox{position:absolute;left:15%;right:15%;bottom:-5%;height:32%;border:1px solid #3b3b3b;background:linear-gradient(180deg,#0c0c0c,#060606);clip-path:polygon(8% 0,92% 0,100% 24%,100% 76%,92% 100%,8% 100%,0 76%,0 24%);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.engineBox:after{content:"";position:absolute;inset:0;border-top:2px solid var(--red);opacity:.9}
+.engineLabel{font-size:1.4vw;font-weight:650;letter-spacing:.08em}
+.engineAfr{font-size:1.15vw;color:var(--red);font-style:italic;margin:.15vh 0}
+.engineRpm{font-size:3.2vw;font-weight:300;line-height:.95}
+.bottom{height:20%;border-top:1px solid #262626;display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr 1fr;align-items:center;min-height:63px}
+.bottomItem{height:58%;display:flex;align-items:center;justify-content:center;gap:.8vw;border-right:1px solid #313131;min-width:0}
+.bottomItem:last-child{border-right:0}
+.bottomItem .k{font-size:1.0vw;color:#737373;font-style:italic;letter-spacing:.08em}
+.bottomItem .v{font-size:1.65vw;color:#d5d5d5;font-style:italic;white-space:nowrap}
+.fuelIcon{width:2vw;height:2vw;stroke:#aaa;fill:none;stroke-width:2}
+.fuelBars{display:flex;gap:.25vw}
+.fuelBars i{width:1.15vw;height:1.25vh;background:#333}
+.fuelBars i.on{background:#d8d8d8}
+.statusDot{width:.75vw;height:.75vw;border-radius:50%;background:var(--green);box-shadow:0 0 12px rgba(54,199,90,.45);flex:none}
+.connection{position:absolute;left:2.7vw;bottom:.8vh;font-size:.9vw;color:#777;display:flex;gap:.55vw;align-items:center}
+.connection strong{color:#aaa;font-weight:500}
+.controls{position:absolute;right:2.5vw;bottom:.55vh;display:flex;gap:.45vw}
+.controls button{height:2.5vh;min-height:22px;padding:0 .7vw;border:1px solid #303030;background:#0a0a0a;color:#777;border-radius:6px;font-size:.75vw}
+.controls button.active{border-color:#4d4d4d;color:#ccc}
+#toast{position:absolute;right:2.5vw;top:2.5vh;background:#111;border:1px solid #333;color:#ddd;padding:.7vh .8vw;border-radius:7px;font-size:.8vw;opacity:0;transition:.2s;pointer-events:none}
+#toast.show{opacity:1}
+@media (orientation:portrait){
+  .rotate{display:flex}
+}
+@media(max-width:760px) and (orientation:landscape){
+  #app{padding:2vh 2.1vw;gap:1.1vh}
+  .card{padding:.8vh 1vw}
+  .engineBox{bottom:-3%;height:34%}
+}
 
-  </style>
+/* GitHub + MQTT + GPS controls */
+.controls{z-index:40}
+.controls button{min-width:4.8vw}
+.controls button.good{border-color:#176c35;color:#69e68d}
+.controls button.warn{border-color:#6c5617;color:#f3cc63}
+.statusDot.off{background:#6c2020;box-shadow:none}
+.statusDot.wait{background:#a57a1c;box-shadow:0 0 10px rgba(230,174,41,.35)}
+.setupShade{display:none;position:absolute;inset:0;z-index:90;background:rgba(0,0,0,.76);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:4vh 5vw}
+.setupShade.show{display:flex}
+.setupPanel{width:min(720px,92vw);max-height:90vh;overflow:auto;background:linear-gradient(180deg,#111,#070707);border:1px solid #3b3b3b;border-radius:18px;padding:20px;box-shadow:0 20px 70px #000}
+.setupPanel h2{margin:0 0 5px;font-size:20px}
+.setupPanel p{margin:0 0 14px;color:#8c8c8c;font-size:12px;line-height:1.5}
+.setupGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.setupField{border:1px solid #2d2d2d;border-radius:10px;background:#080808;padding:9px}
+.setupField.wide{grid-column:1/-1}
+.setupField label{display:block;color:#888;font-size:10px;margin-bottom:5px;letter-spacing:.05em}
+.setupField input{width:100%;border:0;outline:0;background:transparent;color:#fff;font-size:14px}
+.setupActions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}
+.setupActions button{border:1px solid #333;background:#111;color:#ddd;border-radius:10px;padding:10px}
+.setupActions .save{border-color:#6c1717;background:#270808;color:#ff8a8a}
+.smallInfo{font-size:10px;color:#666;margin-top:10px;line-height:1.5}
+.gpsTag{position:absolute;left:20vw;bottom:.8vh;font-size:.9vw;color:#777;display:flex;gap:.45vw;align-items:center}
+.gpsDot{width:.62vw;height:.62vw;border-radius:50%;background:#5b5b5b}
+.gpsDot.on{background:#56c8ff;box-shadow:0 0 10px rgba(86,200,255,.45)}
+@media(max-width:760px) and (orientation:landscape){
+  .setupPanel{padding:13px}
+  .setupPanel h2{font-size:16px}
+  .setupGrid{gap:7px}
+  .setupActions button{padding:7px}
+}
+
+</style>
 </head>
 <body>
-<div class="app">
-<header>
-  <div class="brand"><div class="logo">ANAN <span>CAM & ENGINE</span> PRO</div><div class="badge">ENGINEERING CALCULATOR</div></div>
-</header>
+<div id="app">
+  <div class="rotate"><div class="box"><h2>หมุน iPhone เป็นแนวนอน</h2><p>แดชบอร์ดนี้ออกแบบสำหรับใช้งานแนวนอนเต็มจอ</p></div></div>
 
-<section class="hero">
-  <h1>Camshaft • Head CC • Compression</h1>
-  <p>คำนวณเครื่องยนต์และแคมชาฟต์แบบสัมพันธ์กัน: ปริมาตรกระบอกสูบ, CC ห้องเผาไหม้, Static/Dynamic Compression, Valve Timing และแนวรอบใช้งาน</p>
-</section>
+  <section class="top">
+    <div class="rpmWrap">
+      <div class="rpmTitle">x1000 RPM</div>
+      <div id="rpmScale" class="rpmScale"></div>
+      <div class="rpmNums" id="rpmNums"></div>
+    </div>
+    <div class="rpmBox"><div id="rpmTop" class="value">6651</div><div class="unit">RPM</div></div>
+  </section>
 
-<div class="tabs">
-  <button class="tab active" data-page="engine">ENGINE</button>
-  <button class="tab" data-page="cam">CAMSHAFT</button>
-  <button class="tab" data-page="result">RESULT</button>
+  <section class="mid">
+    <div class="side">
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 64 64"><rect x="14" y="22" width="36" height="25" rx="2"/><path d="M23 18v4M41 18v4M20 34h9M24.5 29.5v9M36 34h9"/></svg></div>
+        <div><div class="label">BATTERY</div><div><span id="battery" class="read">14.1</span><span class="unit">V</span></div><div class="bar"><i id="batteryBar" style="width:76%"></i></div></div>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 64 64"><path d="M26 11v28a11 11 0 1 0 12 0V11a6 6 0 0 0-12 0Z"/><path d="M32 18v26"/><path d="M13 52c5-3 8 3 13 0s8 3 13 0 8 3 13 0"/></svg></div>
+        <div><div class="label">COOLANT TEMP</div><div><span id="coolant" class="read">90</span><span class="unit">°C</span></div><div class="bar red"><i id="coolantBar" style="width:63%"></i></div></div>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 64 64"><circle cx="31" cy="32" r="18"/><path d="M31 20v12l10 7"/><path d="M15 48l12-10"/></svg></div>
+        <div><div class="label">TPS</div><div><span id="tps" class="read">32</span><span class="unit">%</span></div><div class="bar"><i id="tpsBar" style="width:32%"></i></div></div>
+      </div>
+    </div>
+
+    <div class="center">
+      <div class="speedLabel">KM/H</div>
+      <div id="speed" class="speed">268</div>
+      <div class="speedUnit">km/h</div>
+      <div class="gearRow"><span>R</span><span>N</span><span>1</span><span>2</span><span>3</span><span>4</span><span class="active" id="gear">5</span><span>6</span></div>
+      <div class="engineBox">
+        <div class="engineLabel">ENGINE RPM</div>
+        <div class="engineAfr">AFR ECU : <span id="afrEcu">12.88</span></div>
+        <div id="rpmCenter" class="engineRpm">6651</div>
+      </div>
+    </div>
+
+    <div class="side">
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 64 64"><circle cx="31" cy="32" r="19"/><path d="M31 19v5M19 24l4 4M43 24l-4 4M16 35h6M40 35h6"/><path d="M31 32l11-7"/></svg></div>
+        <div><div class="label">O2 SENSOR</div><div><span id="o2" class="read">0.78</span><span class="unit">V</span></div><div class="bar blue"><i id="o2Bar" style="width:52%"></i></div></div>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 64 64"><path d="M18 41l22-22 7 7-22 22z"/><path d="M39 16l5-5M45 22l5-5M15 44l-5 5M22 51l-5 5"/><path d="M28 44l6 6"/></svg></div>
+        <div><div class="label">INJECTION TIME</div><div><span id="inj" class="read">2.45</span><span class="unit">ms</span></div><div class="bar blue"><i id="injBar" style="width:46%"></i></div></div>
+      </div>
+      <div class="card">
+        <div class="icon"><svg viewBox="0 0 64 64"><path d="M36 8L17 35h14l-4 21 20-29H34z"/></svg></div>
+        <div><div class="label">IGNITION ADVANCE</div><div><span id="ign" class="read">25</span><span class="unit">°BTDC</span></div><div class="bar blue"><i id="ignBar" style="width:56%"></i></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bottom">
+    <div class="bottomItem">
+      <svg class="fuelIcon" viewBox="0 0 64 64"><path d="M18 54V14h21v40M15 54h27M21 20h15v11H21zM39 22h6l5 6v18c0 5 8 5 8 0V28l-6-8"/></svg>
+      <span class="k">FUEL</span>
+      <div class="fuelBars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+    </div>
+    <div class="bottomItem"><span class="k">TRIP A</span><span class="v" id="trip">1061.7 km</span></div>
+    <div class="bottomItem"><span class="k">VOLT</span><span class="v" id="voltBottom">14.1 V</span></div>
+    <div class="bottomItem"><span class="k">TIME</span><span class="v" id="clock">12:34</span></div>
+    <div class="bottomItem"><span class="k">ECU TEMP</span><span class="v" id="ecuTemp">45 °C</span></div>
+  </section>
+
+  <div class="connection"><span class="statusDot"></span><strong id="connText">HONDA K-LINE • ESP32 • DATA READY</strong></div>
+  <div class="controls"><button id="gpsBtn">GPS</button><button id="setupBtn">SETUP</button><button id="demoBtn">DEMO</button><button id="zeroBtn">ZERO</button></div>
+
+  <div class="gpsTag"><span id="gpsDot" class="gpsDot"></span><strong id="gpsText">GPS OFF</strong></div>
+
+  <div id="setupShade" class="setupShade">
+    <div class="setupPanel">
+      <h2>ANAN K-LINE CONNECTION</h2>
+      <p>GitHub Pages รับข้อมูล ESP32 ผ่าน MQTT แบบ WSS/TLS และใช้ GPS ของโทรศัพท์ได้</p>
+      <div class="setupGrid">
+        <div class="setupField"><label>DEVICE ID</label><input id="cfgDevice" value="ANAN001"></div>
+        <div class="setupField"><label>TOPIC KEY</label><input id="cfgKey" value="ANAN26KLINE9X7P"></div>
+        <div class="setupField wide"><label>MQTT WSS URL</label><input id="cfgBroker" value="wss://broker.emqx.io:8084/mqtt"></div>
+      </div>
+      <div class="setupActions">
+        <button id="cfgClose">CLOSE</button>
+        <button id="cfgGps">GPS ON</button>
+        <button id="cfgSave" class="save">SAVE + CONNECT</button>
+      </div>
+      <div class="smallInfo">
+        Topic: <span id="topicPreview"></span><br>
+        ค่าเริ่มต้นใช้ Public MQTT สำหรับทดสอบเท่านั้น ไม่ควรส่งข้อมูลสำคัญ/ข้อมูลส่วนตัวผ่าน Public Broker
+      </div>
+    </div>
+  </div>
+
+  <div id="toast">พร้อมรับข้อมูล</div>
 </div>
 
-<section id="engine" class="page active">
-  <div class="card">
-    <h2>ENGINE GEOMETRY</h2>
-    <div class="sub">ค่าพื้นฐานเครื่องยนต์</div>
-    <div class="grid3">
-      <div class="field"><label>Bore</label><input id="bore" type="number" inputmode="decimal" step="0.01" value="67"><div class="unit">mm</div></div>
-      <div class="field"><label>Stroke</label><input id="stroke" type="number" inputmode="decimal" step="0.01" value="55.1"><div class="unit">mm</div></div>
-      <div class="field"><label>Cylinders</label><input id="cyl" type="number" inputmode="numeric" step="1" value="1"><div class="unit">สูบ</div></div>
-      <div class="field"><label>Rod Length</label><input id="rod" type="number" inputmode="decimal" step="0.1" value="105"><div class="unit">mm</div></div>
-      <div class="field"><label>Target Static CR</label><input id="targetCR" type="number" inputmode="decimal" step="0.1" value="12.0"><div class="unit">: 1</div></div>
-      <div class="field"><label>Target Dynamic CR</label><input id="targetDCR" type="number" inputmode="decimal" step="0.1" value="8.0"><div class="unit">: 1</div></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>CLEARANCE VOLUME</h2>
-    <div class="sub">ใช้คำนวณย้อนกลับหา CC ฝาสูบที่ควรใช้</div>
-    <div class="grid">
-      <div class="field"><label>Gasket Bore</label><input id="gasketBore" type="number" inputmode="decimal" step="0.01" value="68"><div class="unit">mm</div></div>
-      <div class="field"><label>Gasket Thickness</label><input id="gasketThk" type="number" inputmode="decimal" step="0.01" value="0.5"><div class="unit">mm</div></div>
-      <div class="field"><label>Deck Clearance</label><input id="deck" type="number" inputmode="decimal" step="0.01" value="0"><div class="unit">mm (+ ต่ำกว่า deck / - โผล่)</div></div>
-      <div class="field"><label>Piston Volume</label><input id="pistonVol" type="number" inputmode="decimal" step="0.1" value="0"><div class="unit">cc (+ หลุม / - โดม)</div></div>
-      <div class="field"><label>Actual Head Chamber</label><input id="headCC" type="number" inputmode="decimal" step="0.1" value="16"><div class="unit">cc (ใส่เพื่อเช็ก CR จริง)</div></div>
-    </div>
-  </div>
-</section>
-
-<section id="cam" class="page">
-  <div class="card">
-    <h2>VALVE EVENTS</h2>
-    <div class="sub">ใส่องศาตาม Cam Card จุดวัดเดียวกันทั้งหมด เช่น @1 mm หรือ @0.050"</div>
-    <div class="grid">
-      <div class="field"><label>Intake Opens — BTDC</label><input id="io" type="number" inputmode="decimal" step="0.1" value="20"><div class="unit">°</div></div>
-      <div class="field"><label>Intake Closes — ABDC</label><input id="ic" type="number" inputmode="decimal" step="0.1" value="50"><div class="unit">°</div></div>
-      <div class="field"><label>Exhaust Opens — BBDC</label><input id="eo" type="number" inputmode="decimal" step="0.1" value="50"><div class="unit">°</div></div>
-      <div class="field"><label>Exhaust Closes — ATDC</label><input id="ec" type="number" inputmode="decimal" step="0.1" value="20"><div class="unit">°</div></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>CAM PROFILE</h2>
-    <div class="sub">ค่าประกอบการวิเคราะห์บุคลิกแคม</div>
-    <div class="grid">
-      <div class="field"><label>Intake Lift</label><input id="inLift" type="number" inputmode="decimal" step="0.01" value="9.0"><div class="unit">mm</div></div>
-      <div class="field"><label>Exhaust Lift</label><input id="exLift" type="number" inputmode="decimal" step="0.01" value="8.5"><div class="unit">mm</div></div>
-      <div class="field"><label>Timing Reference</label><select id="timingRef"><option value="050">@0.050 inch</option><option value="1mm">@1.00 mm</option><option value="adv">Advertised / Seat</option></select><div class="unit">จุดวัด Cam Card</div></div>
-      <div class="field"><label>Intake Valve Diameter</label><input id="valveDia" type="number" inputmode="decimal" step="0.1" value="28"><div class="unit">mm (สำหรับ Lift/D)</div></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>VALVE TIMING VISUAL</h2>
-    <canvas id="camCanvas" width="820" height="360"></canvas>
-    <div class="note">ภาพนี้ใช้สำหรับมองลำดับเหตุการณ์วาล์วและ Overlap ไม่ใช่กราฟ Lift จริงของ lobe</div>
-  </div>
-</section>
-
-<section id="result" class="page">
-  <div class="card">
-    <h2>ENGINE RESULT</h2>
-    <div class="results">
-      <div class="metric accent"><div class="k">DISPLACEMENT</div><div class="v" id="rDisp">–</div></div>
-      <div class="metric blue"><div class="k">RECOMMENDED HEAD CHAMBER</div><div class="v" id="rHead">–</div></div>
-      <div class="metric"><div class="k">ACTUAL STATIC CR</div><div class="v" id="rCR">–</div></div>
-      <div class="metric good"><div class="k">DYNAMIC CR</div><div class="v" id="rDCR">–</div></div>
-      <div class="metric wide"><div class="k">STATIC CR NEEDED FOR TARGET DCR</div><div class="v" id="rNeedCR">–</div></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>CAMSHAFT RESULT</h2>
-    <div class="results">
-      <div class="metric"><div class="k">INTAKE DURATION</div><div class="v" id="rInDur">–</div></div>
-      <div class="metric"><div class="k">EXHAUST DURATION</div><div class="v" id="rExDur">–</div></div>
-      <div class="metric blue"><div class="k">INTAKE CENTERLINE</div><div class="v" id="rICL">–</div></div>
-      <div class="metric blue"><div class="k">EXHAUST CENTERLINE</div><div class="v" id="rECL">–</div></div>
-      <div class="metric accent"><div class="k">LSA</div><div class="v" id="rLSA">–</div></div>
-      <div class="metric accent"><div class="k">OVERLAP</div><div class="v" id="rOverlap">–</div></div>
-      <div class="metric wide"><div class="k">CAM ADVANCE (+ = ADVANCED)</div><div class="v" id="rAdvance">–</div></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>CAM CHARACTER ANALYSIS</h2>
-    <div id="analysis" class="analysis">–</div>
-  </div>
-
-  <div class="card">
-    <h2>PROJECT</h2>
-    <div class="actions">
-      <button class="ghost" id="saveBtn">SAVE PROJECT</button>
-      <button class="ghost" id="loadBtn">LOAD SAVED</button>
-      <button class="ghost" id="exportBtn">EXPORT JSON</button>
-      <button class="danger" id="resetBtn">RESET</button>
-    </div>
-  </div>
-
-  <div class="note">
-    หมายเหตุ: ผล Dynamic Compression และช่วงรอบเป็นแบบจำลองทางเรขาคณิต/การประมาณเพื่อช่วยเลือกชุดเครื่องยนต์ ไม่ทดแทนการวัด cc จริง, piston-to-valve clearance, squish, การไหลฝาสูบ, ignition/fuel calibration หรือ Dyno
-  </div>
-</section>
-
-<div class="tiny">ANAN CAM & ENGINE PRO • iPhone / iOS Optimized • Add to Home Screen Ready</div>
-</div>
-
-<div class="footerbar"><div>
-  <button class="ghost" id="prevBtn">◀ BACK</button>
-  <button class="primary" id="calcBtn">CALCULATE</button>
-</div></div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/5.5.2/mqtt.min.js"></script>
 <script>
+(()=>{
 const $=id=>document.getElementById(id);
-const ids=["bore","stroke","cyl","rod","targetCR","targetDCR","gasketBore","gasketThk","deck","pistonVol","headCC","io","ic","eo","ec","inLift","exLift","timingRef","valveDia"];
-const n=id=>parseFloat($(id).value)||0;
-const fmt=(x,d=2)=>Number.isFinite(x)?x.toFixed(d):"–";
-
-function volumeCylinder(bore, stroke){ return Math.PI/4*bore*bore*stroke/1000; }
-function pistonPosFromTDC(stroke, rod, degFromTDC){
-  const r=stroke/2, th=degFromTDC*Math.PI/180;
-  const under=rod*rod-Math.pow(r*Math.sin(th),2);
-  if(under<0 || rod<=r) return NaN;
-  return r*(1-Math.cos(th)) + rod-Math.sqrt(under);
-}
-function gasketVol(){ return volumeCylinder(n("gasketBore"),n("gasketThk")); }
-function deckVol(){ return volumeCylinder(n("bore"),n("deck")); }
-function totalClearanceFromHead(head){ return head + gasketVol()+deckVol()+n("pistonVol"); }
-
-function camClass(dur, ref){
-  let d=dur;
-  if(ref==="adv"){
-    if(d<250) return ["แรงบิด/ใช้งานถนน","เน้นต้น–กลาง เดินเบาง่าย เหมาะใช้งานทั่วไป","ประมาณ 1,000–5,500 rpm"];
-    if(d<270) return ["Street Performance","สมดุลแรงบิดกับรอบ เริ่มต้องการระบบไอดี/ไอเสียดีขึ้น","ประมาณ 1,800–6,500 rpm"];
-    if(d<290) return ["Sport / High RPM","เน้นกลาง–ปลาย เดินเบาเริ่มหยาบ กำลังอัดและฝาสูบมีผลมาก","ประมาณ 2,800–7,500 rpm"];
-    return ["Race / High RPM","เน้นรอบสูง ต้องจับคู่ฝาสูบ สปริงวาล์ว กำลังอัด และท่ออย่างจริงจัง","ประมาณ 4,000–9,000+ rpm"];
-  } else {
-    if(d<205) return ["Torque / Mild","เน้นแรงบิดต้น การตอบสนองและสุญญากาศดี","ประมาณ 1,000–4,800 rpm"];
-    if(d<216) return ["Street Torque","แรงบิดดี ใช้ถนนง่าย","ประมาณ 1,500–5,800 rpm"];
-    if(d<226) return ["Street Performance","ต้นยังใช้ได้ กลาง–ปลายเด่นขึ้น","ประมาณ 2,000–6,500 rpm"];
-    if(d<236) return ["Sport","เน้นกำลังช่วงกลาง–ปลาย","ประมาณ 2,800–7,200 rpm"];
-    if(d<246) return ["Race / High RPM","เน้นรอบสูง ต้องการฝาสูบและระบบวาล์วที่รองรับ","ประมาณ 3,500–8,200 rpm"];
-    return ["Full Race","รอบสูงมาก ช่วงกำลังแคบขึ้น ต้องเซ็ตทั้งระบบ","ประมาณ 4,500–9,500+ rpm"];
-  }
-}
-
-function calculate(){
-  const bore=n("bore"), stroke=n("stroke"), cyl=Math.max(1,n("cyl")), rod=n("rod");
-  const vd1=volumeCylinder(bore,stroke), total=vd1*cyl, targetCR=Math.max(1.01,n("targetCR"));
-  const desiredClear=vd1/(targetCR-1);
-  const recHead=desiredClear-gasketVol()-deckVol()-n("pistonVol");
-  const actualClear=totalClearanceFromHead(n("headCC"));
-  const actualCR=actualClear>0?(vd1+actualClear)/actualClear:NaN;
-
-  const ivc=n("ic");
-  const effStroke=pistonPosFromTDC(stroke,rod,180+ivc);
-  const effV=volumeCylinder(bore,effStroke);
-  const dcr=actualClear>0?(effV+actualClear)/actualClear:NaN;
-  const effFrac=vd1>0?effV/vd1:NaN;
-  const targetDCR=n("targetDCR");
-  const neededSCR=(effFrac>0)?1+(targetDCR-1)/effFrac:NaN;
-
-  const io=n("io"), ic=n("ic"), eo=n("eo"), ec=n("ec");
-  const inDur=180+io+ic, exDur=180+eo+ec;
-  const icl=inDur/2-io, ecl=exDur/2-ec, lsa=(icl+ecl)/2, overlap=io+ec, adv=lsa-icl;
-  const [character,desc,rpm]=camClass(inDur,$("timingRef").value);
-  const liftD=n("valveDia")>0?n("inLift")/n("valveDia"):NaN;
-
-  $("rDisp").textContent=fmt(total,1)+" cc";
-  $("rHead").textContent=fmt(recHead,2)+" cc";
-  $("rCR").textContent=fmt(actualCR,2)+":1";
-  $("rDCR").textContent=fmt(dcr,2)+":1";
-  $("rNeedCR").textContent=fmt(neededSCR,2)+":1";
-
-  $("rInDur").textContent=fmt(inDur,1)+"°";
-  $("rExDur").textContent=fmt(exDur,1)+"°";
-  $("rICL").textContent=fmt(icl,1)+"° ATDC";
-  $("rECL").textContent=fmt(ecl,1)+"° BTDC";
-  $("rLSA").textContent=fmt(lsa,1)+"°";
-  $("rOverlap").textContent=fmt(overlap,1)+"°";
-  $("rAdvance").textContent=(adv>=0?"+":"")+fmt(adv,1)+"°";
-
-  let crFlag="";
-  if(Number.isFinite(dcr)){
-    if(dcr<7.0) crFlag='<span class="pill">DCR ค่อนข้างต่ำ</span>';
-    else if(dcr<=8.5) crFlag='<span class="pill">DCR ช่วงใช้งานทั่วไป*</span>';
-    else crFlag='<span class="pill">DCR สูง — ต้องพิจารณาเชื้อเพลิง/น็อค*</span>';
-  }
-  $("analysis").innerHTML=
-    `<strong>${character}</strong><br>${desc}<br>
-     <span class="pill">${rpm}</span>
-     <span class="pill">IVC ${fmt(ivc,1)}° ABDC</span>
-     <span class="pill">Lift/D ${fmt(liftD,3)}</span>${crFlag}<br><br>
-     <strong>คำแนะนำการจับคู่:</strong> จาก IVC นี้ หากตั้งเป้า Dynamic CR ${fmt(targetDCR,2)}:1
-     โมเดลต้องการ Static CR ประมาณ <strong>${fmt(neededSCR,2)}:1</strong>.
-     ถ้าต้องการ Static CR ${fmt(targetCR,2)}:1 ห้องเผาไหม้ฝาสูบควรอยู่ประมาณ
-     <strong>${fmt(recHead,2)} cc/สูบ</strong> หลังหัก/บวกผลของปะเก็น, deck และรูปทรงหัวลูกสูบแล้ว.
-     <br><br><span style="color:#8291a4">*ไม่ใช่ค่า knock limit ตายตัว; เชื้อเพลิง, squish, อุณหภูมิ, รูปห้องเผาไหม้, ignition และ boost เปลี่ยนขีดจำกัดได้มาก</span>`;
-
-  drawCam();
-}
-function drawCam(){
-  const c=$("camCanvas"), ctx=c.getContext("2d"), W=c.width,H=c.height;
-  ctx.clearRect(0,0,W,H); ctx.fillStyle="#080d13";ctx.fillRect(0,0,W,H);
-  const pad=55, y1=115,y2=245, usable=W-pad*2;
-  const degToX=d=>pad+(d/720)*usable;
-  ctx.strokeStyle="#26384b";ctx.lineWidth=2;
-  [y1,y2].forEach(y=>{ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(W-pad,y);ctx.stroke()});
-  ctx.fillStyle="#8fa1b5";ctx.font="18px sans-serif";ctx.fillText("INTAKE",12,y1+6);ctx.fillText("EXHAUST",6,y2+6);
-  for(let d=0;d<=720;d+=90){
-    const x=degToX(d);ctx.strokeStyle=d%180===0?"#334a62":"#1a2837";ctx.lineWidth=1;
-    ctx.beginPath();ctx.moveTo(x,65);ctx.lineTo(x,300);ctx.stroke();
-    ctx.fillStyle="#708196";ctx.font="15px sans-serif";ctx.textAlign="center";ctx.fillText(d+"°",x,325)
-  }
-  // 0° = firing TDC. intake event straddles 720/0 for IO, then closes after BDC at 180+IC.
-  const io=n("io"),ic=n("ic"),eo=n("eo"),ec=n("ec");
-  function seg(a,b,y,color){
-    ctx.strokeStyle=color;ctx.lineWidth=18;ctx.lineCap="round";ctx.beginPath();ctx.moveTo(degToX(a),y);ctx.lineTo(degToX(b),y);ctx.stroke()
-  }
-  // Intake: IO before 0 is represented at 720-IO plus 0..180+IC
-  seg(0,180+ic,y1,"#37b7ff"); if(io>0) seg(720-io,720,y1,"#37b7ff");
-  // Exhaust: opens at 540-EO and closes after 720/0 by EC
-  seg(540-eo,720,y2,"#ff8a00"); if(ec>0) seg(0,ec,y2,"#ff8a00");
-  ctx.textAlign="left";ctx.fillStyle="#9fb0c2";ctx.font="14px sans-serif";
-  ctx.fillText(`IO ${fmt(io,1)} BTDC  •  IC ${fmt(ic,1)} ABDC`,pad,88);
-  ctx.fillText(`EO ${fmt(eo,1)} BBDC •  EC ${fmt(ec,1)} ATDC`,pad,218);
-}
-function showPage(id){
-  document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id===id));
-  document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.dataset.page===id));
-  if(id==="cam") drawCam();
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>showPage(b.dataset.page));
-$("calcBtn").onclick=()=>{calculate();showPage("result")};
-$("prevBtn").onclick=()=>{
-  const cur=document.querySelector(".page.active").id;
-  showPage(cur==="result"?"cam":cur==="cam"?"engine":"engine");
+const state={rpm:0,speed:0,battery:0,o2:0,inj:0,ign:0,coolant:0,tps:0,gear:0,afr:14.70,trip:0,ecuTemp:0};
+const defaults={broker:"wss://broker.emqx.io:8084/mqtt",device:"ANAN001",key:"ANAN26KLINE9X7P"};
+let cfg={
+  broker:localStorage.getItem("anan_broker")||defaults.broker,
+  device:localStorage.getItem("anan_device")||defaults.device,
+  key:localStorage.getItem("anan_key")||defaults.key
 };
-ids.forEach(id=>$(id).addEventListener("input",()=>{calculate(); if(id==="io"||id==="ic"||id==="eo"||id==="ec") drawCam()}));
-$("saveBtn").onclick=()=>{localStorage.setItem("ananCamPro",JSON.stringify(Object.fromEntries(ids.map(id=>[id,$(id).value]))));alert("บันทึกโปรเจกต์ในเครื่องแล้ว")};
-$("loadBtn").onclick=()=>{const d=JSON.parse(localStorage.getItem("ananCamPro")||"null");if(!d)return alert("ยังไม่มีโปรเจกต์ที่บันทึก");ids.forEach(id=>{if(d[id]!==undefined)$(id).value=d[id]});calculate();alert("โหลดโปรเจกต์แล้ว")};
-$("exportBtn").onclick=()=>{
- const d={app:"ANAN CAM & ENGINE PRO",savedAt:new Date().toISOString(),values:Object.fromEntries(ids.map(id=>[id,$(id).value]))};
- const blob=new Blob([JSON.stringify(d,null,2)],{type:"application/json"});const a=document.createElement("a");
- a.href=URL.createObjectURL(blob);a.download="ANAN_CAM_PROJECT.json";a.click();URL.revokeObjectURL(a.href)
-};
-$("resetBtn").onclick=()=>{if(confirm("ล้างค่ากลับค่าเริ่มต้น?"))location.reload()};
-calculate();
-if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}
+let demo=false, demoTimer=null, mqttClient=null, lastPacket=0;
+let gpsWatch=null, gpsOn=false, gpsSpeed=0, lastGps=null, gpsTripM=parseFloat(localStorage.getItem("anan_gps_trip")||"0")||0;
+
+function clamp(v,a,b){v=Number(v);return Number.isFinite(v)?Math.max(a,Math.min(b,v)):a}
+function fmt(v,d=0){return Number(v).toFixed(d)}
+function toast(t){const e=$("toast");e.textContent=t;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),1600)}
+function topic(){return `anan/kline/${cfg.device}/${cfg.key}/telemetry`}
+function setConn(text,mode="off"){
+  $("connText").textContent=text;
+  const d=document.querySelector(".statusDot");
+  d.classList.remove("off","wait");
+  if(mode==="off") d.classList.add("off");
+  if(mode==="wait") d.classList.add("wait");
+}
+function haversine(a,b){
+  const R=6371000, p=Math.PI/180;
+  const dLat=(b.lat-a.lat)*p,dLon=(b.lon-a.lon)*p;
+  const x=Math.sin(dLat/2)**2+Math.cos(a.lat*p)*Math.cos(b.lat*p)*Math.sin(dLon/2)**2;
+  return 2*R*Math.asin(Math.sqrt(x));
+}
+
+const scale=$("rpmScale"), nums=$("rpmNums");
+scale.innerHTML=""; nums.innerHTML="";
+for(let i=0;i<70;i++){const s=document.createElement("i");s.className="rpmSeg"+(i>=48?" red":"");scale.appendChild(s)}
+for(let i=0;i<=13;i++){const s=document.createElement("span");s.textContent=i;s.className=i>=10?"red":"";nums.appendChild(s)}
+
+function update(d={}){
+  Object.assign(state,d);
+  state.rpm=clamp(state.rpm,0,13000);
+  const displaySpeed=gpsOn?gpsSpeed:clamp(state.speed,0,399);
+  state.battery=clamp(state.battery,0,20);
+  state.o2=clamp(state.o2,0,2);
+  state.inj=clamp(state.inj,0,20);
+  state.ign=clamp(state.ign,-20,70);
+  state.coolant=clamp(state.coolant,-20,150);
+  state.tps=clamp(state.tps,0,100);
+  state.gear=Math.round(clamp(state.gear,0,6));
+  state.afr=clamp(state.afr,7,25);
+  $("rpmTop").textContent=fmt(state.rpm,0);
+  $("rpmCenter").textContent=fmt(state.rpm,0);
+  $("speed").textContent=fmt(displaySpeed,0);
+  $("battery").textContent=fmt(state.battery,1);
+  $("voltBottom").textContent=fmt(state.battery,1)+" V";
+  $("o2").textContent=fmt(state.o2,2);
+  $("inj").textContent=fmt(state.inj,2);
+  $("ign").textContent=fmt(state.ign,1).replace(".0","");
+  $("coolant").textContent=fmt(state.coolant,0);
+  $("tps").textContent=fmt(state.tps,0);
+  $("gear").textContent=state.gear===0?"N":state.gear;
+  $("afrEcu").textContent=fmt(state.afr,2);
+  $("trip").textContent=fmt(gpsOn?gpsTripM/1000:state.trip,1)+" km";
+  $("ecuTemp").textContent=fmt(state.ecuTemp,0)+" °C";
+  $("batteryBar").style.width=Math.min(100,state.battery/16*100)+"%";
+  $("coolantBar").style.width=Math.min(100,Math.max(0,(state.coolant+20)/170*100))+"%";
+  $("tpsBar").style.width=state.tps+"%";
+  $("o2Bar").style.width=Math.min(100,state.o2/1.5*100)+"%";
+  $("injBar").style.width=Math.min(100,state.inj/10*100)+"%";
+  $("ignBar").style.width=Math.min(100,Math.max(0,(state.ign+20)/90*100))+"%";
+  const segs=[...scale.children], onCount=Math.round(state.rpm/13000*segs.length);
+  segs.forEach((s,i)=>s.classList.toggle("on",i<onCount));
+}
+window.updateTelemetry=update;
+
+function demoTick(){
+  const t=Date.now()/1000, rpm=Math.max(900,4700+Math.sin(t*.72)*2600+Math.sin(t*1.83)*620);
+  update({
+    rpm, speed:112+Math.sin(t*.31)*62, battery:13.8+Math.sin(t*.22)*.22,
+    o2:.74+Math.sin(t*1.45)*.16, inj:2.1+(rpm/13000)*2.9,
+    ign:19+Math.sin(t*.58)*7, coolant:87+Math.sin(t*.11)*3,
+    tps:48+Math.sin(t*.67)*34, gear:Math.max(1,Math.min(6,Math.round((112+Math.sin(t*.31)*62)/42))),
+    afr:13.2+Math.sin(t*.8)*1.15, ecuTemp:44+Math.sin(t*.1)*2
+  });
+}
+function setDemo(on){
+  demo=on; $("demoBtn").classList.toggle("active",on);
+  if(demoTimer){clearInterval(demoTimer);demoTimer=null}
+  if(on){demoTimer=setInterval(demoTick,120);demoTick();setConn("DEMO DATA • DASHBOARD TEST","wait")}
+  else if(mqttClient?.connected) setConn("MQTT CONNECTED • WAITING ESP32");
+}
+function connectMQTT(){
+  if(typeof mqtt==="undefined"){setConn("MQTT LIBRARY LOAD ERROR","off");toast("โหลด MQTT ไม่สำเร็จ");return}
+  try{if(mqttClient) mqttClient.end(true)}catch(e){}
+  setConn("CONNECTING MQTT...","wait");
+  mqttClient=mqtt.connect(cfg.broker,{
+    clientId:"anan_web_"+Math.random().toString(16).slice(2),
+    clean:true, reconnectPeriod:2000, connectTimeout:10000, keepalive:20
+  });
+  mqttClient.on("connect",()=>{
+    mqttClient.subscribe(topic(),{qos:0},err=>{
+      if(err) setConn("MQTT SUBSCRIBE ERROR","off");
+      else{setConn("MQTT CONNECTED • WAITING ESP32","wait");toast("เชื่อม MQTT แล้ว")}
+    });
+  });
+  mqttClient.on("reconnect",()=>setConn("MQTT RECONNECTING...","wait"));
+  mqttClient.on("offline",()=>setConn("MQTT OFFLINE","off"));
+  mqttClient.on("error",()=>setConn("MQTT CONNECTION ERROR","off"));
+  mqttClient.on("message",(tp,msg)=>{
+    if(tp!==topic())return;
+    try{
+      const p=JSON.parse(msg.toString());
+      const d=p.data||p;
+      lastPacket=Date.now();
+      if(demo) setDemo(false);
+      update(d);
+      setConn("HONDA K-LINE • ESP32 • LIVE");
+    }catch(e){}
+  });
+}
+setInterval(()=>{
+  if(!demo && lastPacket && Date.now()-lastPacket>3000 && mqttClient?.connected) setConn("MQTT CONNECTED • ESP32 NO DATA","wait");
+},1000);
+
+function startGPS(){
+  if(!navigator.geolocation){toast("อุปกรณ์ไม่รองรับ GPS");return}
+  if(gpsWatch!==null)return;
+  $("gpsText").textContent="GPS CONNECTING";
+  gpsWatch=navigator.geolocation.watchPosition(pos=>{
+    const c=pos.coords, now=pos.timestamp||Date.now();
+    let sp=Number.isFinite(c.speed)?Math.max(0,c.speed*3.6):null;
+    const point={lat:c.latitude,lon:c.longitude,t:now};
+    if(lastGps && c.accuracy<=50){
+      const dist=haversine(lastGps,point), dt=(now-lastGps.t)/1000;
+      if(dist>=1 && dist<200) gpsTripM+=dist;
+      if(sp===null && dt>.3 && dt<10) sp=dist/dt*3.6;
+    }
+    lastGps=point;
+    gpsSpeed=clamp(sp??gpsSpeed,0,399);
+    gpsOn=true;
+    localStorage.setItem("anan_gps_trip",String(gpsTripM));
+    $("gpsDot").classList.add("on");
+    $("gpsText").textContent=`GPS ${Math.round(c.accuracy)}m`;
+    $("gpsBtn").classList.add("good");
+    update();
+  },err=>{
+    $("gpsText").textContent="GPS DENIED/OFF";
+    $("gpsDot").classList.remove("on");
+    $("gpsBtn").classList.remove("good");
+    toast("อนุญาต Location ให้ Safari/Chrome");
+  },{enableHighAccuracy:true,maximumAge:500,timeout:10000});
+}
+function stopGPS(){
+  if(gpsWatch!==null) navigator.geolocation.clearWatch(gpsWatch);
+  gpsWatch=null;gpsOn=false;lastGps=null;gpsSpeed=0;
+  $("gpsDot").classList.remove("on");$("gpsText").textContent="GPS OFF";$("gpsBtn").classList.remove("good");update();
+}
+
+function openSetup(){
+  $("cfgDevice").value=cfg.device;$("cfgKey").value=cfg.key;$("cfgBroker").value=cfg.broker;
+  $("topicPreview").textContent=topic();$("setupShade").classList.add("show");
+}
+function closeSetup(){$("setupShade").classList.remove("show")}
+$("cfgDevice").addEventListener("input",()=>$("topicPreview").textContent=`anan/kline/${$("cfgDevice").value.trim()}/${$("cfgKey").value.trim()}/telemetry`);
+$("cfgKey").addEventListener("input",()=>$("topicPreview").textContent=`anan/kline/${$("cfgDevice").value.trim()}/${$("cfgKey").value.trim()}/telemetry`);
+$("cfgSave").addEventListener("click",()=>{
+  cfg.device=$("cfgDevice").value.trim()||defaults.device;
+  cfg.key=$("cfgKey").value.trim()||defaults.key;
+  cfg.broker=$("cfgBroker").value.trim()||defaults.broker;
+  localStorage.setItem("anan_device",cfg.device);localStorage.setItem("anan_key",cfg.key);localStorage.setItem("anan_broker",cfg.broker);
+  closeSetup();connectMQTT();
+});
+$("cfgClose").addEventListener("click",closeSetup);
+$("cfgGps").addEventListener("click",startGPS);
+$("setupBtn").addEventListener("click",openSetup);
+$("gpsBtn").addEventListener("click",()=>gpsOn?stopGPS():startGPS());
+$("demoBtn").addEventListener("click",()=>setDemo(!demo));
+$("zeroBtn").addEventListener("click",()=>{
+  setDemo(false);gpsTripM=0;localStorage.setItem("anan_gps_trip","0");
+  update({rpm:0,speed:0,battery:0,o2:0,inj:0,ign:0,coolant:0,tps:0,gear:0,afr:14.7,trip:0,ecuTemp:0});
+});
+setInterval(()=>{$("clock").textContent=new Date().toLocaleTimeString("th-TH",{hour:"2-digit",minute:"2-digit",hour12:false})},1000);
+$("topicPreview").textContent=topic();
+update();connectMQTT();
+})();
+if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}))}
 </script>
-</body></html>
+</body>
+</html>
