@@ -7,101 +7,287 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="K-LINE LIVE">
-<meta name="format-detection" content="telephone=no">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>ANAN K-LINE DASH LIVE V2.21</title>
+<meta name="format-detection" content="telephone=no">
+<title>ANAN K-LINE DASH LIVE V2.33 DEMO</title>
 <style>
-:root{--bg:#010101;--line:#272727;--line2:#353535;--text:#f4f4f1;--muted:#9f9f9f;--muted2:#6d6d6d;--red:#e40d13;--red2:#ae080d;--blue:#7fbed9;--green:#6ead54}
+:root{--bg:#040404;--text:#f7f7f3;--red:#ef121b;--green:#6ead54;--card-bg:#080808}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;width:100%;height:100%;background:#000;color:var(--text);overflow:hidden;font-family:"Helvetica Neue",Arial,sans-serif;font-style:italic;-webkit-text-size-adjust:100%;text-size-adjust:100%} body{position:relative;overscroll-behavior:none;-webkit-user-select:none;user-select:none}
+html,body{margin:0;width:100%;height:100%;background:#000;color:var(--text);overflow:hidden;font-family:"Helvetica Neue",Arial,sans-serif;font-style:italic;-webkit-text-size-adjust:100%;text-size-adjust:100%} 
+body{position:relative;overscroll-behavior:none;-webkit-user-select:none;user-select:none}
 body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
 button,input,select{font:inherit}
+
 #viewport{position:fixed;inset:0;overflow:hidden;background:#000;width:100dvw;height:100dvh;padding:max(env(safe-area-inset-top),0px) max(env(safe-area-inset-right),0px) max(env(safe-area-inset-bottom),0px) max(env(safe-area-inset-left),0px)}
 #fitBox{position:absolute;inset:0;overflow:hidden}
-#app{position:absolute;inset:0;width:100%;height:100%;box-sizing:border-box;padding:clamp(4px,1.0dvh,10px) clamp(7px,1.0dvw,18px) clamp(4px,.65dvh,8px);display:grid;grid-template-rows:minmax(92px,26dvh) minmax(190px,53dvh) minmax(56px,15dvh) minmax(24px,6dvh);background:repeating-linear-gradient(0deg,rgba(255,255,255,.013) 0 1px,transparent 1px 3px),radial-gradient(ellipse at 50% 58%,rgba(255,255,255,.022),transparent 38%),#010101;overflow:hidden}
-#app:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.34),transparent 18%,transparent 82%,rgba(0,0,0,.34))}
+#app{position:absolute;inset:0;width:100%;height:100%;box-sizing:border-box;padding:clamp(6px,1.5dvh,12px) clamp(10px,2dvw,24px) clamp(6px,.8dvh,10px);display:grid;grid-template-rows:minmax(90px,20dvh) minmax(220px,62dvh) minmax(40px,11dvh) minmax(25px,7dvh);background:radial-gradient(ellipse at center, rgba(15,15,18,1) 0%, rgba(0,0,0,1) 100%);overflow:hidden;gap:1dvh}
+
+/* Sharp Glass Glare Effect */
+#glare {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 50; pointer-events: none;
+    clip-path: polygon(0 0, 52% 0, 36% 100%, 0 100%);
+    background: linear-gradient(to right, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.01) 98%, rgba(255,255,255,0.08) 100%);
+}
+
 .rotate{display:none;position:fixed;inset:0;z-index:999;background:#030303;align-items:center;justify-content:center;text-align:center;padding:24px}.rotate div{border:1px solid #292929;padding:22px 28px;border-radius:6px}.rotate b{font-size:21px}.rotate p{color:#767676;margin:8px 0 0}
 @media(orientation:portrait){.rotate{display:flex}}
 
 /* Top RPM */
-.top{display:grid;grid-template-columns:minmax(0,1fr) clamp(82px,10.5%,150px);gap:clamp(5px,.7vw,12px);align-items:start;z-index:2;min-width:0;min-height:0}
-.topLeft{display:grid;grid-template-rows:12% 65% 18%;height:100%;min-width:0;min-height:0}
-.rpmTitle{display:flex;justify-content:center;align-items:flex-end;font-size:clamp(9px,1.7dvh,16px);color:#d6d6d6;letter-spacing:.02em;margin-bottom:.05dvh}
-.rpmBlocks{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:clamp(1px,.12vw,3px);align-items:stretch;height:100%;min-width:0}
-.block{position:relative;border:1px solid rgba(255,255,255,.28);background-color:rgba(160,160,160,.10);background-image:radial-gradient(circle at 1px 1px, rgba(255,255,255,.40) .7px, rgba(255,255,255,0) .9px);background-size:4px 4px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.02);min-height:100%;backdrop-filter:blur(1px)}
-.block.active{background-color:rgba(216,216,212,.58);border-color:rgba(255,255,255,.58);background-image:radial-gradient(circle at 1px 1px, rgba(80,80,80,.22) .7px, rgba(255,255,255,0) .9px);background-size:4px 4px}
-.block.red{border-color:rgba(255,65,70,.55);background-color:rgba(70,0,0,.12);background-image:radial-gradient(circle at 1px 1px, rgba(255,55,55,.35) .7px, rgba(255,0,0,0) .9px);background-size:4px 4px}
-.block.red.active{background-color:rgba(196,11,17,.50);border-color:rgba(255,72,78,.82);background-image:radial-gradient(circle at 1px 1px, rgba(60,0,0,.20) .7px, rgba(255,0,0,0) .9px);background-size:4px 4px}
-.rpmLabels{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));align-items:start;font-size:clamp(13px,3.2dvh,26px);color:#f2f2ef;margin-top:.05dvh;min-width:0}
-.rpmLabels span{position:relative;line-height:1;text-align:left}
-.rpmLabels span:before,.rpmLabels span:after{content:"";position:absolute;top:-.92vh;width:1px;height:.52vh;background:#4a4a4a;opacity:.74}.rpmLabels span:before{left:12%}.rpmLabels span:after{right:12%}
-.rpmLabels .red{color:var(--red)}
-.rpmBox{height:82%;min-height:0;border:1px solid #d51117;border-radius:clamp(4px,.7vw,8px);background-color:#180303;background-image:radial-gradient(circle at 1px 1px,rgba(255,55,55,.35) .7px,rgba(255,0,0,0) .9px);background-size:4px 4px;display:flex;flex-direction:column;justify-content:center;align-items:center;box-shadow:inset 0 0 20px rgba(255,0,0,.10);overflow:hidden}
-.rpmBox .n{font-size:clamp(30px,8.5dvh,64px);font-weight:650;line-height:.88}.rpmBox .u{font-size:clamp(13px,3.2dvh,24px);color:#f5f5f4;line-height:1.08;font-weight:650}
+.top{display:grid;grid-template-columns:minmax(0,1fr) clamp(100px,14%,200px);gap:clamp(10px,1.5vw,20px);align-items:start;z-index:2;min-width:0;min-height:0;height:100%}
+.topLeft{display:grid;grid-template-rows:12% 65% 23%;height:100%;min-width:0;min-height:0}
+.rpmTitle{display:flex;justify-content:center;align-items:flex-end;font-size:clamp(10px,1.8dvh,14px);color:#8892a0;letter-spacing:1px;font-weight:400;margin-bottom:4px}
+.rpmBlocksWrap{position:relative;height:100%;border:1px solid rgba(255,255,255,0.15);padding:2px;background:#080808;display:flex;overflow:hidden;border-radius:2px;box-shadow: 0 5px 15px rgba(0,0,0,0.8)}
+.rpmBlocks{display:grid;grid-template-columns:repeat(13,minmax(0,1fr));gap:3px;align-items:stretch;width:100%;height:100%}
+
+/* SCI-FI Energy Flow Scan */
+.rpmBlocksWrap::after {
+    content: ""; position: absolute; top: 0; left: 0; bottom: 0; width: 150px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: energyScan 1.2s infinite cubic-bezier(0.25, 1, 0.5, 1); z-index: 6; pointer-events: none; mix-blend-mode: overlay;
+}
+@keyframes energyScan {
+    0% { transform: translateX(-150px); }
+    100% { transform: translateX(1200px); }
+}
+
+/* SCI-FI Solid White RPM Bar */
+.block{position:relative;background-color:#1a1a1a;background-image:radial-gradient(circle at 1px 1px, rgba(255,255,255,.05) 1px, transparent 1px);background-size:3px 3px;min-height:100%; transition: 0.05s; border-radius:1px}
+.block.active{background-color:#ffffff;background-image:none;box-shadow:0 0 12px rgba(255,255,255,0.6);border:1px solid #ffffff;}
+.block.red{background-color:#2a0505;background-image:radial-gradient(circle at 1px 1px, rgba(255,50,50,.1) 1px, transparent 1px);}
+.block.red.active{background-color:#ff1a1a;background-image:none;box-shadow:0 0 15px rgba(255,0,0,0.7);border:1px solid #ff4a4a;}
+
+/* Plasma Tip Effect (The Leading Edge) */
+.block.current-active {
+    background: #ffffff;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 1), inset 0 0 10px rgba(100, 200, 255, 0.8);
+}
+.block.red.current-active {
+    background: #ff3333;
+    box-shadow: 0 0 25px rgba(255, 0, 0, 1), inset 0 0 10px rgba(255,100,100,0.8);
+}
+
+/* Glowing Thruster Flare */
+.block.current-active::after {
+    content: ""; position: absolute; right: -3px; top: -10%; bottom: -10%; width: 5px;
+    background: #fff; border-radius: 10px; box-shadow: 0 0 10px 3px #fff, 0 0 25px 8px rgba(150, 220, 255, 0.9); z-index: 10;
+    animation: pulseFlare 0.05s alternate infinite;
+}
+.block.red.current-active::after {
+    box-shadow: 0 0 10px 3px #fff, 0 0 25px 8px #ff0000;
+}
+@keyframes pulseFlare {
+    0% { opacity: 0.8; transform: scaleX(1) scaleY(0.95); }
+    100% { opacity: 1; transform: scaleX(1.3) scaleY(1.05); }
+}
+
+.rpmLabels{display:flex;justify-content:space-between;align-items:flex-start;width:100%;height:100%;position:relative;padding-top:6px}
+.rpmLabels span{font-size:clamp(12px,2.8dvh,20px);color:#d0d5db;font-weight:400;line-height:1;position:relative;display:flex;justify-content:center;width:0}
+.rpmLabels span:before{content:"";position:absolute;top:-6px;width:1px;height:5px;background:rgba(255,255,255,0.3);}
+.rpmLabels .red{color:var(--red); text-shadow: 0 0 8px rgba(255,0,0,0.5);}
+
+.rpmBox{height:85%;min-height:0;border:1px solid rgba(255,60,80,0.6);border-radius:4px;background:linear-gradient(145deg, rgba(30,5,5,1), rgba(10,0,0,1));background-image:radial-gradient(circle at 1px 1px,rgba(255,50,50,.15) 1px,transparent 1px);background-size:4px 4px;display:flex;flex-direction:column;justify-content:center;align-items:center;box-shadow:inset 0 0 25px rgba(255,0,0,.2), 0 5px 15px rgba(0,0,0,0.8);align-self:center;position:relative;overflow:hidden;}
+.rpmBox::before {content:"";position:absolute;top:0;left:0;right:0;height:40%;background:linear-gradient(to bottom, rgba(255,100,100,0.1), transparent);pointer-events:none;}
+.rpmBox .n{font-size:clamp(36px,9.5dvh,68px);font-weight:500;line-height:0.9;color:#fff;text-shadow:0 0 15px rgba(255,100,100,0.6);letter-spacing:-1px}
+.rpmBox .u{font-size:clamp(11px,2.2dvh,16px);color:#ffa0a0;line-height:1;font-weight:400;letter-spacing:2px;margin-top:4px}
 
 /* Middle */
-.middle{display:grid;grid-template-columns:clamp(175px,22.7%,355px) minmax(0,1fr) clamp(175px,22.7%,355px);gap:clamp(5px,.7vw,12px);align-items:stretch;z-index:2;min-width:0;min-height:0}
-.side{display:grid;grid-template-rows:repeat(3,minmax(0,1fr));gap:clamp(4px,.8dvh,10px);padding-top:clamp(2px,.5dvh,6px);min-height:0}
-.card{position:relative;border:1px solid #2b2b2b;background:rgba(4,4,4,.66);clip-path:polygon(0 0,100% 0,100% 84%,94% 100%,0 100%);display:grid;grid-template-columns:21% minmax(0,1fr);min-height:0;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.018)}
-.card .iconWrap{display:flex;align-items:center;justify-content:center;position:relative}.card .iconWrap:after{content:"";position:absolute;right:0;top:14%;bottom:14%;width:1px;background:#3a3a3a}
-.card .iconWrap svg{width:clamp(20px,5.2dvh,40px);height:clamp(20px,5.2dvh,40px);stroke:#f5f5f3;fill:none;stroke-width:1.55;stroke-linecap:round;stroke-linejoin:round;max-height:80%;opacity:.96}
-.card .body{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 clamp(4px,.5vw,9px);min-width:0;overflow:hidden}.label{font-size:clamp(10px,2.25dvh,17px);color:#ececec;letter-spacing:.02em;white-space:nowrap;width:100%;text-align:center;font-weight:700}.valueRow{display:flex;align-items:baseline;justify-content:center;gap:clamp(3px,.35vw,7px);margin-top:.15dvh;width:100%;min-width:0}.value{font-size:clamp(23px,6.4dvh,48px);font-weight:700;line-height:.95;color:#fff}.unit{font-size:clamp(10px,2.35dvh,18px);color:#d6d6d6;font-style:italic;font-weight:650}.bar{height:clamp(3px,.55dvh,5px);background:#1c1c1c;margin-top:clamp(2px,.45dvh,5px);display:flex;width:90%;align-self:center}.bar i{display:block;height:100%;background:#dcdcdc}.bar.cool i{background:linear-gradient(90deg,#dcdcdc 0 90%,#d70a10 90%)}.bar.blue i{background:#7db7d1}.scale{display:flex;justify-content:space-between;color:#a8a8a8;font-size:clamp(9px,1.9dvh,14px);line-height:1;margin-top:clamp(1px,.16dvh,3px);width:90%;align-self:center;font-weight:650}
-.center{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;min-width:0;min-height:0;padding-bottom:.5dvh}.center .kph{font-size:clamp(18px,4.3dvh,34px);color:#ababab;letter-spacing:.06em;font-weight:700;margin-bottom:0}.center .speed{font-size:clamp(86px,26dvh,210px);line-height:.82;font-weight:700;letter-spacing:-.075em;color:#f8f8f5;text-shadow:0 0 10px rgba(255,255,255,.03);max-width:100%;white-space:nowrap}.center .km{font-size:clamp(15px,3.5dvh,26px);color:#909090;font-style:italic;margin-top:.2dvh;font-weight:650}.center:after{content:"";position:absolute;left:12%;right:12%;bottom:7%;height:16%;background:radial-gradient(ellipse at center,rgba(255,255,255,.22),transparent 65%),repeating-linear-gradient(90deg,rgba(255,255,255,.045) 0 1px,transparent 1px 6px);filter:blur(1px);opacity:.62}
+.middle{display:grid;grid-template-columns:clamp(200px,26%,380px) minmax(0,1fr) clamp(200px,26%,380px);gap:clamp(10px,2vw,24px);align-items:stretch;z-index:2;min-width:0;min-height:0;}
+.side{display:grid;grid-template-rows:repeat(3,minmax(0,1fr));gap:clamp(10px,1.8dvh,20px);min-height:0}
 
-/* Bottom */
-.bottom{position:relative;margin-top:.3dvh;clip-path:polygon(4% 0,96% 0,100% 100%,0 100%);border:1px solid #272727;background:linear-gradient(180deg,#080808,#040404);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));z-index:2;min-width:0;min-height:0;overflow:hidden}.bottom:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.012) 0 1px,transparent 1px 3px);pointer-events:none}.bItem{position:relative;display:flex;align-items:center;justify-content:center;gap:clamp(4px,.5vw,9px);min-width:0}.bItem:not(:last-child):after{content:"";position:absolute;right:0;top:23%;bottom:23%;width:2px;background:linear-gradient(180deg,transparent 0 23%,rgba(228,13,19,.95) 23% 77%,transparent 77% 100%)}.bKey{font-size:clamp(11px,2.4dvh,18px);color:#e1e1e1;letter-spacing:.01em;font-weight:700}.bVal{font-size:clamp(23px,5.5dvh,42px);color:#fff;font-weight:700;line-height:1}.bUnit{font-size:clamp(10px,2.15dvh,16px);color:#d5d5d5;font-style:italic;font-weight:650}
+/* Premium Chamfered Cards */
+.c-wrap-l {position:relative;background:linear-gradient(135deg, rgba(120,180,255,0.4) 0%, rgba(255,255,255,0.02) 40%, rgba(255,255,255,0.1) 100%);padding:1px;clip-path:polygon(0 0, calc(100% - 16px) 0, 100% 25%, 100% 75%, calc(100% - 16px) 100%, 0 100%);height:100%;box-shadow:0 15px 30px rgba(0,0,0,0.9)}
+.c-in-l {position:relative;width:100%;height:100%;background:linear-gradient(150deg, rgba(25,26,28,0.95), rgba(5,5,5,0.98));clip-path:polygon(0 0, calc(100% - 15px) 0, 100% 25%, 100% 75%, calc(100% - 15px) 100%, 0 100%);display:flex;box-shadow:inset 0 0 20px rgba(0,0,0,0.8)}
+
+.c-wrap-r {position:relative;background:linear-gradient(-135deg, rgba(120,180,255,0.4) 0%, rgba(255,255,255,0.02) 40%, rgba(255,255,255,0.1) 100%);padding:1px;clip-path:polygon(16px 0, 100% 0, 100% 100%, 16px 100%, 0 75%, 0 25%);height:100%;box-shadow:0 15px 30px rgba(0,0,0,0.9)}
+.c-in-r {position:relative;width:100%;height:100%;background:linear-gradient(-150deg, rgba(25,26,28,0.95), rgba(5,5,5,0.98));clip-path:polygon(15px 0, 100% 0, 100% 100%, 15px 100%, 0 75%, 0 25%);display:flex;box-shadow:inset 0 0 20px rgba(0,0,0,0.8)}
+
+.iconWrap{width:25%;display:flex;align-items:center;justify-content:center;position:relative}
+.iconWrap::after{content:"";position:absolute;right:0;top:15%;bottom:15%;width:2px;background:linear-gradient(to bottom, transparent, rgba(255,255,255,0.15) 50%, transparent);}
+.iconWrap svg{width:clamp(22px,4.8dvh,38px);height:clamp(22px,4.8dvh,38px);stroke:#7a8a9e;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round; filter:drop-shadow(0 0 5px rgba(120,180,255,0.2))}
+
+.dataWrap{width:75%;display:flex;flex-direction:column;padding:clamp(4px,1dvh,10px) clamp(12px,1.8vw,20px);position:relative;justify-content:center}
+.label{font-size:clamp(10px,2.1dvh,14px);color:#8892a0;letter-spacing:.08em;text-align:left;font-weight:400;margin-bottom:4px}
+.valueRow{display:flex;align-items:baseline;justify-content:flex-start;gap:6px;margin-bottom:14px; position:relative; z-index:2;}
+.value{font-size:clamp(28px,6.5dvh,48px);font-weight:400;line-height:.9;color:#fff; font-variant-numeric: tabular-nums; text-shadow: 0 2px 10px rgba(255,255,255,0.2)}
+.unit{font-size:clamp(11px,2.2dvh,16px);color:#6c7a8c;font-weight:400; font-style: italic;}
+
+/* Improved Bar System */
+.scaleRow{display:flex;justify-content:space-between;width:calc(100% - 30px);font-size:clamp(9px,1.8dvh,12px);color:#556270;position:absolute;bottom:clamp(12px,2dvh,16px);left:15px;z-index:2;align-items:center}
+.barTrack{position:absolute;bottom:6px;left:15px;width:calc(100% - 30px);height:5px;background:rgba(0,0,0,0.6);z-index:3; border-radius:3px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.8), 0 1px 0 rgba(255,255,255,0.05);}
+.barFill{height:100%;background:linear-gradient(90deg, rgba(200,200,200,0.3), #ffffff);box-shadow:0 0 8px rgba(255,255,255,0.5);transition:width 0.1s; border-radius:3px;}
+.barFill.cool{background:linear-gradient(90deg, rgba(17,139,244,0.3), #118bf4);box-shadow:0 0 8px rgba(17,139,244,0.6);}
+.cardGlow{position:absolute;bottom:0;left:0;width:100%;height:60%;background:linear-gradient(to top, rgba(255,255,255,0.03), transparent);z-index:1;pointer-events:none}
+.cardGlow.cool{background:linear-gradient(to top, rgba(17,139,244,0.08), transparent);}
+
+/* Center Speed */
+.center{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2;margin-top:-2dvh}
+.center .kph{font-size:clamp(18px,3.8dvh,30px);color:#8892a0;letter-spacing:3px;font-weight:400;margin-bottom:0; z-index:5;}
+.center .speed{font-size:clamp(90px,28dvh,220px);line-height:.75;font-weight:400;letter-spacing:-3px;color:#fff;text-shadow:0 0 50px rgba(150, 200, 255, 0.4), 0 0 20px rgba(255, 255, 255, 0.3); z-index:5; font-variant-numeric: tabular-nums;}
+/* Silver Glow Effect */
+.center:after{content:"";position:absolute;left:5%;right:5%;bottom:-10%;height:50%;background:radial-gradient(ellipse at center, rgba(150, 190, 240, 0.25), transparent 70%),repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 4px);filter:blur(3px);opacity:.8; z-index:1; pointer-events: none;}
+
+/* Bottom Trapezoid */
+.b-wrap {position:relative;width:100%;height:100%;background:linear-gradient(180deg, rgba(120,180,255,0.3), rgba(255,255,255,0.05));padding:1px 1px 0 1px;clip-path:polygon(30px 0, calc(100% - 30px) 0, 100% 100%, 0 100%);z-index:2; box-shadow: 0 10px 20px rgba(0,0,0,0.8)}
+.b-in {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;height:100%;background:linear-gradient(90deg, #050508 0%, #15161a 50%, #050508 100%);clip-path:polygon(29px 0, calc(100% - 29px) 0, 100% 100%, 0 100%);align-items:center; box-shadow: inset 0 0 20px rgba(0,0,0,0.9)}
+.bItem{display:flex;align-items:baseline;justify-content:center;gap:clamp(6px,1vw,10px);position:relative}
+.bItem:not(:last-child):after{content:"";position:absolute;right:0;top:20%;bottom:20%;width:2px;background:linear-gradient(to bottom, transparent, rgba(255,255,255,0.1) 50%, transparent);}
+.bKey{font-size:clamp(10px,2dvh,14px);color:#8892a0;letter-spacing:1px;font-weight:400}
+.bVal{font-size:clamp(22px,4.5dvh,34px);color:#fff;font-weight:400;line-height:1; font-variant-numeric: tabular-nums; text-shadow: 0 0 10px rgba(255,255,255,0.2)}
+.bUnit{font-size:clamp(10px,1.8dvh,13px);color:#6c7a8c;font-weight:400}
 
 /* Status / setup */
-.status{display:flex;align-items:center;justify-content:space-between;padding-top:.15dvh;border-top:1px solid #111;z-index:2;min-height:0;min-width:0}.leftStatus{display:flex;align-items:center;gap:clamp(3px,.3vw,6px);color:#8c8c8c;font-size:clamp(9px,1.75dvh,13px);font-weight:700;min-width:0;white-space:nowrap}.dot{width:.62vw;height:.62vw;border-radius:50%;background:#6b1a1a;box-shadow:0 0 8px rgba(180,40,40,.25)}.dot.live{background:var(--green)}.gpsdot{background:#555}.gpsdot.live{background:var(--green)}.btns{display:flex;gap:.5vw;align-items:center}.btns button{min-width:clamp(42px,6vw,72px);height:clamp(20px,4.1dvh,30px);border:1px solid #262626;border-radius:4px;background:#040404;color:#767676;font-size:clamp(9px,1.75dvh,13px);font-style:italic;font-weight:700}.btns button.active{color:#ddd;border-color:#4a4a4a}.btns button.gpson{color:#78aa64;border-color:#36552d}.btns .gearBtn{min-width:clamp(24px,4dvh,32px);width:clamp(24px,4dvh,32px);padding:0;display:flex;align-items:center;justify-content:center;border-radius:50%;line-height:1}.btns .gearBtn svg{width:clamp(12px,2.5dvh,18px);height:clamp(12px,2.5dvh,18px);stroke:#cfcfcf;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.setupShade{display:none;position:absolute;inset:0;z-index:90;background:rgba(0,0,0,.84);backdrop-filter:blur(8px);align-items:center;justify-content:center}.setupShade.show{display:flex}.setupPanel{width:min(660px,84vw);background:#060606;border:1px solid #292929;border-radius:6px;padding:18px}.setupPanel h2{margin:0 0 5px;font-size:18px;font-weight:500;letter-spacing:.04em}.setupPanel p{margin:0 0 14px;color:#777;font-size:11px;line-height:1.45}.setupGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.setupField{border:1px solid #232323;padding:8px;background:#030303}.setupField.wide{grid-column:1/-1}.setupField label{display:block;color:#6f6f6f;font-size:9px;margin-bottom:5px;letter-spacing:.08em}.setupField input,.setupField select{width:100%;background:transparent;border:0;outline:0;color:#ddd;font-size:13px}.setupField select option{background:#111;color:#ddd}.setupActions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:10px}.setupActions button{border:1px solid #292929;background:#090909;color:#aaa;padding:9px}.setupActions .save{border-color:#5d0a0c;color:#e14448}.setupNote{margin-top:9px;color:#555;font-size:9px;line-height:1.5}
-#toast{position:absolute;right:2.5vw;top:1.6vh;z-index:120;border:1px solid #2c2c2c;background:#080808;color:#aaa;padding:.6vh .7vw;font-size:.75vw;opacity:0;transition:.2s;pointer-events:none}#toast.show{opacity:1}
+.status{display:flex;align-items:center;justify-content:space-between;z-index:2;padding:0 15px;border-top:1px solid rgba(255,255,255,0.05);}
+.leftStatus{display:flex;align-items:center;gap:clamp(4px,.5vw,8px);color:#6c7a8c;font-size:clamp(9px,1.6dvh,12px);font-weight:400;letter-spacing:0.5px}
+.dot{width:6px;height:6px;border-radius:50%;background:#ef121b;box-shadow:0 0 6px rgba(239,18,27,.6)}
+.dot.live{background:var(--green);box-shadow:0 0 8px var(--green)}
+.gpsdot{background:#444;box-shadow:none;}
+.gpsdot.live{background:var(--green);box-shadow:0 0 8px var(--green)}
+.btns{display:flex;gap:1vw;align-items:center}
+.btns button{min-width:clamp(45px,6vw,70px);height:clamp(22px,4dvh,30px);border:1px solid rgba(255,255,255,0.1);border-radius:4px;background:rgba(20,20,20,0.8);color:#aaa;font-size:clamp(10px,1.8dvh,13px);cursor:pointer;transition:all 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.5)}
+.btns button:hover{background:rgba(255,255,255,0.1);color:#fff}
+.btns button.gpson{color:#fff;border-color:rgba(100,200,255,0.5); background:rgba(100,200,255,0.1); box-shadow: 0 0 10px rgba(100,200,255,0.2)}
+.btns .gearBtn{width:auto;padding:0 10px;display:flex;align-items:center;justify-content:center;gap:6px;background:transparent;border:none; box-shadow:none}
+.btns .gearBtn:hover{background:rgba(255,255,255,0.05)}
+.btns .gearBtn svg{width:clamp(14px,2.5dvh,18px);height:clamp(14px,2.5dvh,18px);stroke:#aaa;fill:none;stroke-width:1.5;}
+
+.setupShade{display:none;position:absolute;inset:0;z-index:90;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);align-items:center;justify-content:center}.setupShade.show{display:flex}.setupPanel{width:min(600px,85vw);background:#0a0a0c;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:20px;box-shadow:0 15px 40px rgba(0,0,0,0.9)}.setupPanel h2{margin:0 0 5px;font-size:18px;font-weight:400;color:#fff; letter-spacing:1px}.setupPanel p{margin:0 0 15px;color:#8892a0;font-size:12px}.setupGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.setupField{border:1px solid rgba(255,255,255,0.05);padding:10px;background:rgba(0,0,0,0.5);border-radius:4px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.5)}.setupField.wide{grid-column:1/-1}.setupField label{display:block;color:#6c7a8c;font-size:10px;margin-bottom:6px;letter-spacing:1px}.setupField input,.setupField select{width:100%;background:transparent;border:0;outline:0;color:#fff;font-size:14px;font-family:inherit;font-style:italic}.setupField select option{background:#111;color:#ddd}.setupActions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:20px}.setupActions button{border:1px solid rgba(255,255,255,0.1);background:rgba(20,20,20,0.8);color:#ccc;padding:12px;border-radius:4px; transition:0.2s}.setupActions button:hover{background:rgba(255,255,255,0.1); color:#fff}.setupActions .save{border-color:rgba(255,50,50,0.5);color:#ff4444;background:rgba(50,5,5,0.5); box-shadow: 0 0 10px rgba(255,0,0,0.2)}.setupActions .save:hover{background:rgba(255,50,50,0.2); box-shadow: 0 0 15px rgba(255,0,0,0.4)}.setupNote{margin-top:12px;color:#556270;font-size:10px;text-align:center}
+#toast{position:absolute;right:2.5vw;top:2vh;z-index:120;border:1px solid rgba(255,255,255,0.1);background:rgba(10,10,10,0.9);color:#fff;padding:10px 20px;font-size:13px;border-radius:4px;opacity:0;transition:.3s;pointer-events:none; box-shadow: 0 5px 15px rgba(0,0,0,0.5)}#toast.show{opacity:1}
 
 @media (orientation:portrait){.rotate{display:flex!important}#app{visibility:hidden}}
 @media (orientation:landscape){.rotate{display:none!important}#app{visibility:visible}}
-/* short landscape phones, including iPhone mini/SE class */
-@media (orientation:landscape) and (max-height:390px){
-  #app{grid-template-rows:24% 55% 15% 6%;padding:.45dvh .7dvw .35dvh}
-  .top{grid-template-columns:minmax(0,1fr) 9.5%}
-  .middle{grid-template-columns:21% minmax(0,1fr) 21%;gap:.55dvw}
-  .side{gap:.45dvh;padding-top:.25dvh}
-  .label{font-size:clamp(9px,2dvh,13px)}
-  .value{font-size:clamp(20px,5.7dvh,34px)}
-  .center .speed{font-size:clamp(72px,23dvh,150px)}
-  .bottom{margin-top:.1dvh}
-}
-/* extra-wide phones (19.5:9 / 20:9 / 21:9) */
-@media (orientation:landscape) and (min-aspect-ratio:19/9){
-  .middle{grid-template-columns:20.5% minmax(0,1fr) 20.5%}
-  .top{grid-template-columns:minmax(0,1fr) 9.2%}
-  .center .speed{font-size:clamp(86px,25dvh,205px)}
-}
-
 </style>
 </head>
 <body>
 <div id="viewport">
 <div id="fitBox">
 <div id="app">
+<div id="glare"></div>
 <div class="rotate"><div><b>หมุนโทรศัพท์เป็นแนวนอน</b><p>Dashboard ออกแบบสำหรับ Landscape</p></div></div>
-<section class="top"><div class="topLeft"><div class="rpmTitle">x1000 RPM</div><div id="rpmBlocks" class="rpmBlocks"><i class="block"></i><i class="block"></i><i class="block"></i><i class="block"></i><i class="block"></i><i class="block"></i><i class="block"></i><i class="block"></i><i class="block"></i><i class="block"></i><i class="block red"></i><i class="block red"></i><i class="block red"></i><i class="block red"></i></div><div id="rpmLabels" class="rpmLabels"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span class="red">10</span><span class="red">11</span><span class="red">12</span><span class="red">13</span></div></div><div class="rpmBox"><div id="rpmTop" class="n">0</div><div class="u">RPM</div></div></section>
-<section class="middle">
-<div class="side">
-  <div class="card"><div class="iconWrap"><svg viewBox="0 0 64 64"><rect x="12" y="22" width="40" height="27"/><path d="M22 17v5M42 17v5M20 35h10M25 30v10M37 35h10"/></svg></div><div class="body"><div class="label">BATTERY</div><div class="valueRow"><span id="battery" class="value">0.0</span><span class="unit">V</span></div><div class="bar"><i id="batteryBar" style="width:0%"></i></div><div class="scale"><span>8</span><span>16</span></div></div></div>
-  <div class="card"><div class="iconWrap"><svg viewBox="0 0 64 64"><path d="M27 10v30a10 10 0 1 0 10 0V10a5 5 0 0 0-10 0Z"/><path d="M32 19v25"/><path d="M12 53c5-3 8 3 13 0s8 3 13 0 8 3 13 0"/></svg></div><div class="body"><div class="label">COOLANT TEMP</div><div class="valueRow"><span id="coolant" class="value">0</span><span class="unit">°C</span></div><div class="bar cool"><i id="coolantBar" style="width:0%"></i></div><div class="scale"><span>40</span><span>120</span></div></div></div>
-  <div class="card"><div class="iconWrap"><svg viewBox="0 0 64 64"><circle cx="31" cy="32" r="18"/><path d="M17 47L42 21M31 16v16l11 8"/></svg></div><div class="body"><div class="label">TPS</div><div class="valueRow"><span id="tps" class="value">0</span><span class="unit">%</span></div><div class="bar"><i id="tpsBar" style="width:0%"></i></div><div class="scale"><span>0</span><span>100</span></div></div></div>
-</div>
-<div class="center"><div class="kph">KM/H</div><div id="speed" class="speed">0</div><div class="km">km/h</div></div>
-<div class="side">
-  <div class="card"><div class="iconWrap"><svg viewBox="0 0 64 64"><path d="M18 41l22-22 7 7-22 22zM39 16l5-5M45 22l5-5M15 44l-5 5M22 51l-5 5"/></svg></div><div class="body"><div class="label">O2 SENSOR / AFR</div><div class="valueRow"><span id="o2" class="value">0.00</span><span class="unit">V</span></div><div class="bar blue"><i id="o2Bar" style="width:0%"></i></div><div class="scale"><span>0</span><span>1.0</span></div></div></div>
-  <div class="card"><div class="iconWrap"><svg viewBox="0 0 64 64"><path d="M18 41l22-22 7 7-22 22zM39 16l5-5M45 22l5-5M15 44l-5 5M22 51l-5 5"/></svg></div><div class="body"><div class="label">INJECTION TIME</div><div class="valueRow"><span id="inj" class="value">0.00</span><span class="unit">ms</span></div><div class="bar blue"><i id="injBar" style="width:0%"></i></div><div class="scale"><span>0</span><span>10</span></div></div></div>
-  <div class="card"><div class="iconWrap"><svg viewBox="0 0 64 64"><path d="M36 8L17 35h14l-4 21 20-29H34z"/></svg></div><div class="body"><div class="label">IGNITION ADVANCE</div><div class="valueRow"><span id="ign" class="value">0</span><span class="unit">°BTDC</span></div><div class="bar blue"><i id="ignBar" style="width:0%"></i></div><div class="scale"><span>-20</span><span>60</span></div></div></div>
-</div>
+<section class="top">
+    <div class="topLeft">
+        <div class="rpmTitle">x1000 RPM</div>
+        <div class="rpmBlocksWrap">
+            <div id="rpmBlocks" class="rpmBlocks">
+                <i class="block"></i><i class="block"></i><i class="block"></i><i class="block"></i><i class="block"></i><i class="block"></i><i class="block"></i><i class="block"></i><i class="block"></i><i class="block"></i><i class="block red"></i><i class="block red"></i><i class="block red"></i>
+            </div>
+        </div>
+        <div id="rpmLabels" class="rpmLabels">
+            <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span class="red">10</span><span class="red">11</span><span class="red">12</span><span class="red">13</span>
+        </div>
+    </div>
+    <div class="rpmBox"><div id="rpmTop" class="n">0</div><div class="u">RPM</div></div>
 </section>
-<div style="display:none"><span id="rpmCenter"></span><span id="o2Mini"></span></div>
-<section class="bottom"><div class="bItem"><span class="bKey">TRIP A</span><span id="trip" class="bVal">0.0</span><span class="bUnit">km</span></div><div class="bItem"><span class="bKey">VOLT</span><span id="voltBottom" class="bVal">0.0</span><span class="bUnit">V</span></div><div class="bItem"><span class="bKey">TIME</span><span id="clock" class="bVal">--:--</span></div></section>
-<section class="status"><div class="leftStatus"><span id="mqttDot" class="dot"></span><span id="connText">DISCONNECTED</span><span>•</span><span id="gpsDot" class="dot gpsdot"></span><span id="gpsText">GPS OFF</span></div><div class="btns"><button id="gpsBtn"><span style="display:inline-flex;align-items:center;gap:.35vw"><svg viewBox="0 0 24 24" style="width:.85vw;height:.85vw;stroke:#cfcfcf;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M12 21s6-5.4 6-11a6 6 0 1 0-12 0c0 5.6 6 11 6 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>GPS</span></span></button><button id="setupBtn" class="gearBtn" aria-label="Settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1 1 0 0 0 .2 1.1l.1.1a1.3 1.3 0 0 1 0 1.8l-.7.7a1.3 1.3 0 0 1-1.8 0l-.1-.1a1 1 0 0 0-1.1-.2 1 1 0 0 0-.6.9v.2A1.3 1.3 0 0 1 14.1 21h-1.2a1.3 1.3 0 0 1-1.3-1.3v-.2a1 1 0 0 0-.6-.9 1 1 0 0 0-1.1.2l-.1.1a1.3 1.3 0 0 1-1.8 0l-.7-.7a1.3 1.3 0 0 1 0-1.8l.1-.1A1 1 0 0 0 7 15a1 1 0 0 0-.9-.6h-.2A1.3 1.3 0 0 1 4.6 13v-1a1.3 1.3 0 0 1 1.3-1.3h.2A1 1 0 0 0 7 10a1 1 0 0 0-.2-1.1l-.1-.1a1.3 1.3 0 0 1 0-1.8l.7-.7a1.3 1.3 0 0 1 1.8 0l.1.1A1 1 0 0 0 10.4 6a1 1 0 0 0 .6-.9v-.2A1.3 1.3 0 0 1 12.3 3.6h1.2A1.3 1.3 0 0 1 14.8 5v.2a1 1 0 0 0 .6.9 1 1 0 0 0 1.1-.2l.1-.1a1.3 1.3 0 0 1 1.8 0l.7.7a1.3 1.3 0 0 1 0 1.8l-.1.1A1 1 0 0 0 19 10a1 1 0 0 0 .9.6h.2a1.3 1.3 0 0 1 1.3 1.3v1a1.3 1.3 0 0 1-1.3 1.3h-.2a1 1 0 0 0-.5.8Z"/></svg></button></div></section>
-<div id="setupShade" class="setupShade"><div class="setupPanel"><h2>K-LINE DASH SETUP</h2><p>เลือกแหล่งความเร็วจาก ECU หรือ GPS โทรศัพท์ และตั้งค่าการเชื่อมต่อข้อมูล</p><div class="setupGrid"><div class="setupField"><label>DEVICE ID</label><input id="cfgDevice"></div><div class="setupField"><label>TOPIC KEY</label><input id="cfgKey"></div><div class="setupField wide"><label>MQTT WSS URL</label><input id="cfgBroker"></div><div class="setupField wide"><label>SPEED SOURCE</label><select id="cfgSpeedSource"><option value="ecu">ECU / K-LINE SPEED</option><option value="gps">PHONE GPS SPEED</option></select></div></div><div class="setupActions"><button id="cfgClose">CLOSE</button><button id="cfgGps">GPS ON</button><button id="cfgSave" class="save">SAVE + CONNECT</button></div><div class="setupNote">ธีมนี้ถูกปรับให้ยึดภาพอ้างอิงให้ใกล้ที่สุด และใช้ RPM scale 0–13 x1000</div></div></div><div id="toast"></div>
+
+<section class="middle">
+    <!-- Left Cards -->
+    <div class="side">
+      <div class="c-wrap-l">
+        <div class="c-in-l">
+          <div class="iconWrap"><svg viewBox="0 0 64 64"><rect x="12" y="22" width="40" height="27"/><path d="M22 17v5M42 17v5M20 35h10M25 30v10M37 35h10"/></svg></div>
+          <div class="dataWrap">
+              <div class="label">BATTERY</div>
+              <div class="valueRow"><span id="battery" class="value">0.0</span><span class="unit">V</span></div>
+              <div class="scaleRow"><span>8</span><span>16</span></div>
+              <div class="cardGlow"></div>
+              <div class="barTrack"><div id="batteryBar" class="barFill" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="c-wrap-l">
+        <div class="c-in-l">
+          <div class="iconWrap"><svg viewBox="0 0 64 64"><path d="M27 10v30a10 10 0 1 0 10 0V10a5 5 0 0 0-10 0Z"/><path d="M32 19v25"/><path d="M12 53c5-3 8 3 13 0s8 3 13 0 8 3 13 0"/></svg></div>
+          <div class="dataWrap">
+              <div class="label">COOLANT TEMP</div>
+              <div class="valueRow"><span id="coolant" class="value">0</span><span class="unit">°C</span></div>
+              <div class="scaleRow"><span>40</span><span>120</span></div>
+              <div class="cardGlow cool"></div>
+              <div class="barTrack"><div id="coolantBar" class="barFill cool" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="c-wrap-l">
+        <div class="c-in-l">
+          <div class="iconWrap"><svg viewBox="0 0 64 64"><circle cx="31" cy="32" r="18"/><path d="M17 47L42 21M31 16v16l11 8"/></svg></div>
+          <div class="dataWrap">
+              <div class="label">TPS</div>
+              <div class="valueRow"><span id="tps" class="value">0</span><span class="unit">%</span></div>
+              <div class="scaleRow"><span>0</span><span>100</span></div>
+              <div class="cardGlow"></div>
+              <div class="barTrack"><div id="tpsBar" class="barFill" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Center -->
+    <div class="center">
+        <div class="kph">KM/H</div>
+        <div id="speed" class="speed">0</div>
+        <div class="centerDotGlow"></div>
+    </div>
+
+    <!-- Right Cards -->
+    <div class="side">
+      <div class="c-wrap-r">
+        <div class="c-in-r">
+          <div class="iconWrap"><svg viewBox="0 0 64 64"><path d="M18 41l22-22 7 7-22 22zM39 16l5-5M45 22l5-5M15 44l-5 5M22 51l-5 5"/></svg></div>
+          <div class="dataWrap">
+              <div class="label">O2 SENSOR / AFR</div>
+              <div class="valueRow"><span id="o2" class="value">0.00</span><span class="unit">V</span></div>
+              <div class="scaleRow"><span>0</span><span>1.0</span></div>
+              <div class="cardGlow"></div>
+              <div class="barTrack"><div id="o2Bar" class="barFill" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="c-wrap-r">
+        <div class="c-in-r">
+          <div class="iconWrap"><svg viewBox="0 0 64 64"><path d="M18 41l22-22 7 7-22 22zM39 16l5-5M45 22l5-5M15 44l-5 5M22 51l-5 5"/></svg></div>
+          <div class="dataWrap">
+              <div class="label">INJECTION TIME</div>
+              <div class="valueRow"><span id="inj" class="value">0.00</span><span class="unit">ms</span></div>
+              <div class="scaleRow"><span>0</span><span>10</span></div>
+              <div class="cardGlow"></div>
+              <div class="barTrack"><div id="injBar" class="barFill" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="c-wrap-r">
+        <div class="c-in-r">
+          <div class="iconWrap"><svg viewBox="0 0 64 64"><path d="M36 8L17 35h14l-4 21 20-29H34z"/></svg></div>
+          <div class="dataWrap">
+              <div class="label">IGNITION ADVANCE</div>
+              <div class="valueRow"><span id="ign" class="value">0</span><span class="unit">°BTDC</span></div>
+              <div class="scaleRow"><span>-20</span><span>60</span></div>
+              <div class="cardGlow"></div>
+              <div class="barTrack"><div id="ignBar" class="barFill" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+<div class="b-wrap">
+    <div class="b-in">
+        <div class="bItem"><span class="bKey">TRIP A</span><span id="trip" class="bVal">0.0</span><span class="bUnit">km</span></div>
+        <div class="bItem"><span class="bKey">VOLT</span><span id="voltBottom" class="bVal">0.0</span><span class="bUnit">V</span></div>
+        <div class="bItem"><span class="bKey">TIME</span><span id="clock" class="bVal">--:--</span></div>
+    </div>
+</div>
+
+<section class="status">
+    <div class="leftStatus"><span id="mqttDot" class="dot live"></span><span id="connText">DEMO MODE</span> &nbsp;•&nbsp; <span id="gpsDot" class="dot gpsdot"></span><span id="gpsText">GPS OFF</span></div>
+    <div class="btns">
+        <button id="gpsBtn">GPS</button>
+        <button id="setupBtn" class="gearBtn" aria-label="Settings">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1 1 0 0 0 .2 1.1l.1.1a1.3 1.3 0 0 1 0 1.8l-.7.7a1.3 1.3 0 0 1-1.8 0l-.1-.1a1 1 0 0 0-1.1-.2 1 1 0 0 0-.6.9v.2A1.3 1.3 0 0 1 14.1 21h-1.2a1.3 1.3 0 0 1-1.3-1.3v-.2a1 1 0 0 0-.6-.9 1 1 0 0 0-1.1.2l-.1.1a1.3 1.3 0 0 1-1.8 0l-.7-.7a1.3 1.3 0 0 1 0-1.8l.1-.1A1 1 0 0 0 7 15a1 1 0 0 0-.9-.6h-.2A1.3 1.3 0 0 1 4.6 13v-1a1.3 1.3 0 0 1 1.3-1.3h.2A1 1 0 0 0 7 10a1 1 0 0 0-.2-1.1l-.1-.1a1.3 1.3 0 0 1 0-1.8l.7-.7a1.3 1.3 0 0 1 1.8 0l.1.1A1 1 0 0 0 10.4 6a1 1 0 0 0 .6-.9v-.2A1.3 1.3 0 0 1 12.3 3.6h1.2A1.3 1.3 0 0 1 14.8 5v.2a1 1 0 0 0 .6.9 1 1 0 0 0 1.1-.2l.1-.1a1.3 1.3 0 0 1 1.8 0l.7.7a1.3 1.3 0 0 1 0 1.8l-.1.1A1 1 0 0 0 19 10a1 1 0 0 0 .9.6h.2a1.3 1.3 0 0 1 1.3 1.3v1a1.3 1.3 0 0 1-1.3 1.3h-.2a1 1 0 0 0-.5.8Z"/></svg>
+            Settings
+        </button>
+    </div>
+</section>
+
+<div id="setupShade" class="setupShade"><div class="setupPanel"><h2>K-LINE DASH SETUP</h2><p>เลือกแหล่งความเร็วจาก ECU หรือ GPS โทรศัพท์ และตั้งค่าการเชื่อมต่อข้อมูล</p><div class="setupGrid"><div class="setupField"><label>DEVICE ID</label><input id="cfgDevice"></div><div class="setupField"><label>TOPIC KEY</label><input id="cfgKey"></div><div class="setupField wide"><label>MQTT WSS URL</label><input id="cfgBroker"></div><div class="setupField wide"><label>SPEED SOURCE</label><select id="cfgSpeedSource"><option value="ecu">ECU / K-LINE SPEED</option><option value="gps">PHONE GPS SPEED</option></select></div></div><div class="setupActions"><button id="cfgClose">CLOSE</button><button id="cfgGps">GPS ON</button><button id="cfgSave" class="save">SAVE + CONNECT</button></div><div class="setupNote">Sci-Fi Edition: Premium UI & Solid White Energy Bar</div></div></div><div id="toast"></div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/5.5.2/mqtt.min.js"></script>
 <script>
@@ -127,34 +313,66 @@ if(window.visualViewport){visualViewport.addEventListener('resize',syncViewport,
 window.addEventListener('pageshow',()=>{syncViewport();tryLandscape();},{passive:true});
 document.addEventListener('click',tryLandscape,{once:true,passive:true});
 syncViewport();
-
 </script>
 <script>
 (()=>{
 const $=id=>document.getElementById(id); const defaults={broker:'wss://broker.emqx.io:8084/mqtt',device:'ANAN001',key:'ANAN26KLINE9X7P'};
 let cfg={broker:localStorage.getItem('anan_broker')||defaults.broker,device:localStorage.getItem('anan_device')||defaults.device,key:localStorage.getItem('anan_key')||defaults.key,speedSource:localStorage.getItem('anan_speed_source')||'ecu'};
-const state={rpm:0,speed:0,battery:0,o2:0,inj:0,ign:0,coolant:0,tps:0,trip:0}; let mqttClient=null,lastPacket=0,demo=false,demoTimer=null; let gpsWatch=null,gpsOn=false,gpsSpeed=0,lastGps=null,gpsTripM=parseFloat(localStorage.getItem('anan_gps_trip')||'0')||0;
+const state={rpm:0,speed:0,battery:0,o2:0,inj:0,ign:0,coolant:0,tps:0,trip:0}; let mqttClient=null,lastPacket=0; let gpsWatch=null,gpsOn=false,gpsSpeed=0,lastGps=null,gpsTripM=parseFloat(localStorage.getItem('anan_gps_trip')||'0')||0;
 const clamp=(v,a,b)=>{v=Number(v);return Number.isFinite(v)?Math.max(a,Math.min(b,v)):a}; const fmt=(v,d=0)=>Number(v).toFixed(d); const topic=()=>`anan/kline/${cfg.device}/${cfg.key}/telemetry`;
 function toast(t){const e=$('toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),1500)}
 function normalizeECU(raw={}){const d={...raw}; if(d.ect!=null&&d.coolant==null)d.coolant=d.ect; if(d.ectTemp!=null&&d.coolant==null)d.coolant=d.ectTemp; if(d.coolantTemp!=null&&d.coolant==null)d.coolant=d.coolantTemp; if(d.engineCoolantTemp!=null&&d.coolant==null)d.coolant=d.engineCoolantTemp; if(d.o2Voltage!=null&&d.o2==null)d.o2=d.o2Voltage; if(d.o2Sensor!=null&&d.o2==null)d.o2=d.o2Sensor; if(d.oxygen!=null&&d.o2==null)d.o2=d.oxygen; if(d.vehicleSpeed!=null&&d.speed==null)d.speed=d.vehicleSpeed; if(d.ecuSpeed!=null&&d.speed==null)d.speed=d.ecuSpeed; if(d.vss!=null&&d.speed==null)d.speed=d.vss; if(d.injectorTime!=null&&d.inj==null)d.inj=d.injectorTime; if(d.injectionTime!=null&&d.inj==null)d.inj=d.injectionTime; if(d.ignitionAdvance!=null&&d.ign==null)d.ign=d.ignitionAdvance; if(d.ignAdvance!=null&&d.ign==null)d.ign=d.ignAdvance; if(d.throttle!=null&&d.tps==null)d.tps=d.throttle; if(d.throttlePosition!=null&&d.tps==null)d.tps=d.throttlePosition; if(d.voltage!=null&&d.battery==null)d.battery=d.voltage; if(d.batt!=null&&d.battery==null)d.battery=d.batt; return d}
 function render(d={}){Object.assign(state,d); state.rpm=clamp(state.rpm,0,13000); state.battery=clamp(state.battery,0,20); state.coolant=clamp(state.coolant,-20,150); state.tps=clamp(state.tps,0,100); state.o2=clamp(state.o2,0,2); state.inj=clamp(state.inj,0,20); state.ign=clamp(state.ign,-20,70); const shownSpeed=cfg.speedSource==='gps'?clamp(gpsSpeed,0,399):clamp(state.speed,0,399);
-$('rpmTop').textContent=fmt(state.rpm,0); $('rpmCenter').textContent=fmt(state.rpm,0); $('speed').textContent=fmt(shownSpeed,0); $('battery').textContent=fmt(state.battery,1); $('coolant').textContent=fmt(state.coolant,0); $('tps').textContent=fmt(state.tps,0); $('o2').textContent=fmt(state.o2,2); $('o2Mini').textContent=fmt(state.o2,2)+' V'; $('inj').textContent=fmt(state.inj,2); $('ign').textContent=fmt(state.ign,1).replace('.0',''); $('voltBottom').textContent=fmt(state.battery,1); $('trip').textContent=fmt(cfg.speedSource==='gps'?gpsTripM/1000:state.trip,1);
-$('batteryBar').style.width=Math.min(100,Math.max(0,(state.battery-8)/8*100))+'%'; $('coolantBar').style.width=Math.min(100,Math.max(0,(state.coolant-40)/80*100))+'%'; $('tpsBar').style.width=state.tps+'%'; $('o2Bar').style.width=Math.min(100,state.o2/1.0*100)+'%'; $('injBar').style.width=Math.min(100,state.inj/10*100)+'%'; $('ignBar').style.width=Math.min(100,Math.max(0,(state.ign+20)/80*100))+'%';
-const blocks=[...rpmBlocks.children], major=Math.max(0,Math.min(14, Math.ceil(state.rpm/1000))); blocks.forEach((b,i)=>b.classList.toggle('active',i<major)); }
+$('rpmTop').textContent=fmt(state.rpm,0); $('speed').textContent=fmt(shownSpeed,0); $('battery').textContent=fmt(state.battery,1); $('coolant').textContent=fmt(state.coolant,0); $('tps').textContent=fmt(state.tps,0); $('o2').textContent=fmt(state.o2,2); $('inj').textContent=fmt(state.inj,2); $('ign').textContent=fmt(state.ign,0); $('voltBottom').textContent=fmt(state.battery,1); $('trip').textContent=fmt(cfg.speedSource==='gps'?gpsTripM/1000:state.trip,1);
+
+$('batteryBar').style.width=Math.min(100,Math.max(0,(state.battery-8)/8*100))+'%'; 
+$('coolantBar').style.width=Math.min(100,Math.max(0,(state.coolant-40)/80*100))+'%'; 
+$('tpsBar').style.width=state.tps+'%'; 
+$('o2Bar').style.width=Math.min(100,state.o2/1.0*100)+'%'; 
+$('injBar').style.width=Math.min(100,state.inj/10*100)+'%'; 
+$('ignBar').style.width=Math.min(100,Math.max(0,(state.ign+20)/80*100))+'%';
+
+const blocks=[...rpmBlocks.children], major=Math.max(0,Math.min(13, Math.ceil(state.rpm/1000))); 
+blocks.forEach((b,i)=>{
+    b.classList.toggle('active',i<major);
+    if(i === major - 1) { b.classList.add('current-active'); } else { b.classList.remove('current-active'); }
+}); 
+}
 window.updateTelemetry=d=>render(normalizeECU(d));
+
+/* ========================================================
+   [ NEW ] DEMO MODE - Live updating values
+   ======================================================== */
+let isDemoMode = true; 
+setInterval(() => {
+    if(!isDemoMode) return;
+    const s = Date.now() / 1000.0;
+    
+    // Simulate engine revving, speed changing, and sensor reading fluctuations
+    render({
+        rpm: Math.max(900, 4700 + Math.sin(s * 0.72) * 2600 + Math.sin(s * 1.83) * 620),
+        speed: 130 + Math.sin(s * 0.31) * 85,
+        battery: 13.8 + Math.sin(s * 0.22) * 0.5,
+        coolant: 85 + Math.sin(s * 0.11) * 5,
+        tps: 50 + Math.sin(s * 0.67) * 45,
+        o2: 0.74 + Math.sin(s * 1.45) * 0.2,
+        inj: 2.1 + Math.sin(s * 0.72) * 1.5,
+        ign: 25 + Math.sin(s * 0.58) * 10
+    });
+}, 80); // Update every 80ms for smooth running numbers
+
 function setConn(t,live=false){$('connText').textContent=t; $('mqttDot').classList.toggle('live',live)}
-function connectMQTT(){ if(typeof mqtt==='undefined'){setConn('DISCONNECTED'); return} try{if(mqttClient)mqttClient.end(true)}catch(e){} setConn('CONNECTING...'); mqttClient=mqtt.connect(cfg.broker,{clientId:'anan_web_'+Math.random().toString(16).slice(2),clean:true,reconnectPeriod:2000,connectTimeout:10000,keepalive:20}); mqttClient.on('connect',()=>mqttClient.subscribe(topic(),{qos:0},err=>setConn(err?'DISCONNECTED':'CONNECTED',!err))); mqttClient.on('reconnect',()=>setConn('CONNECTING...')); mqttClient.on('offline',()=>setConn('DISCONNECTED')); mqttClient.on('error',()=>setConn('DISCONNECTED')); mqttClient.on('message',(tp,msg)=>{ if(tp!==topic()) return; try{const p=JSON.parse(msg.toString()), d=normalizeECU(p.data||p); lastPacket=Date.now(); render(d); setConn('CONNECTED',true)}catch(e){}})}
+function connectMQTT(){ if(typeof mqtt==='undefined'){setConn('DISCONNECTED'); return} try{if(mqttClient)mqttClient.end(true)}catch(e){} setConn('CONNECTING...'); mqttClient=mqtt.connect(cfg.broker,{clientId:'anan_web_'+Math.random().toString(16).slice(2),clean:true,reconnectPeriod:2000,connectTimeout:10000,keepalive:20}); mqttClient.on('connect',()=>mqttClient.subscribe(topic(),{qos:0},err=>setConn(err?'DISCONNECTED':'CONNECTED',!err))); mqttClient.on('reconnect',()=>setConn('CONNECTING...')); mqttClient.on('offline',()=>setConn('DISCONNECTED')); mqttClient.on('error',()=>setConn('DISCONNECTED')); mqttClient.on('message',(tp,msg)=>{ if(tp!==topic()) return; try{const p=JSON.parse(msg.toString()), d=normalizeECU(p.data||p); lastPacket=Date.now(); isDemoMode = false; render(d); setConn('CONNECTED',true)}catch(e){}})}
 setInterval(()=>{if(lastPacket&&Date.now()-lastPacket>3000&&mqttClient?.connected)setConn('CONNECTED',true)},1000);
 function hav(a,b){const R=6371000,p=Math.PI/180,dLat=(b.lat-a.lat)*p,dLon=(b.lon-a.lon)*p; const x=Math.sin(dLat/2)**2+Math.cos(a.lat*p)*Math.cos(b.lat*p)*Math.sin(dLon/2)**2; return 2*R*Math.asin(Math.sqrt(x))}
 function startGPS(){ if(!navigator.geolocation){toast('GPS ไม่รองรับ');return} if(gpsWatch!==null)return; $('gpsText').textContent='GPS CONNECTING'; gpsWatch=navigator.geolocation.watchPosition(pos=>{const c=pos.coords,now=pos.timestamp||Date.now(),pt={lat:c.latitude,lon:c.longitude,t:now}; let sp=Number.isFinite(c.speed)?Math.max(0,c.speed*3.6):null; if(lastGps&&c.accuracy<=50){const dist=hav(lastGps,pt),dt=(now-lastGps.t)/1000; if(dist>=1&&dist<200)gpsTripM+=dist; if(sp===null&&dt>.3&&dt<10)sp=dist/dt*3.6} lastGps=pt; gpsSpeed=clamp(sp??gpsSpeed,0,399); gpsOn=true; localStorage.setItem('anan_gps_trip',String(gpsTripM)); $('gpsDot').classList.add('live'); $('gpsBtn').classList.add('gpson'); $('gpsText').textContent='GPS LOCK '+Math.round(c.accuracy)+'m'; render(); },()=>{$('gpsText').textContent='GPS DENIED/OFF'; $('gpsDot').classList.remove('live'); $('gpsBtn').classList.remove('gpson')},{enableHighAccuracy:true,maximumAge:500,timeout:10000})}
 function stopGPS(){ if(gpsWatch!==null) navigator.geolocation.clearWatch(gpsWatch); gpsWatch=null; gpsOn=false; lastGps=null; gpsSpeed=0; $('gpsDot').classList.remove('live'); $('gpsBtn').classList.remove('gpson'); $('gpsText').textContent='GPS OFF'; render(); }
-function demoTick(){}
-function setDemo(on){demo=false;}
 function openSetup(){$('cfgDevice').value=cfg.device; $('cfgKey').value=cfg.key; $('cfgBroker').value=cfg.broker; $('cfgSpeedSource').value=cfg.speedSource; $('setupShade').classList.add('show')}
 $('setupBtn').onclick=openSetup; $('cfgClose').onclick=()=>$('setupShade').classList.remove('show'); $('cfgGps').onclick=startGPS; $('cfgSave').onclick=()=>{cfg.device=$('cfgDevice').value.trim()||defaults.device; cfg.key=$('cfgKey').value.trim()||defaults.key; cfg.broker=$('cfgBroker').value.trim()||defaults.broker; cfg.speedSource=$('cfgSpeedSource').value==='gps'?'gps':'ecu'; localStorage.setItem('anan_device',cfg.device); localStorage.setItem('anan_key',cfg.key); localStorage.setItem('anan_broker',cfg.broker); localStorage.setItem('anan_speed_source',cfg.speedSource); if(cfg.speedSource==='gps')startGPS(); $('setupShade').classList.remove('show'); render(); connectMQTT()};
 $('gpsBtn').onclick=()=>gpsOn?stopGPS():startGPS();
 setInterval(()=>$('clock').textContent=new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit',hour12:false}),1000); render(); connectMQTT();
+
 })();
-if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 </script>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
 </body></html>
