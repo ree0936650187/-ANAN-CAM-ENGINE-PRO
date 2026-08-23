@@ -1,5 +1,5 @@
-ANAN K-LINE DASH LIVE V2.19
-- แก้ปัญหาไม่เข้าจอบน iPhone 16 Pro โดยเฉพาะ
-- เปลี่ยนระบบ auto-scale ให้ใช้ fitBox + transform เพื่อไม่ให้โดน clip
-- เพิ่ม meta viewport และ safe-area support
-- ปิด text autosize ของ Safari เพื่อไม่ให้ layout เพี้ยน
+ANAN K-LINE DASH LIVE V2.21
+- แก้ปัญหา RPM Scale 0–13 หาย
+- สาเหตุ: tag <script src="..."> รวมกับ inline JS ทำให้บางเบราว์เซอร์ไม่รันโค้ดด้านใน
+- แยก script ภายนอกกับ script ภายในออกจากกัน
+- ใส่ RPM blocks และตัวเลข 0–13 เป็น HTML ตรง ๆ เพื่อให้แสดงแน่นอนแม้ JS โหลดช้า

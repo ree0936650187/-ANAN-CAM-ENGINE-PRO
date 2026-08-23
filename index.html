@@ -10,88 +10,71 @@
 <meta name="format-detection" content="telephone=no">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>ANAN K-LINE DASH LIVE V2.19</title>
+<title>ANAN K-LINE DASH LIVE V2.21</title>
 <style>
 :root{--bg:#010101;--line:#272727;--line2:#353535;--text:#f4f4f1;--muted:#9f9f9f;--muted2:#6d6d6d;--red:#e40d13;--red2:#ae080d;--blue:#7fbed9;--green:#6ead54}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;width:100%;height:100%;background:#000;color:var(--text);overflow:hidden;font-family:"Helvetica Neue",Arial,sans-serif;font-style:italic;-webkit-text-size-adjust:100%;text-size-adjust:100%} body{position:relative;overscroll-behavior:none;-webkit-user-select:none;user-select:none}
 body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
 button,input,select{font:inherit}
-#viewport{position:fixed;inset:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#000;padding:max(env(safe-area-inset-top),0px) max(env(safe-area-inset-right),0px) max(env(safe-area-inset-bottom),0px) max(env(safe-area-inset-left),0px)} #fitBox{position:relative;overflow:hidden;flex:0 0 auto} #app{position:absolute;left:0;top:0;width:1600px;height:900px;box-sizing:border-box;padding:14px 18px 10px;display:grid;grid-template-rows:26% 53% 15% 6%;background:repeating-linear-gradient(0deg,rgba(255,255,255,.013) 0 1px,transparent 1px 3px),radial-gradient(ellipse at 50% 58%,rgba(255,255,255,.022),transparent 38%),#010101;transform:scale(var(--scale,1));transform-origin:top left;will-change:transform}
+#viewport{position:fixed;inset:0;overflow:hidden;background:#000;width:100dvw;height:100dvh;padding:max(env(safe-area-inset-top),0px) max(env(safe-area-inset-right),0px) max(env(safe-area-inset-bottom),0px) max(env(safe-area-inset-left),0px)}
+#fitBox{position:absolute;inset:0;overflow:hidden}
+#app{position:absolute;inset:0;width:100%;height:100%;box-sizing:border-box;padding:clamp(4px,1.0dvh,10px) clamp(7px,1.0dvw,18px) clamp(4px,.65dvh,8px);display:grid;grid-template-rows:minmax(92px,26dvh) minmax(190px,53dvh) minmax(56px,15dvh) minmax(24px,6dvh);background:repeating-linear-gradient(0deg,rgba(255,255,255,.013) 0 1px,transparent 1px 3px),radial-gradient(ellipse at 50% 58%,rgba(255,255,255,.022),transparent 38%),#010101;overflow:hidden}
 #app:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.34),transparent 18%,transparent 82%,rgba(0,0,0,.34))}
 .rotate{display:none;position:fixed;inset:0;z-index:999;background:#030303;align-items:center;justify-content:center;text-align:center;padding:24px}.rotate div{border:1px solid #292929;padding:22px 28px;border-radius:6px}.rotate b{font-size:21px}.rotate p{color:#767676;margin:8px 0 0}
 @media(orientation:portrait){.rotate{display:flex}}
 
 /* Top RPM */
-.top{display:grid;grid-template-columns:1fr 10.8vw;gap:.9vw;align-items:start;z-index:2}
-.topLeft{display:grid;grid-template-rows:12% 65% 18%;height:100%}
-.rpmTitle{display:flex;justify-content:center;align-items:flex-end;font-size:clamp(11px,.95vw,18px);color:#d6d6d6;letter-spacing:.02em;margin-bottom:.08vh}
-.rpmBlocks{display:grid;grid-template-columns:repeat(14,1fr);gap:.14vw;align-items:stretch;padding-top:.08vh;height:100%}
+.top{display:grid;grid-template-columns:minmax(0,1fr) clamp(82px,10.5%,150px);gap:clamp(5px,.7vw,12px);align-items:start;z-index:2;min-width:0;min-height:0}
+.topLeft{display:grid;grid-template-rows:12% 65% 18%;height:100%;min-width:0;min-height:0}
+.rpmTitle{display:flex;justify-content:center;align-items:flex-end;font-size:clamp(9px,1.7dvh,16px);color:#d6d6d6;letter-spacing:.02em;margin-bottom:.05dvh}
+.rpmBlocks{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:clamp(1px,.12vw,3px);align-items:stretch;height:100%;min-width:0}
 .block{position:relative;border:1px solid rgba(255,255,255,.28);background-color:rgba(160,160,160,.10);background-image:radial-gradient(circle at 1px 1px, rgba(255,255,255,.40) .7px, rgba(255,255,255,0) .9px);background-size:4px 4px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.02);min-height:100%;backdrop-filter:blur(1px)}
 .block.active{background-color:rgba(216,216,212,.58);border-color:rgba(255,255,255,.58);background-image:radial-gradient(circle at 1px 1px, rgba(80,80,80,.22) .7px, rgba(255,255,255,0) .9px);background-size:4px 4px}
 .block.red{border-color:rgba(255,65,70,.55);background-color:rgba(70,0,0,.12);background-image:radial-gradient(circle at 1px 1px, rgba(255,55,55,.35) .7px, rgba(255,0,0,0) .9px);background-size:4px 4px}
 .block.red.active{background-color:rgba(196,11,17,.50);border-color:rgba(255,72,78,.82);background-image:radial-gradient(circle at 1px 1px, rgba(60,0,0,.20) .7px, rgba(255,0,0,0) .9px);background-size:4px 4px}
-.rpmLabels{display:grid;grid-template-columns:repeat(14,1fr);align-items:start;font-size:clamp(18px,1.45vw,30px);color:#f2f2ef;margin-top:.05vh}
+.rpmLabels{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));align-items:start;font-size:clamp(13px,3.2dvh,26px);color:#f2f2ef;margin-top:.05dvh;min-width:0}
 .rpmLabels span{position:relative;line-height:1;text-align:left}
 .rpmLabels span:before,.rpmLabels span:after{content:"";position:absolute;top:-.92vh;width:1px;height:.52vh;background:#4a4a4a;opacity:.74}.rpmLabels span:before{left:12%}.rpmLabels span:after{right:12%}
 .rpmLabels .red{color:var(--red)}
-.rpmBox{height:81%;border:1px solid #d51117;border-radius:8px;background-color:#180303;background-image:radial-gradient(circle at 1px 1px, rgba(255,55,55,.35) .7px, rgba(255,0,0,0) .9px);background-size:4px 4px;display:flex;flex-direction:column;justify-content:center;align-items:center;box-shadow:inset 0 0 20px rgba(255,0,0,.10)}
-.rpmBox .n{font-size:clamp(36px,3.25vw,66px);font-weight:300;line-height:.88}.rpmBox .u{font-size:clamp(16px,1.22vw,28px);color:#f5f5f4;line-height:1.08}
+.rpmBox{height:82%;min-height:0;border:1px solid #d51117;border-radius:clamp(4px,.7vw,8px);background-color:#180303;background-image:radial-gradient(circle at 1px 1px,rgba(255,55,55,.35) .7px,rgba(255,0,0,0) .9px);background-size:4px 4px;display:flex;flex-direction:column;justify-content:center;align-items:center;box-shadow:inset 0 0 20px rgba(255,0,0,.10);overflow:hidden}
+.rpmBox .n{font-size:clamp(30px,8.5dvh,64px);font-weight:650;line-height:.88}.rpmBox .u{font-size:clamp(13px,3.2dvh,24px);color:#f5f5f4;line-height:1.08;font-weight:650}
 
 /* Middle */
-.middle{display:grid;grid-template-columns:22.9% 1fr 22.9%;gap:.95vw;align-items:stretch;z-index:2}
-.side{display:grid;grid-template-rows:repeat(3,1fr);gap:.95vh;padding-top:.85vh}
-.card{position:relative;border:1px solid #2b2b2b;background:rgba(4,4,4,.66);clip-path:polygon(0 0,100% 0,100% 84%,94% 100%,0 100%);display:grid;grid-template-columns:21% 1fr;min-height:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.018)}
+.middle{display:grid;grid-template-columns:clamp(175px,22.7%,355px) minmax(0,1fr) clamp(175px,22.7%,355px);gap:clamp(5px,.7vw,12px);align-items:stretch;z-index:2;min-width:0;min-height:0}
+.side{display:grid;grid-template-rows:repeat(3,minmax(0,1fr));gap:clamp(4px,.8dvh,10px);padding-top:clamp(2px,.5dvh,6px);min-height:0}
+.card{position:relative;border:1px solid #2b2b2b;background:rgba(4,4,4,.66);clip-path:polygon(0 0,100% 0,100% 84%,94% 100%,0 100%);display:grid;grid-template-columns:21% minmax(0,1fr);min-height:0;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.018)}
 .card .iconWrap{display:flex;align-items:center;justify-content:center;position:relative}.card .iconWrap:after{content:"";position:absolute;right:0;top:14%;bottom:14%;width:1px;background:#3a3a3a}
-.card .iconWrap svg{width:clamp(20px,2.35vw,42px);height:clamp(20px,2.35vw,42px);stroke:#f5f5f3;fill:none;stroke-width:1.55;stroke-linecap:round;stroke-linejoin:round;max-height:5.2vh;opacity:.96}
-.card .body{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:.12vh .55vw .1vh .55vw;min-width:0}.label{font-size:clamp(11px,.9vw,18px);color:#ececec;letter-spacing:.02em;white-space:nowrap;width:100%;text-align:center}.valueRow{display:flex;align-items:baseline;justify-content:center;gap:.42vw;margin-top:.2vh;width:100%}.value{font-size:clamp(26px,2.5vw,54px);font-weight:300;line-height:1;color:#fff}.unit{font-size:clamp(12px,.92vw,19px);color:#d6d6d6;font-style:italic}.bar{height:.46vh;min-height:3px;background:#1c1c1c;margin-top:.56vh;display:flex;width:90%;align-self:center}.bar i{display:block;height:100%;background:#dcdcdc}.bar.cool i{background:linear-gradient(90deg,#dcdcdc 0 90%,#d70a10 90%)}.bar.blue i{background:#7db7d1}.scale{display:flex;justify-content:space-between;color:#a8a8a8;font-size:clamp(10px,.78vw,16px);line-height:1;margin-top:.14vh;width:90%;align-self:center}
-.center{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;padding-bottom:1.2vh;overflow:hidden}.center .kph{font-size:clamp(18px,1.55vw,34px);color:#ababab;letter-spacing:.06em;font-weight:300;margin-bottom:.08vh}.center .speed{font-size:clamp(90px,10.6vw,230px);line-height:.86;font-weight:200;letter-spacing:-.085em;color:#f8f8f5;text-shadow:0 0 10px rgba(255,255,255,.03)}.center .km{font-size:clamp(16px,1.15vw,26px);color:#909090;font-style:italic;margin-top:-.22vh}.center:after{content:"";position:absolute;left:12%;right:12%;bottom:7%;height:16%;background:radial-gradient(ellipse at center,rgba(255,255,255,.22),transparent 65%),repeating-linear-gradient(90deg,rgba(255,255,255,.045) 0 1px,transparent 1px 6px);filter:blur(1px);opacity:.62}
+.card .iconWrap svg{width:clamp(20px,5.2dvh,40px);height:clamp(20px,5.2dvh,40px);stroke:#f5f5f3;fill:none;stroke-width:1.55;stroke-linecap:round;stroke-linejoin:round;max-height:80%;opacity:.96}
+.card .body{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 clamp(4px,.5vw,9px);min-width:0;overflow:hidden}.label{font-size:clamp(10px,2.25dvh,17px);color:#ececec;letter-spacing:.02em;white-space:nowrap;width:100%;text-align:center;font-weight:700}.valueRow{display:flex;align-items:baseline;justify-content:center;gap:clamp(3px,.35vw,7px);margin-top:.15dvh;width:100%;min-width:0}.value{font-size:clamp(23px,6.4dvh,48px);font-weight:700;line-height:.95;color:#fff}.unit{font-size:clamp(10px,2.35dvh,18px);color:#d6d6d6;font-style:italic;font-weight:650}.bar{height:clamp(3px,.55dvh,5px);background:#1c1c1c;margin-top:clamp(2px,.45dvh,5px);display:flex;width:90%;align-self:center}.bar i{display:block;height:100%;background:#dcdcdc}.bar.cool i{background:linear-gradient(90deg,#dcdcdc 0 90%,#d70a10 90%)}.bar.blue i{background:#7db7d1}.scale{display:flex;justify-content:space-between;color:#a8a8a8;font-size:clamp(9px,1.9dvh,14px);line-height:1;margin-top:clamp(1px,.16dvh,3px);width:90%;align-self:center;font-weight:650}
+.center{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;min-width:0;min-height:0;padding-bottom:.5dvh}.center .kph{font-size:clamp(18px,4.3dvh,34px);color:#ababab;letter-spacing:.06em;font-weight:700;margin-bottom:0}.center .speed{font-size:clamp(86px,26dvh,210px);line-height:.82;font-weight:700;letter-spacing:-.075em;color:#f8f8f5;text-shadow:0 0 10px rgba(255,255,255,.03);max-width:100%;white-space:nowrap}.center .km{font-size:clamp(15px,3.5dvh,26px);color:#909090;font-style:italic;margin-top:.2dvh;font-weight:650}.center:after{content:"";position:absolute;left:12%;right:12%;bottom:7%;height:16%;background:radial-gradient(ellipse at center,rgba(255,255,255,.22),transparent 65%),repeating-linear-gradient(90deg,rgba(255,255,255,.045) 0 1px,transparent 1px 6px);filter:blur(1px);opacity:.62}
 
 /* Bottom */
-.bottom{position:relative;margin-top:.55vh;clip-path:polygon(4% 0,96% 0,100% 100%,0 100%);border:1px solid #272727;background:linear-gradient(180deg,#080808,#040404);display:grid;grid-template-columns:repeat(3,1fr);min-height:10vh;z-index:2}.bottom:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.012) 0 1px,transparent 1px 3px);pointer-events:none}.bItem{position:relative;display:flex;align-items:center;justify-content:center;gap:.6vw}.bItem:not(:last-child):after{content:"";position:absolute;right:0;top:23%;bottom:23%;width:2px;background:linear-gradient(180deg,transparent 0 23%,rgba(228,13,19,.95) 23% 77%,transparent 77% 100%)}.bKey{font-size:clamp(14px,1vw,20px);color:#e1e1e1;letter-spacing:.01em}.bVal{font-size:clamp(28px,2vw,50px);color:#fff;font-weight:300;line-height:1}.bUnit{font-size:clamp(12px,.85vw,18px);color:#d5d5d5;font-style:italic}
+.bottom{position:relative;margin-top:.3dvh;clip-path:polygon(4% 0,96% 0,100% 100%,0 100%);border:1px solid #272727;background:linear-gradient(180deg,#080808,#040404);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));z-index:2;min-width:0;min-height:0;overflow:hidden}.bottom:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.012) 0 1px,transparent 1px 3px);pointer-events:none}.bItem{position:relative;display:flex;align-items:center;justify-content:center;gap:clamp(4px,.5vw,9px);min-width:0}.bItem:not(:last-child):after{content:"";position:absolute;right:0;top:23%;bottom:23%;width:2px;background:linear-gradient(180deg,transparent 0 23%,rgba(228,13,19,.95) 23% 77%,transparent 77% 100%)}.bKey{font-size:clamp(11px,2.4dvh,18px);color:#e1e1e1;letter-spacing:.01em;font-weight:700}.bVal{font-size:clamp(23px,5.5dvh,42px);color:#fff;font-weight:700;line-height:1}.bUnit{font-size:clamp(10px,2.15dvh,16px);color:#d5d5d5;font-style:italic;font-weight:650}
 
 /* Status / setup */
-.status{display:flex;align-items:end;justify-content:space-between;padding-top:.25vh;border-top:1px solid #111;z-index:2}.leftStatus{display:flex;align-items:center;gap:.42vw;color:#8c8c8c;font-size:clamp(10px,.72vw,15px);font-weight:600;justify-content:center}.dot{width:.62vw;height:.62vw;border-radius:50%;background:#6b1a1a;box-shadow:0 0 8px rgba(180,40,40,.25)}.dot.live{background:var(--green)}.gpsdot{background:#555}.gpsdot.live{background:var(--green)}.btns{display:flex;gap:.5vw;align-items:center}.btns button{min-width:4vw;height:2.15vh;min-height:21px;border:1px solid #262626;border-radius:4px;background:#040404;color:#767676;font-size:clamp(10px,.66vw,14px);font-style:italic}.btns button.active{color:#ddd;border-color:#4a4a4a}.btns button.gpson{color:#78aa64;border-color:#36552d}.btns .gearBtn{min-width:2.2vw;width:2.2vw;padding:0;display:flex;align-items:center;justify-content:center;border-radius:50%;line-height:1}.btns .gearBtn svg{width:clamp(12px,.95vw,22px);height:clamp(12px,.95vw,22px);stroke:#cfcfcf;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.status{display:flex;align-items:center;justify-content:space-between;padding-top:.15dvh;border-top:1px solid #111;z-index:2;min-height:0;min-width:0}.leftStatus{display:flex;align-items:center;gap:clamp(3px,.3vw,6px);color:#8c8c8c;font-size:clamp(9px,1.75dvh,13px);font-weight:700;min-width:0;white-space:nowrap}.dot{width:.62vw;height:.62vw;border-radius:50%;background:#6b1a1a;box-shadow:0 0 8px rgba(180,40,40,.25)}.dot.live{background:var(--green)}.gpsdot{background:#555}.gpsdot.live{background:var(--green)}.btns{display:flex;gap:.5vw;align-items:center}.btns button{min-width:clamp(42px,6vw,72px);height:clamp(20px,4.1dvh,30px);border:1px solid #262626;border-radius:4px;background:#040404;color:#767676;font-size:clamp(9px,1.75dvh,13px);font-style:italic;font-weight:700}.btns button.active{color:#ddd;border-color:#4a4a4a}.btns button.gpson{color:#78aa64;border-color:#36552d}.btns .gearBtn{min-width:clamp(24px,4dvh,32px);width:clamp(24px,4dvh,32px);padding:0;display:flex;align-items:center;justify-content:center;border-radius:50%;line-height:1}.btns .gearBtn svg{width:clamp(12px,2.5dvh,18px);height:clamp(12px,2.5dvh,18px);stroke:#cfcfcf;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .setupShade{display:none;position:absolute;inset:0;z-index:90;background:rgba(0,0,0,.84);backdrop-filter:blur(8px);align-items:center;justify-content:center}.setupShade.show{display:flex}.setupPanel{width:min(660px,84vw);background:#060606;border:1px solid #292929;border-radius:6px;padding:18px}.setupPanel h2{margin:0 0 5px;font-size:18px;font-weight:500;letter-spacing:.04em}.setupPanel p{margin:0 0 14px;color:#777;font-size:11px;line-height:1.45}.setupGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.setupField{border:1px solid #232323;padding:8px;background:#030303}.setupField.wide{grid-column:1/-1}.setupField label{display:block;color:#6f6f6f;font-size:9px;margin-bottom:5px;letter-spacing:.08em}.setupField input,.setupField select{width:100%;background:transparent;border:0;outline:0;color:#ddd;font-size:13px}.setupField select option{background:#111;color:#ddd}.setupActions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:10px}.setupActions button{border:1px solid #292929;background:#090909;color:#aaa;padding:9px}.setupActions .save{border-color:#5d0a0c;color:#e14448}.setupNote{margin-top:9px;color:#555;font-size:9px;line-height:1.5}
 #toast{position:absolute;right:2.5vw;top:1.6vh;z-index:120;border:1px solid #2c2c2c;background:#080808;color:#aaa;padding:.6vh .7vw;font-size:.75vw;opacity:0;transition:.2s;pointer-events:none}#toast.show{opacity:1}
-@media (max-width: 1500px) and (orientation:landscape){#app{padding:1.2vh 1vw .8vh}.top{grid-template-columns:1fr 10vw}.middle{grid-template-columns:22.4% 1fr 22.4%}.center .speed{font-size:clamp(84px,9.9vw,200px)}}
-@media (max-width: 1200px) and (orientation:landscape){#app{padding:1vh .9vw .7vh;grid-template-rows:25% 54% 15% 6%}.top{grid-template-columns:1fr 9.4vw;gap:.75vw}.middle{grid-template-columns:21.8% 1fr 21.8%;gap:.7vw}.side{gap:.7vh;padding-top:.55vh}.card{grid-template-columns:20% 1fr}.label{font-size:clamp(10px,.82vw,15px)}.value{font-size:clamp(23px,2.15vw,42px)}.center .speed{font-size:clamp(76px,9vw,170px)}.rpmLabels{font-size:clamp(16px,1.3vw,24px)}.bVal{font-size:clamp(24px,1.7vw,36px)}}
-@media (max-width: 980px) and (orientation:landscape){#app{padding:.8vh .7vw .6vh;grid-template-rows:23% 56% 15% 6%}.top{grid-template-columns:1fr 8.7vw;gap:.6vw}.topLeft{grid-template-rows:14% 60% 20%}.middle{grid-template-columns:20.8% 1fr 20.8%;gap:.55vw}.card .iconWrap:after{top:18%;bottom:18%}.center .speed{font-size:clamp(68px,8.2vw,130px)}.status{padding-top:.15vh}}
 
-/* PHONE / TOUCH DISPLAY — heavier typography for readability */
-@media (hover:none) and (pointer:coarse), (max-width:980px) and (orientation:landscape){
-  .rpmTitle,
-  .rpmLabels,
-  .label,
-  .unit,
-  .scale,
-  .center .kph,
-  .center .km,
-  .bKey,
-  .bUnit,
-  .leftStatus,
-  .btns button,
-  .setupPanel,
-  .setupPanel input,
-  .setupPanel select,
-  .setupPanel button{
-    font-weight:650 !important;
-  }
-  .value,
-  .bVal,
-  .rpmBox .n,
-  .rpmBox .u{
-    font-weight:600 !important;
-  }
-  .center .speed{
-    font-weight:500 !important;
-  }
-  .rpmLabels span{
-    text-shadow:0 0 1px rgba(255,255,255,.24);
-  }
-  .label,.bKey,.center .kph,.rpmTitle{
-    text-shadow:0 0 1px rgba(255,255,255,.18);
-  }
+@media (orientation:portrait){.rotate{display:flex!important}#app{visibility:hidden}}
+@media (orientation:landscape){.rotate{display:none!important}#app{visibility:visible}}
+/* short landscape phones, including iPhone mini/SE class */
+@media (orientation:landscape) and (max-height:390px){
+  #app{grid-template-rows:24% 55% 15% 6%;padding:.45dvh .7dvw .35dvh}
+  .top{grid-template-columns:minmax(0,1fr) 9.5%}
+  .middle{grid-template-columns:21% minmax(0,1fr) 21%;gap:.55dvw}
+  .side{gap:.45dvh;padding-top:.25dvh}
+  .label{font-size:clamp(9px,2dvh,13px)}
+  .value{font-size:clamp(20px,5.7dvh,34px)}
+  .center .speed{font-size:clamp(72px,23dvh,150px)}
+  .bottom{margin-top:.1dvh}
+}
+/* extra-wide phones (19.5:9 / 20:9 / 21:9) */
+@media (orientation:landscape) and (min-aspect-ratio:19/9){
+  .middle{grid-template-columns:20.5% minmax(0,1fr) 20.5%}
+  .top{grid-template-columns:minmax(0,1fr) 9.2%}
+  .center .speed{font-size:clamp(86px,25dvh,205px)}
 }
 
 </style>
@@ -101,7 +84,7 @@ button,input,select{font:inherit}
 <div id="fitBox">
 <div id="app">
 <div class="rotate"><div><b>หมุนโทรศัพท์เป็นแนวนอน</b><p>Dashboard ออกแบบสำหรับ Landscape</p></div></div>
-<section class="top"><div class="topLeft"><div class="rpmTitle">x1000 RPM</div><div id="rpmBlocks" class="rpmBlocks"></div><div id="rpmLabels" class="rpmLabels"></div></div><div class="rpmBox"><div id="rpmTop" class="n">0</div><div class="u">RPM</div></div></section>
+<section class="top"><div class="topLeft"><div class="rpmTitle">x1000 RPM</div><div id="rpmBlocks" class="rpmBlocks"><i class="block"></i><i class="block"></i><i class="block"></i><i class="block"></i><i class="block"></i><i class="block"></i><i class="block"></i><i class="block"></i><i class="block"></i><i class="block"></i><i class="block red"></i><i class="block red"></i><i class="block red"></i><i class="block red"></i></div><div id="rpmLabels" class="rpmLabels"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span class="red">10</span><span class="red">11</span><span class="red">12</span><span class="red">13</span></div></div><div class="rpmBox"><div id="rpmTop" class="n">0</div><div class="u">RPM</div></div></section>
 <section class="middle">
 <div class="side">
   <div class="card"><div class="iconWrap"><svg viewBox="0 0 64 64"><rect x="12" y="22" width="40" height="27"/><path d="M22 17v5M42 17v5M20 35h10M25 30v10M37 35h10"/></svg></div><div class="body"><div class="label">BATTERY</div><div class="valueRow"><span id="battery" class="value">0.0</span><span class="unit">V</span></div><div class="bar"><i id="batteryBar" style="width:0%"></i></div><div class="scale"><span>8</span><span>16</span></div></div></div>
@@ -120,26 +103,30 @@ button,input,select{font:inherit}
 <section class="status"><div class="leftStatus"><span id="mqttDot" class="dot"></span><span id="connText">DISCONNECTED</span><span>•</span><span id="gpsDot" class="dot gpsdot"></span><span id="gpsText">GPS OFF</span></div><div class="btns"><button id="gpsBtn"><span style="display:inline-flex;align-items:center;gap:.35vw"><svg viewBox="0 0 24 24" style="width:.85vw;height:.85vw;stroke:#cfcfcf;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M12 21s6-5.4 6-11a6 6 0 1 0-12 0c0 5.6 6 11 6 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>GPS</span></span></button><button id="setupBtn" class="gearBtn" aria-label="Settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1 1 0 0 0 .2 1.1l.1.1a1.3 1.3 0 0 1 0 1.8l-.7.7a1.3 1.3 0 0 1-1.8 0l-.1-.1a1 1 0 0 0-1.1-.2 1 1 0 0 0-.6.9v.2A1.3 1.3 0 0 1 14.1 21h-1.2a1.3 1.3 0 0 1-1.3-1.3v-.2a1 1 0 0 0-.6-.9 1 1 0 0 0-1.1.2l-.1.1a1.3 1.3 0 0 1-1.8 0l-.7-.7a1.3 1.3 0 0 1 0-1.8l.1-.1A1 1 0 0 0 7 15a1 1 0 0 0-.9-.6h-.2A1.3 1.3 0 0 1 4.6 13v-1a1.3 1.3 0 0 1 1.3-1.3h.2A1 1 0 0 0 7 10a1 1 0 0 0-.2-1.1l-.1-.1a1.3 1.3 0 0 1 0-1.8l.7-.7a1.3 1.3 0 0 1 1.8 0l.1.1A1 1 0 0 0 10.4 6a1 1 0 0 0 .6-.9v-.2A1.3 1.3 0 0 1 12.3 3.6h1.2A1.3 1.3 0 0 1 14.8 5v.2a1 1 0 0 0 .6.9 1 1 0 0 0 1.1-.2l.1-.1a1.3 1.3 0 0 1 1.8 0l.7.7a1.3 1.3 0 0 1 0 1.8l-.1.1A1 1 0 0 0 19 10a1 1 0 0 0 .9.6h.2a1.3 1.3 0 0 1 1.3 1.3v1a1.3 1.3 0 0 1-1.3 1.3h-.2a1 1 0 0 0-.5.8Z"/></svg></button></div></section>
 <div id="setupShade" class="setupShade"><div class="setupPanel"><h2>K-LINE DASH SETUP</h2><p>เลือกแหล่งความเร็วจาก ECU หรือ GPS โทรศัพท์ และตั้งค่าการเชื่อมต่อข้อมูล</p><div class="setupGrid"><div class="setupField"><label>DEVICE ID</label><input id="cfgDevice"></div><div class="setupField"><label>TOPIC KEY</label><input id="cfgKey"></div><div class="setupField wide"><label>MQTT WSS URL</label><input id="cfgBroker"></div><div class="setupField wide"><label>SPEED SOURCE</label><select id="cfgSpeedSource"><option value="ecu">ECU / K-LINE SPEED</option><option value="gps">PHONE GPS SPEED</option></select></div></div><div class="setupActions"><button id="cfgClose">CLOSE</button><button id="cfgGps">GPS ON</button><button id="cfgSave" class="save">SAVE + CONNECT</button></div><div class="setupNote">ธีมนี้ถูกปรับให้ยึดภาพอ้างอิงให้ใกล้ที่สุด และใช้ RPM scale 0–13 x1000</div></div></div><div id="toast"></div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/5.5.2/mqtt.min.js">
-const BASE_W=1600, BASE_H=900;
-function resizeDashboard(){
-  const app=document.getElementById('app');
-  const fitBox=document.getElementById('fitBox');
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/5.5.2/mqtt.min.js"></script>
+<script>
+function syncViewport(){
   const viewport=document.getElementById('viewport');
-  if(!app||!fitBox||!viewport) return;
-  const vw=viewport.clientWidth||window.innerWidth||document.documentElement.clientWidth||BASE_W;
-  const vh=viewport.clientHeight||window.innerHeight||document.documentElement.clientHeight||BASE_H;
-  const scale=Math.min(vw/BASE_W, vh/BASE_H);
-  const finalScale=Math.max(scale,0.1);
-  fitBox.style.width=(BASE_W*finalScale)+'px';
-  fitBox.style.height=(BASE_H*finalScale)+'px';
-  app.style.setProperty('--scale', String(finalScale));
+  if(!viewport) return;
+  const vv=window.visualViewport;
+  const w=vv?vv.width:window.innerWidth;
+  const h=vv?vv.height:window.innerHeight;
+  viewport.style.width=w+'px';
+  viewport.style.height=h+'px';
+  viewport.style.left=((vv&&vv.offsetLeft)||0)+'px';
+  viewport.style.top=((vv&&vv.offsetTop)||0)+'px';
 }
-window.addEventListener('resize', resizeDashboard,{passive:true});
-window.addEventListener('orientationchange', ()=>setTimeout(resizeDashboard,120),{passive:true});
-window.addEventListener('pageshow', ()=>setTimeout(resizeDashboard,60),{passive:true});
-setTimeout(resizeDashboard,0);
-setTimeout(resizeDashboard,300);
+async function tryLandscape(){
+  try{
+    if(screen.orientation&&screen.orientation.lock){await screen.orientation.lock('landscape');}
+  }catch(e){}
+}
+window.addEventListener('resize',syncViewport,{passive:true});
+window.addEventListener('orientationchange',()=>setTimeout(syncViewport,120),{passive:true});
+if(window.visualViewport){visualViewport.addEventListener('resize',syncViewport,{passive:true});visualViewport.addEventListener('scroll',syncViewport,{passive:true});}
+window.addEventListener('pageshow',()=>{syncViewport();tryLandscape();},{passive:true});
+document.addEventListener('click',tryLandscape,{once:true,passive:true});
+syncViewport();
 
 </script>
 <script>
@@ -150,7 +137,6 @@ const state={rpm:0,speed:0,battery:0,o2:0,inj:0,ign:0,coolant:0,tps:0,trip:0}; l
 const clamp=(v,a,b)=>{v=Number(v);return Number.isFinite(v)?Math.max(a,Math.min(b,v)):a}; const fmt=(v,d=0)=>Number(v).toFixed(d); const topic=()=>`anan/kline/${cfg.device}/${cfg.key}/telemetry`;
 function toast(t){const e=$('toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),1500)}
 function normalizeECU(raw={}){const d={...raw}; if(d.ect!=null&&d.coolant==null)d.coolant=d.ect; if(d.ectTemp!=null&&d.coolant==null)d.coolant=d.ectTemp; if(d.coolantTemp!=null&&d.coolant==null)d.coolant=d.coolantTemp; if(d.engineCoolantTemp!=null&&d.coolant==null)d.coolant=d.engineCoolantTemp; if(d.o2Voltage!=null&&d.o2==null)d.o2=d.o2Voltage; if(d.o2Sensor!=null&&d.o2==null)d.o2=d.o2Sensor; if(d.oxygen!=null&&d.o2==null)d.o2=d.oxygen; if(d.vehicleSpeed!=null&&d.speed==null)d.speed=d.vehicleSpeed; if(d.ecuSpeed!=null&&d.speed==null)d.speed=d.ecuSpeed; if(d.vss!=null&&d.speed==null)d.speed=d.vss; if(d.injectorTime!=null&&d.inj==null)d.inj=d.injectorTime; if(d.injectionTime!=null&&d.inj==null)d.inj=d.injectionTime; if(d.ignitionAdvance!=null&&d.ign==null)d.ign=d.ignitionAdvance; if(d.ignAdvance!=null&&d.ign==null)d.ign=d.ignAdvance; if(d.throttle!=null&&d.tps==null)d.tps=d.throttle; if(d.throttlePosition!=null&&d.tps==null)d.tps=d.throttlePosition; if(d.voltage!=null&&d.battery==null)d.battery=d.voltage; if(d.batt!=null&&d.battery==null)d.battery=d.batt; return d}
-const rpmBlocks=$('rpmBlocks'), rpmLabels=$('rpmLabels'); for(let i=0;i<14;i++){const el=document.createElement('i'); el.className='block'+(i>=10?' red':''); rpmBlocks.appendChild(el)} for(let i=0;i<=13;i++){const s=document.createElement('span'); s.textContent=i; if(i>=10)s.className='red'; rpmLabels.appendChild(s)}
 function render(d={}){Object.assign(state,d); state.rpm=clamp(state.rpm,0,13000); state.battery=clamp(state.battery,0,20); state.coolant=clamp(state.coolant,-20,150); state.tps=clamp(state.tps,0,100); state.o2=clamp(state.o2,0,2); state.inj=clamp(state.inj,0,20); state.ign=clamp(state.ign,-20,70); const shownSpeed=cfg.speedSource==='gps'?clamp(gpsSpeed,0,399):clamp(state.speed,0,399);
 $('rpmTop').textContent=fmt(state.rpm,0); $('rpmCenter').textContent=fmt(state.rpm,0); $('speed').textContent=fmt(shownSpeed,0); $('battery').textContent=fmt(state.battery,1); $('coolant').textContent=fmt(state.coolant,0); $('tps').textContent=fmt(state.tps,0); $('o2').textContent=fmt(state.o2,2); $('o2Mini').textContent=fmt(state.o2,2)+' V'; $('inj').textContent=fmt(state.inj,2); $('ign').textContent=fmt(state.ign,1).replace('.0',''); $('voltBottom').textContent=fmt(state.battery,1); $('trip').textContent=fmt(cfg.speedSource==='gps'?gpsTripM/1000:state.trip,1);
 $('batteryBar').style.width=Math.min(100,Math.max(0,(state.battery-8)/8*100))+'%'; $('coolantBar').style.width=Math.min(100,Math.max(0,(state.coolant-40)/80*100))+'%'; $('tpsBar').style.width=state.tps+'%'; $('o2Bar').style.width=Math.min(100,state.o2/1.0*100)+'%'; $('injBar').style.width=Math.min(100,state.inj/10*100)+'%'; $('ignBar').style.width=Math.min(100,Math.max(0,(state.ign+20)/80*100))+'%';
