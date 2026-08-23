@@ -10,14 +10,14 @@
 <meta name="format-detection" content="telephone=no">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>ANAN K-LINE DASH LIVE V2.18</title>
+<title>ANAN K-LINE DASH LIVE V2.19</title>
 <style>
 :root{--bg:#010101;--line:#272727;--line2:#353535;--text:#f4f4f1;--muted:#9f9f9f;--muted2:#6d6d6d;--red:#e40d13;--red2:#ae080d;--blue:#7fbed9;--green:#6ead54}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;width:100%;height:100%;background:#000;color:var(--text);overflow:hidden;font-family:"Helvetica Neue",Arial,sans-serif;font-style:italic} body{position:relative}
+html,body{margin:0;width:100%;height:100%;background:#000;color:var(--text);overflow:hidden;font-family:"Helvetica Neue",Arial,sans-serif;font-style:italic;-webkit-text-size-adjust:100%;text-size-adjust:100%} body{position:relative;overscroll-behavior:none;-webkit-user-select:none;user-select:none}
 body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
 button,input,select{font:inherit}
-#viewport{position:fixed;inset:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#000} #app{position:relative;width:1600px;height:900px;box-sizing:border-box;padding:14px 18px 10px;display:grid;grid-template-rows:26% 53% 15% 6%;background:repeating-linear-gradient(0deg,rgba(255,255,255,.013) 0 1px,transparent 1px 3px),radial-gradient(ellipse at 50% 58%,rgba(255,255,255,.022),transparent 38%),#010101;transform:scale(var(--scale,1));transform-origin:center center;will-change:transform}
+#viewport{position:fixed;inset:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#000;padding:max(env(safe-area-inset-top),0px) max(env(safe-area-inset-right),0px) max(env(safe-area-inset-bottom),0px) max(env(safe-area-inset-left),0px)} #fitBox{position:relative;overflow:hidden;flex:0 0 auto} #app{position:absolute;left:0;top:0;width:1600px;height:900px;box-sizing:border-box;padding:14px 18px 10px;display:grid;grid-template-rows:26% 53% 15% 6%;background:repeating-linear-gradient(0deg,rgba(255,255,255,.013) 0 1px,transparent 1px 3px),radial-gradient(ellipse at 50% 58%,rgba(255,255,255,.022),transparent 38%),#010101;transform:scale(var(--scale,1));transform-origin:top left;will-change:transform}
 #app:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.34),transparent 18%,transparent 82%,rgba(0,0,0,.34))}
 .rotate{display:none;position:fixed;inset:0;z-index:999;background:#030303;align-items:center;justify-content:center;text-align:center;padding:24px}.rotate div{border:1px solid #292929;padding:22px 28px;border-radius:6px}.rotate b{font-size:21px}.rotate p{color:#767676;margin:8px 0 0}
 @media(orientation:portrait){.rotate{display:flex}}
@@ -98,6 +98,7 @@ button,input,select{font:inherit}
 </head>
 <body>
 <div id="viewport">
+<div id="fitBox">
 <div id="app">
 <div class="rotate"><div><b>หมุนโทรศัพท์เป็นแนวนอน</b><p>Dashboard ออกแบบสำหรับ Landscape</p></div></div>
 <section class="top"><div class="topLeft"><div class="rpmTitle">x1000 RPM</div><div id="rpmBlocks" class="rpmBlocks"></div><div id="rpmLabels" class="rpmLabels"></div></div><div class="rpmBox"><div id="rpmTop" class="n">0</div><div class="u">RPM</div></div></section>
@@ -123,15 +124,22 @@ button,input,select{font:inherit}
 const BASE_W=1600, BASE_H=900;
 function resizeDashboard(){
   const app=document.getElementById('app');
-  if(!app) return;
-  const vw=window.innerWidth||document.documentElement.clientWidth||BASE_W;
-  const vh=window.innerHeight||document.documentElement.clientHeight||BASE_H;
+  const fitBox=document.getElementById('fitBox');
+  const viewport=document.getElementById('viewport');
+  if(!app||!fitBox||!viewport) return;
+  const vw=viewport.clientWidth||window.innerWidth||document.documentElement.clientWidth||BASE_W;
+  const vh=viewport.clientHeight||window.innerHeight||document.documentElement.clientHeight||BASE_H;
   const scale=Math.min(vw/BASE_W, vh/BASE_H);
-  app.style.setProperty('--scale', String(Math.max(scale,0.1)));
+  const finalScale=Math.max(scale,0.1);
+  fitBox.style.width=(BASE_W*finalScale)+'px';
+  fitBox.style.height=(BASE_H*finalScale)+'px';
+  app.style.setProperty('--scale', String(finalScale));
 }
-window.addEventListener('resize', resizeDashboard);
-window.addEventListener('orientationchange', resizeDashboard);
+window.addEventListener('resize', resizeDashboard,{passive:true});
+window.addEventListener('orientationchange', ()=>setTimeout(resizeDashboard,120),{passive:true});
+window.addEventListener('pageshow', ()=>setTimeout(resizeDashboard,60),{passive:true});
 setTimeout(resizeDashboard,0);
+setTimeout(resizeDashboard,300);
 
 </script>
 <script>
