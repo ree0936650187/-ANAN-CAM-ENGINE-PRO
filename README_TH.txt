@@ -1,22 +1,19 @@
-ANAN K-LINE V2.40 OPEN APP FIRST
+ANAN K-LINE V2.41 - iPhone BLE Discovery Fix
 
-หน้าเว็บ:
-- เปิด Dashboard ได้ทันที แม้ BLE/MQTT ยังไม่เชื่อม
-- เริ่มสถานะ DISCONNECTED
-- ผู้ใช้กดปุ่ม BLE ภายหลังเพื่อเลือก ANAN-KLINE
-- MQTT เชื่อมและรับข้อมูลได้ตามปกติ
-- ไม่มี DEMO
-
-ESP32:
-- แก้ Compilation error ของ V2.39:
-  activeTable
-  klineConnected
-  lastKlineOK
-  lastKlineTry
-- ตัดคำสั่ง NimBLEService::start() ที่ deprecated ใน NimBLE-Arduino 2.x
+- Dashboard เปิดได้แม้ยังไม่เชื่อม
+- ไม่มี Demo
+- MQTT เหมือนเดิม
 - BLE ชื่อ ANAN-KLINE
-- MQTT + Honda K-Line ยังอยู่ครบ
+- แยก Advertising กับ Scan Response เพื่อให้ชื่อเห็นง่ายบน iPhone
+- ตรวจผล adv->start() จริง
+- ถ้า advertising หยุด ระบบ restart ทุก 2 วินาที
+
+หลังแฟลช เปิด Serial Monitor 115200 ควรเห็น:
+BLE INIT: advData=OK scanData=OK start=OK advertising=YES name=ANAN-KLINE
 
 หมายเหตุ:
+Settings > Bluetooth ของ iPhone ไม่ใช่ BLE scanner ทั่วไป
+ถ้าจะตรวจว่ากล่องปล่อย BLE จริง ให้ใช้ BLE scanner / Bluefy
+
 K-Line ต้องผ่าน L9637D / MC33290 หรือ K-Line transceiver ที่เหมาะสม
-ห้ามต่อสาย K-Line จากรถเข้า ESP32 GPIO โดยตรง
+ห้ามต่อ K-Line รถเข้า GPIO ESP32 โดยตรง
