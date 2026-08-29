@@ -1,12 +1,10 @@
-ANAN K-LINE DASH LIVE V2.33
+ANAN K-LINE DASH LIVE V2.36 LIVE ONLY
 
-ชุดนี้ใช้ dashboard_0_12_scifi_premium ที่ให้มาเป็น Master UI
-- คง DEMO MODE ในหน้าเว็บ
-- ปรับ RPM Scale เป็น 0–13
-- รองรับข้อมูล RPM สูงสุด 13,000
-- มี ESP32 WiFi + MQTT demo/bridge sketch
-- มีไอคอน PNG 512/192/128/64/32 และ ICO
-- มี manifest + service worker สำหรับ PWA
+- เอา DEMO MODE ออกทั้งหมด
+- หน้าเว็บเริ่มที่ DISCONNECTED และให้ผู้ใช้กด CONNECT BLE เอง
+- รับข้อมูลจริงจาก BLE หรือ MQTT เท่านั้น
+- RPM 0-13 / สูงสุด 13,000 RPM
+- GPS และ Settings ยังใช้งานได้
+- BLE Local + MQTT Remote ทำงานร่วมกันได้
 
-ค่าที่หน้าเว็บรับจาก MQTT JSON:
-rpm, speed, battery, coolant/ect, tps, o2, inj, ign, trip
+หมายเหตุ: K-Line ต้องผ่านวงจร transceiver เช่น L9637D / MC33290 ห้ามต่อ K-Line เข้า GPIO ESP32 โดยตรง
