@@ -1,0 +1,18 @@
+ANAN K-LINE V2.41 GITHUB READY
+
+ให้อัปไฟล์เหล่านี้ไปที่ ROOT ของ repo:
+index.html
+sw.js
+manifest.json
+icon-32.png
+icon-64.png
+icon-128.png
+icon-192.png
+icon-512.png
+
+สำคัญ:
+1. ต้องแทนที่ sw.js เดิมด้วยไฟล์ในชุดนี้
+2. อย่าอัปเป็นโฟลเดอร์ซ้อน ถ้า GitHub Pages ใช้ root ของ main
+3. หลัง Commit รอ GitHub Pages ประมาณ 1-2 นาที
+4. เปิดเว็บด้วย ?v=241 หนึ่งครั้งเพื่อเลี่ยง cache เก่า
+5. ถ้าเป็นไอคอน Home Screen เก่า ให้ปิดแอปแล้วเปิดใหม่

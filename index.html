@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="format-detection" content="telephone=no">
-<title>ANAN K-LINE DASH LIVE V2.40 OPEN APP FIRST MANUAL BLE</title>
+<title>ANAN K-LINE DASH LIVE V2.41 iPHONE BLE + MQTT</title>
 <style>
 :root{--bg:#040404;--text:#f7f7f3;--red:#ef121b;--green:#6ead54;--card-bg:#080808}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -390,5 +390,19 @@ setInterval(()=>$('clock').textContent=new Date().toLocaleTimeString('th-TH',{ho
 
 })();
 </script>
-<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load', async ()=>{
+    try{
+      const reg = await navigator.serviceWorker.register('./sw.js?v=241', {
+        scope:'./',
+        updateViaCache:'none'
+      });
+      await reg.update();
+    }catch(e){
+      console.warn('SW update failed', e);
+    }
+  });
+}
+</script>
 </body></html>
