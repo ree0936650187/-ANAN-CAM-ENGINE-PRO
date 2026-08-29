@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="format-detection" content="telephone=no">
-<title>ANAN K-LINE DASH LIVE V2.39 iPHONE BLE + MQTT MANUAL BLE</title>
+<title>ANAN K-LINE DASH LIVE V2.40 OPEN APP FIRST MANUAL BLE</title>
 <style>
 :root{--bg:#040404;--text:#f7f7f3;--red:#ef121b;--green:#6ead54;--card-bg:#080808}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -158,17 +158,6 @@ button,input,select{font:inherit}
 #toast{position:absolute;right:2.5vw;top:2vh;z-index:120;border:1px solid rgba(255,255,255,0.1);background:rgba(10,10,10,0.9);color:#fff;padding:10px 20px;font-size:13px;border-radius:4px;opacity:0;transition:.3s;pointer-events:none; box-shadow: 0 5px 15px rgba(0,0,0,0.5)}#toast.show{opacity:1}
 
 
-/* Manual BLE connection gate - required user gesture */
-.connectGate{position:absolute;inset:0;z-index:160;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,rgba(12,18,25,.93),rgba(0,0,0,.985) 70%);backdrop-filter:blur(8px)}
-.connectGate.hide{display:none}
-.connectCard{width:min(500px,82vw);padding:clamp(18px,4dvh,34px);border:1px solid rgba(120,190,255,.24);border-radius:12px;background:linear-gradient(150deg,rgba(22,26,31,.97),rgba(5,6,8,.99));box-shadow:0 20px 60px rgba(0,0,0,.75),inset 0 0 30px rgba(90,180,255,.04);text-align:center}
-.connectLogo{font-size:clamp(20px,4.2dvh,34px);font-weight:600;letter-spacing:.12em;color:#f7fbff;text-shadow:0 0 18px rgba(130,210,255,.25)}
-.connectSub{margin-top:6px;color:#76879a;font-size:clamp(10px,1.8dvh,13px);letter-spacing:.08em}
-.connectActions{display:grid;grid-template-columns:1fr;gap:12px;margin-top:20px}
-.connectActions button{height:clamp(42px,8dvh,58px);border-radius:7px;border:1px solid rgba(255,255,255,.12);background:#0b0d10;color:#cbd5df;font-size:clamp(12px,2.2dvh,16px);letter-spacing:.04em}
-.connectActions .primary{border-color:rgba(90,195,255,.65);background:linear-gradient(180deg,rgba(35,145,230,.22),rgba(15,55,85,.22));color:#eaf8ff;box-shadow:0 0 18px rgba(70,175,255,.13)}
-.connectHint{margin-top:13px;color:#657383;font-size:clamp(9px,1.6dvh,11px);line-height:1.45}
-.connectState{margin-top:10px;min-height:18px;color:#8fbad2;font-size:clamp(10px,1.7dvh,12px)}
 
 @media (orientation:portrait){.rotate{display:flex!important}#app{visibility:hidden}}
 @media (orientation:landscape){.rotate{display:none!important}#app{visibility:visible}}
@@ -179,17 +168,6 @@ button,input,select{font:inherit}
 <div id="fitBox">
 <div id="app">
 <div id="glare"></div>
-<div id="connectGate" class="connectGate">
-  <div class="connectCard">
-    <div class="connectLogo">ANAN K-LINE</div>
-    <div class="connectSub">LIVE ECU / LOCAL BLE / REMOTE MQTT</div>
-    <div class="connectActions">
-      <button id="gateBle" class="primary">CONNECT BLE</button>
-    </div>
-    <div id="gateState" class="connectState">แตะ CONNECT BLE เพื่อเชื่อมต่อ ESP32</div>
-    <div class="connectHint">iPhone: เปิดหน้านี้ด้วย Web Bluetooth browser เช่น Bluefy แล้วแตะ CONNECT BLE จากหน้านี้เอง ไม่จำเป็นต้อง Pair ใน Settings ก่อน</div>
-  </div>
-</div>
 <div class="rotate"><div><b>หมุนโทรศัพท์เป็นแนวนอน</b><p>Dashboard ออกแบบสำหรับ Landscape</p></div></div>
 <section class="top">
     <div class="topLeft">
@@ -352,7 +330,7 @@ function toast(t){const e=$('toast');e.textContent=t;e.classList.add('show');set
 
 const BLE_SERVICE_UUID='6e400001-b5a3-f393-e0a9-e50e24dcca9e';
 const BLE_TELEMETRY_UUID='6e400003-b5a3-f393-e0a9-e50e24dcca9e';
-let bleDevice=null,bleChar=null,bleConnected=false; const gateState=$('gateState');
+let bleDevice=null,bleChar=null,bleConnected=false; const gateState=null;
 function decodeBlePacket(view){
   if(view.byteLength<20)return null;
   return {rpm:view.getUint16(0,true),speed:view.getUint16(2,true)/10,battery:view.getUint16(4,true)/100,coolant:view.getInt16(6,true)/10,tps:view.getUint16(8,true)/10,o2:view.getUint16(10,true)/1000,inj:view.getUint16(12,true)/1000,ign:view.getInt16(14,true)/10,trip:view.getUint32(16,true)/1000};
@@ -373,7 +351,6 @@ async function connectBLE(){
     await bleChar.startNotifications();
     bleChar.addEventListener('characteristicvaluechanged',onBleData);
     bleConnected=true;$('bleBtn').classList.add('bleon');setConn('CONNECTED',true);toast('LOCAL CONNECTED');
-    if($('connectGate')) $('connectGate').classList.add('hide');
     if(gateState) gateState.textContent='CONNECTED';
   }catch(e){bleConnected=false;$('bleBtn').classList.remove('bleon');if(gateState) gateState.textContent='ยังไม่ได้เชื่อมต่อ - แตะ CONNECT BLE เพื่อลองใหม่';
     toast('ยังไม่เชื่อมต่อ BLE / กรุณาเลือก ANAN-KLINE');}
@@ -400,7 +377,7 @@ blocks.forEach((b,i)=>{
 window.updateTelemetry=d=>render(normalizeECU(d));
 
 function setConn(t,live=false){$('connText').textContent=t; $('mqttDot').classList.toggle('live',live)}
-function connectMQTT(){ if(typeof mqtt==='undefined'){setConn('DISCONNECTED'); return} try{if(mqttClient)mqttClient.end(true)}catch(e){} setConn('CONNECTING...'); mqttClient=mqtt.connect(cfg.broker,{clientId:'anan_web_'+Math.random().toString(16).slice(2),clean:true,reconnectPeriod:2000,connectTimeout:10000,keepalive:20}); mqttClient.on('connect',()=>mqttClient.subscribe(topic(),{qos:0},err=>setConn(err?'DISCONNECTED':'CONNECTED',!err))); mqttClient.on('reconnect',()=>setConn('CONNECTING...')); mqttClient.on('offline',()=>setConn('DISCONNECTED')); mqttClient.on('error',()=>setConn('DISCONNECTED')); mqttClient.on('message',(tp,msg)=>{ if(tp!==topic()) return; try{const p=JSON.parse(msg.toString()), d=normalizeECU(p.data||p); lastPacket=Date.now(); if($('connectGate'))$('connectGate').classList.add('hide'); render(d); setConn('CONNECTED',true)}catch(e){}})}
+function connectMQTT(){ if(typeof mqtt==='undefined'){setConn('DISCONNECTED'); return} try{if(mqttClient)mqttClient.end(true)}catch(e){} setConn('CONNECTING...'); mqttClient=mqtt.connect(cfg.broker,{clientId:'anan_web_'+Math.random().toString(16).slice(2),clean:true,reconnectPeriod:2000,connectTimeout:10000,keepalive:20}); mqttClient.on('connect',()=>mqttClient.subscribe(topic(),{qos:0},err=>setConn(err?'DISCONNECTED':'CONNECTED',!err))); mqttClient.on('reconnect',()=>setConn('CONNECTING...')); mqttClient.on('offline',()=>setConn('DISCONNECTED')); mqttClient.on('error',()=>setConn('DISCONNECTED')); mqttClient.on('message',(tp,msg)=>{ if(tp!==topic()) return; try{const p=JSON.parse(msg.toString()), d=normalizeECU(p.data||p); lastPacket=Date.now(); render(d); setConn('CONNECTED',true)}catch(e){}})}
 setInterval(()=>{if(lastPacket&&Date.now()-lastPacket>3000&&mqttClient?.connected)setConn('CONNECTED',true)},1000);
 function hav(a,b){const R=6371000,p=Math.PI/180,dLat=(b.lat-a.lat)*p,dLon=(b.lon-a.lon)*p; const x=Math.sin(dLat/2)**2+Math.cos(a.lat*p)*Math.cos(b.lat*p)*Math.sin(dLon/2)**2; return 2*R*Math.asin(Math.sqrt(x))}
 function startGPS(){ if(!navigator.geolocation){toast('GPS ไม่รองรับ');return} if(gpsWatch!==null)return; $('gpsText').textContent='GPS CONNECTING'; gpsWatch=navigator.geolocation.watchPosition(pos=>{const c=pos.coords,now=pos.timestamp||Date.now(),pt={lat:c.latitude,lon:c.longitude,t:now}; let sp=Number.isFinite(c.speed)?Math.max(0,c.speed*3.6):null; if(lastGps&&c.accuracy<=50){const dist=hav(lastGps,pt),dt=(now-lastGps.t)/1000; if(dist>=1&&dist<200)gpsTripM+=dist; if(sp===null&&dt>.3&&dt<10)sp=dist/dt*3.6} lastGps=pt; gpsSpeed=clamp(sp??gpsSpeed,0,399); gpsOn=true; localStorage.setItem('anan_gps_trip',String(gpsTripM)); $('gpsDot').classList.add('live'); $('gpsBtn').classList.add('gpson'); $('gpsText').textContent='GPS LOCK '+Math.round(c.accuracy)+'m'; render(); },()=>{$('gpsText').textContent='GPS DENIED/OFF'; $('gpsDot').classList.remove('live'); $('gpsBtn').classList.remove('gpson')},{enableHighAccuracy:true,maximumAge:500,timeout:10000})}
@@ -409,7 +386,6 @@ function openSetup(){$('cfgDevice').value=cfg.device; $('cfgKey').value=cfg.key;
 $('setupBtn').onclick=openSetup; $('cfgClose').onclick=()=>$('setupShade').classList.remove('show'); $('cfgGps').onclick=startGPS; $('cfgSave').onclick=()=>{cfg.device=$('cfgDevice').value.trim()||defaults.device; cfg.key=$('cfgKey').value.trim()||defaults.key; cfg.broker=$('cfgBroker').value.trim()||defaults.broker; cfg.speedSource=$('cfgSpeedSource').value==='gps'?'gps':'ecu'; localStorage.setItem('anan_device',cfg.device); localStorage.setItem('anan_key',cfg.key); localStorage.setItem('anan_broker',cfg.broker); localStorage.setItem('anan_speed_source',cfg.speedSource); if(cfg.speedSource==='gps')startGPS(); $('setupShade').classList.remove('show'); render(); connectMQTT()};
 $('gpsBtn').onclick=()=>gpsOn?stopGPS():startGPS();
 $('bleBtn').onclick=()=>bleConnected?disconnectBLE():connectBLE();
-$('gateBle').onclick=connectBLE;
 setInterval(()=>$('clock').textContent=new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit',hour12:false}),1000); render(); connectMQTT();
 
 })();
