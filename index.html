@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="format-detection" content="telephone=no">
-<title>ANAN K-LINE DASH LIVE V2.36 LIVE ONLY MANUAL BLE</title>
+<title>ANAN K-LINE DASH LIVE V2.37 REAL HONDA</title>
 <style>
 :root{--bg:#040404;--text:#f7f7f3;--red:#ef121b;--green:#6ead54;--card-bg:#080808}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -185,9 +185,10 @@ button,input,select{font:inherit}
     <div class="connectSub">LIVE ECU / LOCAL BLE / REMOTE MQTT</div>
     <div class="connectActions">
       <button id="gateBle" class="primary">CONNECT BLE</button>
+      <button id="gateWifi">LOCAL WIFI</button>
     </div>
     <div id="gateState" class="connectState">แตะ CONNECT BLE เพื่อเชื่อมต่อ ESP32</div>
-    <div class="connectHint">iPhone: เปิดหน้านี้ด้วย Web Bluetooth browser เช่น Bluefy แล้วแตะ CONNECT BLE จากหน้านี้เอง ไม่จำเป็นต้อง Pair ใน Settings ก่อน</div>
+    <div class="connectHint">iPhone: ทางง่ายสุดคือ Settings > Wi-Fi > ANAN-KLINE-WIFI แล้วเปิด 192.168.4.1 | BLE ให้ใช้เบราว์เซอร์ที่รองรับ Web Bluetooth แล้วกด CONNECT BLE</div>
   </div>
 </div>
 <div class="rotate"><div><b>หมุนโทรศัพท์เป็นแนวนอน</b><p>Dashboard ออกแบบสำหรับ Landscape</p></div></div>
@@ -304,7 +305,7 @@ button,input,select{font:inherit}
 </div>
 
 <section class="status">
-    <div class="leftStatus"><span id="mqttDot" class="dot live"></span><span id="connText">DISCONNECTED</span> &nbsp;•&nbsp; <span id="gpsDot" class="dot gpsdot"></span><span id="gpsText">GPS OFF</span></div>
+    <div class="leftStatus"><span id="mqttDot" class="dot"></span><span id="connText">DISCONNECTED</span> &nbsp;•&nbsp; <span id="gpsDot" class="dot gpsdot"></span><span id="gpsText">GPS OFF</span></div>
     <div class="btns">
         <button id="bleBtn" class="bleBtn" aria-label="Local Bluetooth"><svg viewBox="0 0 24 24"><path d="M7 7l10 10-5 4V3l5 4L7 17"/></svg></button>
         <button id="gpsBtn">GPS</button>
@@ -362,7 +363,7 @@ async function connectBLE(){
   if(!navigator.bluetooth){toast('อุปกรณ์/เบราว์เซอร์นี้ไม่รองรับ Web Bluetooth');return;}
   try{
     if(gateState) gateState.textContent='เลือก ANAN-KLINE จากรายการ Bluetooth...';
-    bleDevice=await navigator.bluetooth.requestDevice({filters:[{services:[BLE_SERVICE_UUID]}],optionalServices:[BLE_SERVICE_UUID]});
+    bleDevice=await navigator.bluetooth.requestDevice({filters:[{namePrefix:'ANAN-KLINE'}],optionalServices:[BLE_SERVICE_UUID]});
     bleDevice.addEventListener('gattserverdisconnected',()=>{bleConnected=false;$('bleBtn').classList.remove('bleon');if(!(mqttClient&&mqttClient.connected))setConn('DISCONNECTED',false)});
     const server=await bleDevice.gatt.connect();
     const service=await server.getPrimaryService(BLE_SERVICE_UUID);
@@ -407,6 +408,7 @@ $('setupBtn').onclick=openSetup; $('cfgClose').onclick=()=>$('setupShade').class
 $('gpsBtn').onclick=()=>gpsOn?stopGPS():startGPS();
 $('bleBtn').onclick=()=>bleConnected?disconnectBLE():connectBLE();
 $('gateBle').onclick=connectBLE;
+$('gateWifi').onclick=()=>{window.location.href='http://192.168.4.1/';};
 setInterval(()=>$('clock').textContent=new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit',hour12:false}),1000); render(); connectMQTT();
 
 })();
